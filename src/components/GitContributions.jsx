@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 
 import styled from "styled-components";
-import {PiGithubLogoBold} from 'react-icons/pi'
+
 import useGitHubRepos from "../Hooks/useRepos";
 import useCommits from "../Hooks/useCommits";
 import { useState } from "react";
@@ -11,8 +11,9 @@ import SkeletonLoader from "./Skeleton"
 
 
 
+
 const GitContributionsBar = ({color}) => {
-  const colorRGBA = parseHexColor(color, { r: 6, g: 0, b: 150 });
+  const colorRGBA = parseHexColor(color, { r: 237, g: 14, b: 143 });
 
   const accessToken = import.meta.env.VITE_GITHUB_SECRET_KEY;
   const owner = import.meta.env.VITE_GITHUB_USERNAME;
@@ -59,14 +60,14 @@ const Container = styled.div`
     cursor: pointer;
   }
   .tooltip {
-    font-size: 18px;
-    width: 200px;
+    font-size: 14px;
+    width: 150px;
     display: none; /* Initially hidden */
     position: absolute;
     background-color: #000000;
     opacity:.9;
     color: #fff;
-    padding:15px 30px;
+    padding:5px 10px;
     border-radius: 5px;
     border:1px solid #fff;
     
@@ -74,7 +75,7 @@ const Container = styled.div`
   }
   .column:hover .tooltip {
     display: block;
-    top: -120px; /* Adjust this value to position the tooltip as needed */
+    top: -60px; /* Adjust this value to position the tooltip as needed */
     left: 50%;
     transform: translateX(-50%);
     z-index: 99; /* Ensure the tooltip is above other elements */
@@ -131,7 +132,7 @@ const Container = styled.div`
               onMouseEnter={() => handleMouseEnter(date)}
               onMouseLeave={handleMouseLeave}
             >
-              <div className="tooltip"> {<PiGithubLogoBold color="black" size={20} style={{marginRight:"30px"}} />}   {  tooltipText}</div>
+              <div className="tooltip">{  tooltipText}</div>
             </div>
           );
         })}

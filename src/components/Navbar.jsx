@@ -1,10 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 // src/components/Navbar.js
+
 import { useState } from "react";
 import styled from "styled-components";
 import brandImage from "../assets/brand.png";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import {GiHamburgerMenu} from "react-icons/gi"
+import {AiOutlineClose} from "react-icons/ai"
+import { defaultColor } from "../constants";
 
 const Navbar = ({ color }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,9 +24,9 @@ const Navbar = ({ color }) => {
         </Logo>
         <MobileButton onClick={toggleMenu}>
           {isOpen ? (
-            <CloseIcon boxSize={7} color={color} />
+            <AiOutlineClose size="30px" color={color} />
           ) : (
-            <HamburgerIcon boxSize={7} color={color} />
+            <GiHamburgerMenu size="30px"  color={color} />
           )}
         </MobileButton>
         <Menu isOpen={isOpen} color={color}>
@@ -73,14 +76,14 @@ const Menu = styled.ul`
     top: 60px;
     right: ${({ isOpen }) => (isOpen ? "0" : "-100%")};
 
-    width: 40%;
+    width: 30%;
     transition: right 0.3s ease-in-out;
   }
 `;
 
 const MenuItem = styled.li`
  
- color: ${({ color }) => (color ? color: "#03004b")};
+ color: ${({ color }) => (color ? color: defaultColor)};
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
@@ -89,8 +92,8 @@ const MenuItem = styled.li`
     transform: scale(1.2);
   }
   @media (max-width: 768px) {
-    color: ${({ color }) => (color ? color: "white")};
-    background-color: #0a0937;
+    color: white;
+    background-color: ${({ color }) => (color ? color: defaultColor)};
     padding-top:8px;
     text-align:center;
     height:40px;
