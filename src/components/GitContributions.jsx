@@ -62,6 +62,7 @@ const Container = styled.div`
   .column:hover {
     border-radius: 50%;
     cursor: pointer;
+    transform: scale(1.2);
   }
   .tooltip {
     font-size: 14px;

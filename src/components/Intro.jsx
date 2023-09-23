@@ -23,9 +23,10 @@ display:flex;
 flex-direction:column ;
 gap: 20px;
   background-color: white;
-  width: 250px;
+  width: 270px;
   height: 350px;
   padding-top: 30px;
+  padding-left: 40px;
   
 `;
 

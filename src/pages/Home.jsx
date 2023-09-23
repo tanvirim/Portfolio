@@ -37,14 +37,14 @@ const Home = () => {
 };
 
 const Container = styled.div`
-height:200vh;
+min-height:100vh;
 margin-right: 10px;
   position: relative;
   .contribution {
     position: absolute;
     bottom: 0;
-    top: 40px;
-    right: 10%;
+    top: 50px;
+    right: 5%;
   }
   .color-picker {
     position: absolute;
@@ -56,13 +56,13 @@ margin-right: 10px;
     position: absolute;
     z-index: 4;
     top: 130px;
-    left:50px;
+    left:30px;
     
   }
   .bar {
     position: absolute;
-    top: -40px;
-    left: -40px;
+    top: -20px;
+    left: -20px;
     z-index: 3;
     
   }
