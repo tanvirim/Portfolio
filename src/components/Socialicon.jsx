@@ -10,7 +10,7 @@ const SocialIcons = ({color=defaultColor}) => {
       <a href="https://github.com/tanvirim" target="_blank" rel="noopener noreferrer">
         <FaGithub color={color? color : defaultColor} size={32} />
       </a>
-      <a href="https://www.linkedin.com/tanu0" target="_blank" rel="noopener noreferrer">
+      <a href="https://www.linkedin.com/in/tanu0/" target="_blank" rel="noopener noreferrer">
         <FaLinkedin color={color? color : defaultColor} size={32} />
       </a>
       <a href="https://www.hackerrank.com/blackpanther1411" target="_blank" rel="noopener noreferrer">
