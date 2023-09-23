@@ -4,7 +4,7 @@
 import styled from 'styled-components';
 import { FaDownload } from 'react-icons/fa';
 import { defaultColor } from '../constants';
-
+const pdfFile ='http://localhost:5173/resume.pdf'
 const ButtonsContainer = styled.div`
 margin-top:20px;
   display: flex;
@@ -52,13 +52,13 @@ const HireMeButton = styled.a`
 
 const ResumeAndHireButtons = ({color=defaultColor}) => {
 
-
+const handleDownload = () => {}
   return (
     <ButtonsContainer color={color}>
       <HireMeButton color={color} href="https://www.upwork.com/my-profile/your-profile">
         Hire Me
       </HireMeButton>
-      <ResumeButton color={color} download="Tanvir Mitul Resume" href="../assets/brand.png">
+      <ResumeButton onClick={handleDownload} color={color} download="Tanvir Mitul-Resume" href="https://tanvir-mitul.netlify.app/resume.pdf">
         <FaDownload /> Resume
       </ResumeButton>
     </ButtonsContainer>
