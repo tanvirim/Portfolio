@@ -27,7 +27,7 @@ const ProjectCard = styled.div`
 padding:20px;
  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
  border-radius:10px;
-  width: 400px;
+  width: 350px;
   background-color: #fff; /* Set your card background color */
   text-align: left; /* Align text to the left */
   transition: transform 0.2s;

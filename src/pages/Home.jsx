@@ -61,9 +61,7 @@ margin-left:20px;
 `;
 
 const Section1 = styled.div`
-  
-  min-height: 100vh;
- 
+height:700px;
   position: relative;
   .contribution {
     position: absolute;
