@@ -1,4 +1,51 @@
 export const defaultColor = "#4D1B61"
+export const educationHistory = [
+    {
+      institution: "RUET",
+      duration: "2016 - 2022",
+      degree: "BSc in Materials Science and Engineering",
+    },
+    {
+      institution: "Bcic College",
+      duration: "2014 - 2016",
+      degree: "HSC in Science",
+    },
+    {
+      institution: "Bcic College",
+      duration: "2010 - 2014",
+      degree: "SSC in Science",
+    },
+  ];
+
+export const projects = [
+    {
+        projectName:"Game Hub | Search Your Game",
+        technologies:['React','RAWG API', 'Chakra UI', 'React Query', 'Justand' ],
+        projectDescription:" Search Made Easy: Quickly find your favorite games by name, platform, genre, and more. No more endless scrolling—just search, and you're there! Dark Mode, Infinite Scrolling Beautifully Responsive ",
+        liveLink:"https://game-lab-tanvirim.vercel.app/",
+        githubLink:"https://github.com/tanvirim/Game-Lab/",
+       
+        
+    },
+    {
+        projectName:"Expense Management App",
+        technologies:['Express.js','MongoDB','React', 'ANT Design', 'Redux' ],
+        projectDescription:"The Expense Management App simplifies expense tracking and management. It ensures data security with user authentication. Users can filter expenses by type and category. Visual representations offer insights through dynamic graphs. It's a valuable tool for personal or business finance management.",
+        liveLink:"https://github.com/tanvirim/Expense-App/",
+        githubLink:"https://github.com/Tanvir-Mitul/GameHub-App",
+        
+        
+    },
+    {
+        projectName:"The Chat App!",
+        technologies:['Express.js','MongoDB','React', 'Styled Component', 'Socket.Io' ],
+        projectDescription:"Real-time Chat: Seamlessly chat with other users in real time.Avatar Selection: Choose a unique avatar, thanks to the api.multiavatar.com.Secure & Protected: bcryptjs for password protection and used MongoDB for a reliable database.",
+        liveLink:"https://chat-app-client-kydmfnloo-tanvirim.vercel.app/",
+        githubLink:"https://github.com/tanvirim/Chat-App",
+        
+    },
+    
+]
 export const StaticDate =[
     {
         "date": "2022-04-09T00:00:00.000Z",

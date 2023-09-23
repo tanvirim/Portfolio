@@ -6,6 +6,9 @@ import Navbar from "../components/Navbar";
 import styled from "styled-components";
 import Intro from "../components/Intro";
 import Bar from "../components/Bar";
+import AboutMe from "../components/AboutMe";
+import Education from "../components/Education";
+import ProjectCards from "../components/Project";
 
 const Home = () => {
   //colorState start
@@ -17,28 +20,50 @@ const Home = () => {
   //colorState end
 
   return (
-    <Container >
-      <Navbar color={color} />
-      <div className="bar">
-        <Bar color={color} />
-      </div>
-      <div className="intro">
-        <Intro color={color} />
-      </div>
+    <>
+      <Section1>
+        <Navbar color={color} />
+        <div className="bar">
+          <Bar color={color} />
+        </div>
+        <div className="intro">
+          <Intro color={color} />
+        </div>
 
-      <div className="color-picker">
-        <ColorPicker colorStateForHome={handleColorState} />
-      </div>
-      <div className="contribution">
-        <GitContributionsBar color={color} />
-      </div>
-    </Container>
+        <div className="color-picker">
+          <ColorPicker colorStateForHome={handleColorState} />
+        </div>
+        <div className="contribution">
+          <GitContributionsBar color={color} />
+        </div>
+      </Section1>
+
+      <Section2>
+        <AboutMe color={color} />
+        <Education color={color} />
+      </Section2>
+
+      <Section3>
+        <ProjectCards color={color} />
+      </Section3>
+
+    </>
   );
 };
+const Section2 = styled.div`
+margin-left:20px;
 
-const Container = styled.div`
-min-height:100vh;
-margin-right: 10px;
+
+`;
+const Section3 = styled.div`
+margin-left:20px;
+
+`;
+
+const Section1 = styled.div`
+  
+  min-height: 100vh;
+ 
   position: relative;
   .contribution {
     position: absolute;
@@ -56,19 +81,17 @@ margin-right: 10px;
     position: absolute;
     z-index: 4;
     top: 130px;
-    left:30px;
-    
+    left: 30px;
   }
   .bar {
     position: absolute;
     top: -20px;
     left: -20px;
     z-index: 3;
-    
   }
   @media (max-width: 768px) {
     overflow-x: hidden;
   }
-
 `;
+
 export default Home;

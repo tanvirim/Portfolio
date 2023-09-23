@@ -42,7 +42,7 @@ const GitContributionsBar = ({color}) => {
     setTooltipText(""); 
   };
 
-  const sortedDate = data.sort((a, b) => new Date(a.date) - new Date(b.date)).slice(-98)
+  const sortedDate = data.sort((a, b) => new Date(a.date) - new Date(b.date)).slice(-84)
 
   console.log("sorted date" , sortedDate)
 const Container = styled.div`
@@ -141,7 +141,7 @@ const Container = styled.div`
             </div>
           );
         }): 
-        StaticDate.map((date, index) => {
+        StaticDate.slice(-88).map((date, index) => {
           let className = "column"; // Default class
           if (date.count >= 1 && date.count < 2) {
             className += " class4"; // Apply class1 for the range 1-2
