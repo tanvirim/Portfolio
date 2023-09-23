@@ -9,7 +9,7 @@ import {GiHamburgerMenu} from "react-icons/gi"
 import {AiOutlineClose} from "react-icons/ai"
 import { defaultColor } from "../constants";
 
-const Navbar = ({ color }) => {
+const Navbar = ({ color =defaultColor }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -29,7 +29,7 @@ const Navbar = ({ color }) => {
             <GiHamburgerMenu size="30px"  color={color} />
           )}
         </MobileButton>
-        <Menu isOpen={isOpen} color={color}>
+        <Menu color={color} {...(isOpen && { isopen: true })}>
           <MenuItem color={color}>PROJECTS</MenuItem>
           <MenuItem color={color}>ABOUT</MenuItem>
           <MenuItem color={color}>CONTACT</MenuItem>
@@ -74,7 +74,7 @@ const Menu = styled.ul`
     align-items: center;
     position: absolute;
     top: 60px;
-    right: ${({ isOpen }) => (isOpen ? "0" : "-100%")};
+    right: ${({ isopen }) => (isopen ? "0" : "-100%")};
 
     width: 30%;
     transition: right 0.3s ease-in-out;

@@ -8,6 +8,7 @@ import useCommits from "../Hooks/useCommits";
 import { useState } from "react";
 import parseHexColor from "../utils/parseHexColor"
 import SkeletonLoader from "./Skeleton"
+import { StaticDate } from "../constants";
 
 
 
@@ -40,7 +41,7 @@ const GitContributionsBar = ({color}) => {
 
   const sortedDate = data.sort((a, b) => new Date(a.date) - new Date(b.date)).slice(-98)
 
-  
+  console.log("sorted date" , sortedDate)
 const Container = styled.div`
 
   display: grid;
@@ -108,11 +109,11 @@ const Container = styled.div`
     background-color: #cecccd;
   }
 `;
-  if(sortedDate.length===0)
+  if(sortedDate.length===0 && !StaticDate )
   {return <SkeletonLoader/>}
   return (
      <Container>
-      {sortedDate &&
+      {sortedDate.length!==0 ?
         sortedDate.map((date, index) => {
           let className = "column"; // Default class
           if (date.count >= 1 && date.count < 2) {
@@ -135,10 +136,32 @@ const Container = styled.div`
               <div className="tooltip">{  tooltipText}</div>
             </div>
           );
-        })}
+        }): 
+        StaticDate.map((date, index) => {
+          let className = "column"; // Default class
+          if (date.count >= 1 && date.count < 2) {
+            className += " class4"; // Apply class1 for the range 1-2
+          } else if (date.count >= 2 && date.count <= 5) {
+            className += " class3"; // Apply class2 for the range 3-5
+          } else if (date.count >= 6 && date.count <= 10) {
+            className += " class2"; // Apply class3 for the range 6-7
+          } else if (date.count > 10) {
+            className += " class1"; // Apply class4 for values greater than 7
+          }
+
+          return (
+            <div
+              key={index}
+              className={className}
+              onMouseEnter={() => handleMouseEnter(date)}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="tooltip">{  tooltipText}</div>
+            </div>
+          );
+        }) }
     </Container>
   );
 };
 
 export default GitContributionsBar;
-
