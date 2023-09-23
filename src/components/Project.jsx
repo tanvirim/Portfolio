@@ -3,7 +3,7 @@
 
 import styled from 'styled-components';
 import { defaultColor, projects } from '../constants';
-import { FaGithub ,FaGlobeAmericas } from 'react-icons/fa'; // Import icons from react-icons/fa
+import { FaGithub ,FaExternalLinkAlt } from 'react-icons/fa'; // Import icons from react-icons/fa
 
 
 const ProjectCardsContainer = styled.div`
@@ -15,7 +15,6 @@ const ProjectCardsContainer = styled.div`
   
   border-left: 5px dotted ${({ color }) => (color ? color : defaultColor)};
   
-  background-color: #f7f7f7; 
   .project {
     font-size: 25px;
     font-weight: bold;
@@ -66,11 +65,12 @@ padding:20px;
   }
 
   .project-links {
-    margin-top: auto; 
+    margin-top: 5px;
+    margin-right:10px;
     display: flex;
 
     a {
-      margin-right: 10px; /* Add spacing between links */
+      margin-right: 20px; /* Add spacing between links */
       text-decoration: none;
       transition: transform 0.3s;
       &:hover {
@@ -109,10 +109,10 @@ const ProjectCards = ({ color=defaultColor }) => {
             <p>{project.projectDescription}</p>
           <div className="project-links">
             <a href={project.githubLink} target="_blank" rel="noopener noreferrer">
-            <FaGithub color={color? color : defaultColor} size={20} />
+            <FaGithub color={color? color : defaultColor} size={23} />
             </a>
             <a href={project.liveLink} target="_blank" rel="noopener noreferrer">
-            <FaGlobeAmericas color={color? color : defaultColor} size={20} />
+            <FaExternalLinkAlt color={color? color : defaultColor} size={20} />
             </a>
           </div>
         </ProjectCard>

@@ -31,7 +31,7 @@ export const projects = [
         projectName:"Expense Management App",
         technologies:['Express.js','MongoDB','React', 'ANT Design', 'Redux' ],
         projectDescription:"The Expense Management App simplifies expense tracking and management. It ensures data security with user authentication. Users can filter expenses by type and category. Visual representations offer insights through dynamic graphs. It's a valuable tool for personal or business finance management.",
-        liveLink:"https://github.com/tanvirim/Expense-App/",
+        liveLink:"https://adorable-pink-pantyhose.cyclic.cloud/",
         githubLink:"https://github.com/Tanvir-Mitul/GameHub-App",
         
         

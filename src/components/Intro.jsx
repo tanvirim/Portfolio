@@ -3,6 +3,7 @@
 import styled, { keyframes } from "styled-components";
 import { defaultColor } from "../constants";
 import SocialIcons from "./Socialicon";
+import ResumeAndHireButtons from "./Button";
 
 const Intro= ({ color }) => {
   return (
@@ -13,6 +14,7 @@ const Intro= ({ color }) => {
       </Text>
       <Paragraph className="name">WEB DEVELOPER</Paragraph>
       <SocialIcons color={color} />
+      <ResumeAndHireButtons color={color} />
     </Container>
   );
 };
@@ -23,8 +25,8 @@ display:flex;
 flex-direction:column ;
 gap: 20px;
   background-color: white;
-  width: 270px;
-  height: 350px;
+  width: 290px;
+  height: 400px;
   padding-left: 20px;
   
 `;
