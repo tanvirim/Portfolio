@@ -15,6 +15,13 @@ const Container = styled.div`
 width:200px;
 height:200px;
 background-color: ${({color}) => (color ? color : defaultColor)};
+transition: transform 0.3s ease; 
+
+&:hover {
+    
+    
+    transform: scale(1.1);
+}
 
 `
 export default Bar

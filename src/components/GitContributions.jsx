@@ -12,9 +12,8 @@ import { StaticDate } from "../constants";
 
 
 
-
 const GitContributionsBar = ({color}) => {
-  const colorRGBA = parseHexColor(color, { r: 237, g: 14, b: 143 });
+  const colorRGBA = parseHexColor(color, { r: 77, g: 27, b: 97 });
 
   const accessToken = import.meta.env.VITE_GITHUB_SECRET_KEY;
   const owner = import.meta.env.VITE_GITHUB_USERNAME;
@@ -31,10 +30,14 @@ const GitContributionsBar = ({color}) => {
 
   const handleMouseEnter = (date) => {
     setTooltipText(
-      `${  date.count} Contributions on ${date.date.toString().slice(4, 16)}`
-    );
-  };
-
+      `${  date.count} Contributions on ${new Date(date.date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })}`
+    )
+  }
+  
   const handleMouseLeave = () => {
     setTooltipText(""); 
   };

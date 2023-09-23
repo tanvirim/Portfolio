@@ -1,4 +1,4 @@
-export const defaultColor = "#ED0E8F"
+export const defaultColor = "#4D1B61"
 export const StaticDate =[
     {
         "date": "2022-04-09T00:00:00.000Z",

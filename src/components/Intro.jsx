@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { defaultColor } from "../constants";
+import SocialIcons from "./Socialicon";
 
 const Intro= ({ color }) => {
   return (
@@ -11,9 +12,11 @@ const Intro= ({ color }) => {
         <span>mitul</span>
       </Text>
       <Paragraph className="name">WEB DEVELOPER</Paragraph>
+      <SocialIcons color={color} />
     </Container>
   );
 };
+
 
 const Container = styled.div`
 display:flex;
@@ -34,14 +37,46 @@ const Text = styled.h1`
   display: flex;
   flex-direction: column;
   text-transform: uppercase;
+  transition: transform 0.3s ease; 
+  &:hover {
+    
+    
+    transform: scale(1.1);
+}
   span {
     white-space: nowrap;
   }
 `;
+const rotateAnimation = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(30deg);
+  }
+  50% {
+    transform: rotate(-30deg);
+  }
+  75% {
+    transform: rotate(30deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+`;
+
 
 const Paragraph = styled.p`
   font-size: 25px;
   letter-spacing: 7px;
+  transition: transform 0.3s ease; 
+
+  &:hover {
+    
+    
+    transform: scale(1.1);
+}
 `;
+
 
 export default Intro;
