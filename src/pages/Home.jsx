@@ -37,6 +37,7 @@ const Home = () => {
 };
 
 const Container = styled.div`
+height:200vh;
 margin-right: 10px;
   position: relative;
   .contribution {
@@ -65,5 +66,9 @@ margin-right: 10px;
     z-index: 3;
     
   }
+  @media (max-width: 768px) {
+    overflow-x: hidden;
+  }
+
 `;
 export default Home;
