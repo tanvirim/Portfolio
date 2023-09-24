@@ -5,6 +5,7 @@ import { defaultColor } from "../constants"
 
 
 const Bar = ({color}) => {
+ console.log("color",color)
   return (
     <Container color={color}>
 

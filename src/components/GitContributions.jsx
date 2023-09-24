@@ -13,7 +13,7 @@ import { StaticDate } from "../constants";
 
 
 const GitContributionsBar = ({color}) => {
-  const colorRGBA = parseHexColor(color, { r:201, g:6, b:123 });
+  const colorRGBA = parseHexColor(color, { r:77, g:27, b:97 });
 
   const accessToken = import.meta.env.VITE_GITHUB_SECRET_KEY;
   const owner = import.meta.env.VITE_GITHUB_USERNAME;

@@ -11,11 +11,9 @@ import AboutMe from "../components/AboutMe";
 import ProjectCards from "../components/Project";
 import Skills from "../components/Skills";
 import Footer from "../components/Footer";
+import { defaultColor } from "../constants";
 
 const HomeSection = styled.section`
-  /* Your default styles here */
-
-  /* Media query for laptop screens */
   @media (min-width: 1024px) {
     margin-left: 250px;
     margin-right: 250px;
@@ -23,7 +21,7 @@ const HomeSection = styled.section`
 `;
 const Home = () => {
   //colorState start
-  const [color, setColor] = useState("");
+  const [color, setColor] = useState(defaultColor);
 
   const handleColorState = (newState) => {
     setColor(newState);

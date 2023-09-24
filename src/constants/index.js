@@ -1,4 +1,4 @@
-export const defaultColor = "4D1B61"
+export const defaultColor = "#4D1B61"
 export const educationHistory = [
     {
       institution: "RUET",
