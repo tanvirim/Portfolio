@@ -12,7 +12,15 @@ import ProjectCards from "../components/Project";
 import Skills from "../components/Skills";
 import Footer from "../components/Footer";
 
+const HomeSection = styled.section`
+  /* Your default styles here */
 
+  /* Media query for laptop screens */
+  @media (min-width: 1024px) {
+    margin-left: 250px;
+    margin-right: 250px;
+  }
+`;
 const Home = () => {
   //colorState start
   const [color, setColor] = useState("");
@@ -24,6 +32,8 @@ const Home = () => {
 
   return (
     <>
+ <HomeSection>
+
       <Section1>
         <Navbar color={color} />
         <div className="bar">
@@ -55,6 +65,7 @@ const Home = () => {
 <Section4>
   <Footer color={color} />
 </Section4>
+ </HomeSection>
     </>
   );
 };
