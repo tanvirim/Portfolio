@@ -57,8 +57,12 @@ const SkillName = styled.div`
 `;
 
 const SkillTitle = styled.h2`
-margin-bottom:20px;
-  font-size: 25px;
+text-transform:uppercase;
+  border-bottom: 3px solid ${defaultColor};
+  padding-bottom: 10px;
+  width: 300px;
+  margin-bottom: 20px;
+  font-size: 30px;
   font-weight: bold;
   text-align: center;
 `;

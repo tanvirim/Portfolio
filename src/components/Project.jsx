@@ -1,31 +1,51 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
-import styled from 'styled-components';
-import { defaultColor, projects } from '../constants';
-import { FaGithub ,FaExternalLinkAlt } from 'react-icons/fa'; // Import icons from react-icons/fa
+import styled from "styled-components";
+import { defaultColor, projects } from "../constants";
+import { FaGithub, FaExternalLinkAlt } from "react-icons/fa"; // Import icons from react-icons/fa
 
-
-const ProjectCardsContainer = styled.div`
+import { Link } from "react-router-dom"; // Assuming you're using React Router for navigation
+import { AiOutlineDoubleRight } from "react-icons/ai";
+const StyledLearnMoreButton = styled(Link)`
+margin-top:20px;
+margin-left:70%;
+  font-size: 12px;
   display: flex;
-  justify-content: center;
+  width: fit-content;
   align-items: center;
-  flex-direction: column;
-  gap: 10px;
-  
-  border-left: 5px dotted ${({ color }) => (color ? color : defaultColor)};
-  
-  .project {
-    font-size: 25px;
-    font-weight: bold;
-    text-align: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background: ${({ color }) => (color ? color : defaultColor)};
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  &:hover {
+    transform: scale(1.05);
+    background-color: #3f51b5;
+  }
+  & > svg {
+    margin-left: 5px;
   }
 `;
 
+const ProjectCardsContainer = styled.div`
+
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  border-left: 5px dotted ${({ color }) => (color ? color : defaultColor)};
+`;
+
 const ProjectCard = styled.div`
-padding:20px;
- box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
- border-radius:10px;
+  gap: 10px;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
   width: 350px;
   background-color: #fff; /* Set your card background color */
   text-align: left; /* Align text to the left */
@@ -36,7 +56,7 @@ padding:20px;
   h2 {
     color: ${({ color }) => (color ? color : defaultColor)};
     font-size: 1.5rem;
-    margin-bottom:5px;
+    margin-bottom: 5px;
   }
 
   p {
@@ -51,12 +71,12 @@ padding:20px;
   }
 
   li {
-    margin-right: 10px; 
+    margin-right: 10px;
   }
 
   .technology-button {
     background-color: ${({ color }) => (color ? color : defaultColor)};
-   /* Set button background color */
+    /* Set button background color */
     color: #fff; /* Set button text color */
     padding: 5px 10px;
     border: none;
@@ -66,7 +86,7 @@ padding:20px;
 
   .project-links {
     margin-top: 5px;
-    margin-right:10px;
+    margin-right: 10px;
     display: flex;
 
     a {
@@ -74,9 +94,8 @@ padding:20px;
       text-decoration: none;
       transition: transform 0.3s;
       &:hover {
-     transform: scale(1.2);
-  }
-      
+        transform: scale(1.2);
+      }
     }
   }
 
@@ -85,40 +104,65 @@ padding:20px;
   }
 
   /* Set background image */
-  background-image: url(${props => props.imageLink});
+  background-image: url(${(props) => props.imageLink});
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 `;
 
-const ProjectCards = ({ color=defaultColor }) => {
+const ProjectTitle = styled.h2`
+text-transform:uppercase;
+  border-bottom: 3px solid ${defaultColor};
+  padding-bottom: 10px;
+  width: 300px;
+  margin-bottom: 20px;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+`;
+const ProjectCards = ({ color = defaultColor }) => {
   return (
-   
-    <ProjectCardsContainer color={color}>
-    <div className="project">Projects</div>
-      {projects.map((project, index) => (
-        <ProjectCard color={color} key={index} imageLink={project.imageLink}>
-          <h2>{project.projectName}</h2>
-          <ul>
-            {project.technologies.map((tech, techIndex) => (
+    <>
+      <ProjectTitle>Projects</ProjectTitle>
+      <ProjectCardsContainer color={color}>
+        {projects.map((project, index) => (
+          <ProjectCard color={color} key={index} imageLink={project.imageLink}>
+            <h2>{project.projectName}</h2>
+            <ul>
+              {project.technologies.map((tech, techIndex) => (
                 <li key={techIndex}>
-                <button className="technology-button">{tech}</button>
-              </li>
-            ))}
-          </ul>
+                  <button className="technology-button">{tech}</button>
+                </li>
+              ))}
+            </ul>
             <p>{project.projectDescription}</p>
-          <div className="project-links">
-            <a href={project.githubLink} target="_blank" rel="noopener noreferrer">
-            <FaGithub color={color? color : defaultColor} size={23} />
-            </a>
-            <a href={project.liveLink} target="_blank" rel="noopener noreferrer">
-            <FaExternalLinkAlt color={color? color : defaultColor} size={20} />
-            </a>
-          </div>
-        </ProjectCard>
-      ))}
-    </ProjectCardsContainer>
-   
+            <div className="project-links">
+              <a
+                href={project.githubLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaGithub color={color ? color : defaultColor} size={23} />
+              </a>
+              <a
+                href={project.liveLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaExternalLinkAlt
+                  color={color ? color : defaultColor}
+                  size={20}
+                />
+              </a>
+            </div>
+          </ProjectCard>
+        ))}
+      </ProjectCardsContainer>
+      <StyledLearnMoreButton color={color} to="/projects">
+          All Projects
+          <AiOutlineDoubleRight />
+        </StyledLearnMoreButton>
+    </>
   );
 };
 

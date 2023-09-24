@@ -7,9 +7,10 @@ import styled from "styled-components";
 import Intro from "../components/Intro";
 import Bar from "../components/Bar";
 import AboutMe from "../components/AboutMe";
-import Education from "../components/Education";
+
 import ProjectCards from "../components/Project";
 import Skills from "../components/Skills";
+import Footer from "../components/Footer";
 
 
 const Home = () => {
@@ -44,7 +45,7 @@ const Home = () => {
       <Section2 id="about">
         <AboutMe color={color} />
         <Skills color={color} />
-        <Education color={color} />
+        {/* <Education color={color} /> */}
       </Section2>
 
       <Section3 id="projects">
@@ -52,7 +53,7 @@ const Home = () => {
       </Section3>
 
 <Section4>
-  
+  <Footer color={color} />
 </Section4>
     </>
   );
