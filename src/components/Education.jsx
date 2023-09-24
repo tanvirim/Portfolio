@@ -6,8 +6,9 @@ import { defaultColor, educationHistory } from "../constants";
 
 const Education = ({ color = defaultColor }) => {
   return (
+    <>
+       <EducationTitle>Education</EducationTitle>
     <Container color={color}>
-      <div className="education">Education</div>
       <div className="education-history">
   {educationHistory.map((item, index) => (
     <div key={index} className="education-entry">
@@ -20,8 +21,15 @@ const Education = ({ color = defaultColor }) => {
   ))}
 </div>
     </Container>
+    </>
   );
 };
+const EducationTitle = styled.h2`
+margin-bottom:20px;
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+`;
 const Container = styled.div`
 text-align:left;
   display: flex;
@@ -31,13 +39,6 @@ text-align:left;
   padding: 20px;
   border-left: 5px dotted ${({ color }) => (color ? color : defaultColor)};
   
- 
-  .education {
-    font-size: 25px;
-    font-weight: bold;
-    text-align: center;
-  }
-
   .education-history {
   display: flex;
   flex-direction: column;

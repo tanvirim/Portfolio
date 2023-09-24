@@ -3,6 +3,7 @@
 
 import styled from 'styled-components';
 import { FaDownload } from 'react-icons/fa';
+import { BiLogoUpwork } from 'react-icons/bi';
 import { defaultColor } from '../constants';
 const pdfFile ='http://localhost:5173/resume.pdf'
 const ButtonsContainer = styled.div`
@@ -18,6 +19,7 @@ const ResumeButton = styled.a`
   text-decoration: none;
   padding: 10px 20px;
   background-color: ${({ color }) => (color ? color : defaultColor)};
+
   color: white;
   border: none;
   border-radius: 5px;
@@ -35,9 +37,12 @@ const ResumeButton = styled.a`
 `;
 
 const HireMeButton = styled.a`
+display:flex;
+gap:5px;
   text-decoration: none;
-  padding: 10px 20px;
+  padding: 10px 10px;
   background-color:${({ color }) => (color ? color : defaultColor)};
+ align-items: center;
   color: white;
   border: none;
   border-radius: 5px;
@@ -56,7 +61,7 @@ const handleDownload = () => {}
   return (
     <ButtonsContainer color={color}>
       <HireMeButton color={color} href="https://www.upwork.com/my-profile/your-profile">
-        Hire Me
+       <BiLogoUpwork/> Hire Me
       </HireMeButton>
       <ResumeButton onClick={handleDownload} color={color} download="Tanvir Mitul-Resume" target='_blank' href="https://tanvir-mitul.netlify.app/resume.pdf">
         <FaDownload /> Resume

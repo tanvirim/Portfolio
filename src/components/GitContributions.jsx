@@ -30,7 +30,7 @@ const GitContributionsBar = ({color}) => {
 
   const handleMouseEnter = (date) => {
     setTooltipText(
-      `${  date.count} Contributions on ${new Date(date.date).toLocaleDateString('en-US', {
+      `${  date.count} GitHub Contribution ${new Date(date.date).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
@@ -56,16 +56,16 @@ const Container = styled.div`
     position: relative;
     width: 40px;
     height: 40px;
-    transition: all 0.3s ease-in-out;
+    
   }
 
   .column:hover {
     border-radius: 50%;
     cursor: pointer;
-    transform: scale(1.2);
+    
   }
   .tooltip {
-    font-size: 14px;
+    font-size: 12px;
     width: 150px;
     display: none; /* Initially hidden */
     position: absolute;

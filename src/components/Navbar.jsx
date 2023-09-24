@@ -1,15 +1,13 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-// src/components/Navbar.js
-
-import { useState } from "react";
+import  { useState } from "react";
 import styled from "styled-components";
 import brandImage from "../assets/brand.png";
-import {GiHamburgerMenu} from "react-icons/gi"
-import {AiOutlineClose} from "react-icons/ai"
+import { GiHamburgerMenu } from "react-icons/gi";
+import { AiOutlineClose } from "react-icons/ai";
 import { defaultColor } from "../constants";
+import { Link as ScrollLink, animateScroll as scroll } from "react-scroll";
 
-const Navbar = ({ color =defaultColor }) => {
+const Navbar = ({ color = defaultColor }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -19,29 +17,55 @@ const Navbar = ({ color =defaultColor }) => {
   return (
     <NavbarContainer>
       <NavbarContent>
-        <Logo href="/">
-          <img width={50} src={brandImage} alt="Brand Logo" />
+        <Logo>
+          {/* Use the scroll function to scroll to the top */}
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              scroll.scrollToTop();
+            }}
+          >
+            <img width={50} src={brandImage} alt="Brand Logo" />
+          </a>
         </Logo>
         <MobileButton onClick={toggleMenu}>
           {isOpen ? (
             <AiOutlineClose size="30px" color={color} />
           ) : (
-            <GiHamburgerMenu size="30px"  color={color} />
+            <GiHamburgerMenu size="30px" color={color} />
           )}
         </MobileButton>
         <Menu color={color} {...(isOpen && { isopen: true })}>
-          <MenuItem color={color}>PROJECTS</MenuItem>
-          <MenuItem color={color}>ABOUT</MenuItem>
-          <MenuItem color={color}>CONTACT</MenuItem>
+          
+          <MenuItem color={color}>
+            <ScrollLink
+              to="projects"
+              smooth={true}
+              duration={500}
+              spy={true}
+            >
+              PROJECTS
+            </ScrollLink>
+          </MenuItem>
+          <MenuItem color={color}>
+            <ScrollLink to="about" smooth={true} duration={500} spy={true}>
+              ABOUT
+            </ScrollLink>
+          </MenuItem>
+          <MenuItem color={color}>
+            <ScrollLink to="contact" smooth={true} duration={500} spy={true}>
+              CONTACT
+            </ScrollLink>
+          </MenuItem>
         </Menu>
       </NavbarContent>
     </NavbarContainer>
   );
 };
-const NavbarContainer = styled.nav`
 
+const NavbarContainer = styled.nav`
   background-color: transparent;
-  
 `;
 
 const NavbarContent = styled.div`
@@ -69,21 +93,18 @@ const Menu = styled.ul`
   gap: 20px;
 
   @media (max-width: 768px) {
-    
     flex-direction: column;
     align-items: center;
     position: absolute;
     top: 60px;
     right: ${({ isopen }) => (isopen ? "0" : "-100%")};
-
     width: 30%;
     transition: right 0.3s ease-in-out;
   }
 `;
 
 const MenuItem = styled.li`
- 
- color: ${({ color }) => (color ? color: defaultColor)};
+  color: ${({ color }) => (color ? color : defaultColor)};
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
@@ -91,16 +112,17 @@ const MenuItem = styled.li`
   &:hover {
     transform: scale(1.2);
   }
+
   @media (max-width: 768px) {
     color: white;
-    background-color: ${({ color }) => (color ? color: defaultColor)};
-    padding-top:8px;
-    text-align:center;
-    height:40px;
+    background-color: ${({ color }) => (color ? color : defaultColor)};
+    padding-top: 8px;
+    text-align: center;
+    height: 40px;
     width: 100%;
-    
   }
 `;
+
 const MobileButton = styled.button`
   background-color: transparent;
   display: none;
@@ -109,4 +131,5 @@ const MobileButton = styled.button`
     display: block;
   }
 `;
+
 export default Navbar;

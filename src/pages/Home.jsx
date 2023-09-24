@@ -9,6 +9,8 @@ import Bar from "../components/Bar";
 import AboutMe from "../components/AboutMe";
 import Education from "../components/Education";
 import ProjectCards from "../components/Project";
+import Skills from "../components/Skills";
+
 
 const Home = () => {
   //colorState start
@@ -31,6 +33,7 @@ const Home = () => {
         </div>
 
         <div className="color-picker">
+          
           <ColorPicker colorStateForHome={handleColorState} />
         </div>
         <div className="contribution">
@@ -38,19 +41,28 @@ const Home = () => {
         </div>
       </Section1>
 
-      <Section2>
+      <Section2 id="about">
         <AboutMe color={color} />
+        <Skills color={color} />
         <Education color={color} />
       </Section2>
 
-      <Section3>
+      <Section3 id="projects">
         <ProjectCards color={color} />
       </Section3>
 
+<Section4>
+  
+</Section4>
     </>
   );
 };
 const Section2 = styled.div`
+margin-left:20px;
+
+
+`;
+const Section4 = styled.div`
 margin-left:20px;
 
 
