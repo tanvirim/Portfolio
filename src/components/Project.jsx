@@ -39,6 +39,7 @@ const ProjectCardsContainer = styled.div`
   gap: 10px;
 
   border-left: 5px dotted ${({ color }) => (color ? color : defaultColor)};
+  border-right: 5px dotted ${({ color }) => (color ? color : defaultColor)};
 `;
 
 const ProjectCard = styled.div`
