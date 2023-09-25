@@ -7,6 +7,7 @@ import { defaultColor } from '../constants';
 
 const FooterContainer = styled.footer`
  border-left: 5px dotted ${({ color }) => (color ? color : defaultColor)};
+ border-right: 5px dotted ${({ color }) => (color ? color : defaultColor)};
   
 display:flex;
 flex-direction:column;
@@ -52,6 +53,7 @@ const Footer = ({color=defaultColor}) => {
   );
 };
 const FooterTitle = styled.h2`
+margin: 0 auto;
  margin-top:40px;
 text-transform:uppercase;
   border-bottom: 3px solid ${defaultColor};

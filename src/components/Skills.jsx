@@ -29,6 +29,7 @@ const waveAnimation = keyframes`
 
 const SkillContainer = styled.div`
 border-left:5px dotted ${({ color }) => (color ? color : defaultColor)};
+  border-right:5px dotted ${({ color }) => (color ? color : defaultColor)};
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -57,6 +58,7 @@ const SkillName = styled.div`
 `;
 
 const SkillTitle = styled.h2`
+margin: 0 auto;
 text-transform:uppercase;
   border-bottom: 3px solid ${defaultColor};
   padding-bottom: 10px;

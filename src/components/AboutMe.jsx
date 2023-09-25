@@ -11,6 +11,7 @@ text-transform:uppercase;
   border-bottom: 3px solid ${defaultColor};
   padding-bottom: 10px;
   width: 300px;
+  margin: 0 auto;
   margin-bottom: 20px;
   font-size: 30px;
   font-weight: bold;
@@ -41,6 +42,7 @@ position:relative;
 padding:10px;
 margin-bottom:20px;
 border-left: 5px dotted ${({color}) => (color ? color : defaultColor)};
+border-right: 5px dotted ${({color}) => (color ? color : defaultColor)};
 
 h1{
     font-size:25px ;

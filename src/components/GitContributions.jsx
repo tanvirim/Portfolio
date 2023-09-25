@@ -42,7 +42,7 @@ const GitContributionsBar = ({color}) => {
     setTooltipText(""); 
   };
 
-  const sortedDate = data.sort((a, b) => new Date(a.date) - new Date(b.date)).slice(-84)
+  const sortedDate = data.sort((a, b) => new Date(a.date) - new Date(b.date)).slice(-88)
 
   console.log("sorted date" , sortedDate)
 const Container = styled.div`
