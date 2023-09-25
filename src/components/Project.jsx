@@ -112,6 +112,7 @@ const ProjectCard = styled.div`
 `;
 
 const ProjectTitle = styled.h2`
+margin:0 auto;
 text-transform:uppercase;
   border-bottom: 3px solid ${defaultColor};
   padding-bottom: 10px;
