@@ -23,15 +23,17 @@ const Intro= ({ color }) => {
 
 const Container = styled.div`
 display:flex;
+  
 flex-direction:column ;
 gap: 20px;
   background-color: white;
-  width: 300px;
+  width: 320px;
   height: 400px;
   padding-left: 20px;
 `;
 
 const Text = styled.h1`
+align-self:center;
   color: ${({ color }) => (color ? color : defaultColor)};
   font-weight: bold;
   font-size: 3rem;

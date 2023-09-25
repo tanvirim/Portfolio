@@ -46,7 +46,7 @@ const Container = styled.div`
   justify-content: flex-start;
   gap: 15px;
   a {
-    animation: wave 4s linear infinite; /* Add the wave animation */
+    animation: wave 5s linear infinite; /* Add the wave animation */
     animation-fill-mode: both;
 
   }
@@ -56,10 +56,10 @@ const Container = styled.div`
       transform: translateY(0);
     }
     25%, 75% {
-      transform: translateY(-8px);
+      transform: translateY(-5px);
     }
     50% {
-      transform: translateY(8px);
+      transform: translateY(5px);
     }
   }
 `;
