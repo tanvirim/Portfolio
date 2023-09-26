@@ -59,7 +59,7 @@ const ResumeAndHireButtons = ({color=defaultColor}) => {
 const handleDownload = () => {}
   return (
     <ButtonsContainer color={color}>
-      <HireMeButton color={color} href="https://www.upwork.com/my-profile/your-profile">
+      <HireMeButton color={color} href="https://www.upwork.com/tanvirmitul">
        <BiLogoUpwork/> Hire Me
       </HireMeButton>
       <ResumeButton onClick={handleDownload} color={color} download="Tanvir Mitul-Resume" target='_blank' href="https://tanvir-mitul.netlify.app/Tanvir_Mitul_Resume.pdf">
