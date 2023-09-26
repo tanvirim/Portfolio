@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { FaDownload } from 'react-icons/fa';
 import { BiLogoUpwork } from 'react-icons/bi';
 import { defaultColor } from '../constants';
-const pdfFile ='http://localhost:5173/resume.pdf'
+const pdfFile ='https://tanvir-mitul.netlify.app/Tanvir_Mitul_Resume.pdf'
 const ButtonsContainer = styled.div`
 margin-top:20px;
   display: flex;
