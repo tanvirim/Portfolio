@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { FaDownload } from 'react-icons/fa';
 import { BiLogoUpwork } from 'react-icons/bi';
 import { defaultColor } from '../constants';
-const pdfFile ='http://localhost:5173/Tanvir_Mitul_Resume.pdf'
 const ButtonsContainer = styled.div`
 margin-top:20px;
   display: flex;
@@ -63,7 +62,7 @@ const handleDownload = () => {}
       <HireMeButton color={color} href="https://www.upwork.com/my-profile/your-profile">
        <BiLogoUpwork/> Hire Me
       </HireMeButton>
-      <ResumeButton onClick={handleDownload} color={color} download="Tanvir Mitul-Resume" target='_blank' href="https://tanvir-mitul.netlify.app/resume.pdf">
+      <ResumeButton onClick={handleDownload} color={color} download="Tanvir Mitul-Resume" target='_blank' href="https://tanvir-mitul.netlify.app/Tanvir_Mitul_Resume.pdf">
         <FaDownload /> Resume
       </ResumeButton>
     </ButtonsContainer>
