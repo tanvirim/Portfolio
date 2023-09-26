@@ -62,7 +62,7 @@ const handleDownload = () => {}
       <HireMeButton color={color} href="https://www.upwork.com/tanvirmitul">
        <BiLogoUpwork/> Hire Me
       </HireMeButton>
-      <ResumeButton onClick={handleDownload} color={color} download="Tanvir Mitul-Resume" target='_blank' href="https://tanvir-mitul.netlify.app/Tanvir_Mitul_Resume.pdf">
+      <ResumeButton onClick={handleDownload} color={color} download="Tanvir Mitul-Resume" target='_blank' href="https://www.mediafire.com/file/ak8o9ziwpb810p2/Tanvit_Mitul_Resume.pdf/file">
         <FaDownload /> Resume
       </ResumeButton>
     </ButtonsContainer>
