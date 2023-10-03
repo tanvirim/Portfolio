@@ -1,15 +1,15 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
-import styled from "styled-components";
-import { defaultColor, projects } from "../constants";
-import { FaGithub, FaExternalLinkAlt } from "react-icons/fa"; // Import icons from react-icons/fa
+import styled from 'styled-components';
+import { defaultColor, projects } from '../../constants';
+import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'; // Import icons from react-icons/fa
 
-import { Link } from "react-router-dom"; // Assuming you're using React Router for navigation
-import { AiOutlineDoubleRight } from "react-icons/ai";
+import { Link } from 'react-router-dom'; // Assuming you're using React Router for navigation
+import { AiOutlineDoubleRight } from 'react-icons/ai';
 const StyledLearnMoreButton = styled(Link)`
-margin-top:20px;
-margin-left:70%;
+  margin-top: 20px;
+  margin-left: 70%;
   font-size: 12px;
   display: flex;
   width: fit-content;
@@ -31,7 +31,6 @@ margin-left:70%;
 `;
 
 const ProjectCardsContainer = styled.div`
-
   flex-wrap: wrap;
   display: flex;
   justify-content: center;
@@ -112,8 +111,8 @@ const ProjectCard = styled.div`
 `;
 
 const ProjectTitle = styled.h2`
-margin:0 auto;
-text-transform:uppercase;
+  margin: 0 auto;
+  text-transform: uppercase;
   border-bottom: 3px solid ${defaultColor};
   padding-bottom: 10px;
   width: 300px;
@@ -133,23 +132,23 @@ const ProjectCards = ({ color = defaultColor }) => {
             <ul>
               {project.technologies.map((tech, techIndex) => (
                 <li key={techIndex}>
-                  <button className="technology-button">{tech}</button>
+                  <button className='technology-button'>{tech}</button>
                 </li>
               ))}
             </ul>
             <p>{project.projectDescription}</p>
-            <div className="project-links">
+            <div className='project-links'>
               <a
                 href={project.githubLink}
-                target="_blank"
-                rel="noopener noreferrer"
+                target='_blank'
+                rel='noopener noreferrer'
               >
                 <FaGithub color={color ? color : defaultColor} size={23} />
               </a>
               <a
                 href={project.liveLink}
-                target="_blank"
-                rel="noopener noreferrer"
+                target='_blank'
+                rel='noopener noreferrer'
               >
                 <FaExternalLinkAlt
                   color={color ? color : defaultColor}
@@ -160,10 +159,10 @@ const ProjectCards = ({ color = defaultColor }) => {
           </ProjectCard>
         ))}
       </ProjectCardsContainer>
-      <StyledLearnMoreButton color={color} to="/projects">
-          All Projects
-          <AiOutlineDoubleRight />
-        </StyledLearnMoreButton>
+      <StyledLearnMoreButton color={color} to='/projects'>
+        All Projects
+        <AiOutlineDoubleRight />
+      </StyledLearnMoreButton>
     </>
   );
 };

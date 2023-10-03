@@ -8,7 +8,9 @@ import ExtracurricularActivities from '../components/aboutPage/Extracurricular';
 const AboutMePage = () => {
   return (
     <div className='mx-auto p-6 max-w-screen-md bg-gray-100'>
-      <div className='text-4xl'> This Page is Under Construction </div>
+      <p className='text-3xl font-bold text-center mb-8'>
+        This Page is Under Constructions
+      </p>
       <div className='border-l-2 p-3 border-r-2 border-dotted border-gray-500 flex justify-center items-center'>
         <div className='text-center'>
           <Header />
