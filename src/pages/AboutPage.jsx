@@ -3,7 +3,6 @@ import Introduction from '../components/aboutPage/Introduction';
 import ProfileImage from '../components/aboutPage/ProfileImage';
 import Education from '../components/aboutPage/Education';
 import Hobbies from '../components/aboutPage/Hobbies';
-import ExtracurricularActivities from '../components/aboutPage/Extracurricular';
 
 const AboutMePage = () => {
   return (
@@ -18,7 +17,6 @@ const AboutMePage = () => {
           <ProfileImage />
           <Education />
           <Hobbies />
-          <ExtracurricularActivities />
         </div>
       </div>
     </div>
