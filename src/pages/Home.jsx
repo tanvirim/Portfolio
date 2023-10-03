@@ -58,7 +58,7 @@ const Home = () => {
           <ProjectCards color={color} />
         </Section3>
 
-        <Section4>
+        <Section4 id='contact'>
           <Footer color={color} />
         </Section4>
       </HomeSection>
