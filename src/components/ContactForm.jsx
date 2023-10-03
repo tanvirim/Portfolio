@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import emailjs from '@emailjs/browser';
 import styled from 'styled-components';
@@ -29,8 +31,8 @@ const TextAreaField = styled.textarea`
 `;
 
 const SubmitButton = styled.button`
-  background-color:${({ color }) => (color ? color : defaultColor)};
-  margin-left:60%;
+  background-color: ${({ color }) => (color ? color : defaultColor)};
+  margin-left: 60%;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -43,7 +45,7 @@ const SubmitButton = styled.button`
   }
 `;
 
-const ContactForm = () => {
+const ContactForm = ({ color }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -60,10 +62,11 @@ const ContactForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("click hoytese")
+    console.log('click hoytese');
 
     // Send the email using EmailJS
-    emailjs.sendForm('service_omm1e0n', 'template_qmj1gvo', formData)
+    emailjs
+      .sendForm('service_omm1e0n', 'template_qmj1gvo', formData)
       .then((response) => {
         console.log('Email sent successfully:', response);
         alert('Email sent successfully!');
@@ -81,33 +84,34 @@ const ContactForm = () => {
 
   return (
     <>
-
-    <FormContainer>
-      <form onSubmit={handleSubmit}>
-        <InputField
-          type="text"
-          name="name"
-          placeholder="Your Name"
-          value={formData.name}
-          onChange={handleChange}
-        />
-        <InputField
-          type="email"
-          name="email"
-          placeholder="Your Email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        <TextAreaField
-          name="message"
-          placeholder="Message"
-          value={formData.message}
-          onChange={handleChange}
+      <FormContainer>
+        <form onSubmit={handleSubmit}>
+          <InputField
+            type='text'
+            name='name'
+            placeholder='Your Name'
+            value={formData.name}
+            onChange={handleChange}
           />
-        <SubmitButton type="submit">Send Email</SubmitButton>
-      </form>
-    </FormContainer>
-          </>
+          <InputField
+            type='email'
+            name='email'
+            placeholder='Your Email'
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <TextAreaField
+            name='message'
+            placeholder='Message'
+            value={formData.message}
+            onChange={handleChange}
+          />
+          <SubmitButton color={color} type='submit'>
+            Send Email
+          </SubmitButton>
+        </form>
+      </FormContainer>
+    </>
   );
 };
 

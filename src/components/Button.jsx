@@ -6,7 +6,7 @@ import { FaDownload } from 'react-icons/fa';
 import { BiLogoUpwork } from 'react-icons/bi';
 import { defaultColor } from '../constants';
 const ButtonsContainer = styled.div`
-margin-top:20px;
+  margin-top: 20px;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -36,12 +36,12 @@ const ResumeButton = styled.a`
 `;
 
 const HireMeButton = styled.a`
-display:flex;
-gap:5px;
+  display: flex;
+  gap: 5px;
   text-decoration: none;
   padding: 10px 10px;
-  background-color:${({ color }) => (color ? color : defaultColor)};
- align-items: center;
+  background-color: ${({ color }) => (color ? color : defaultColor)};
+  align-items: center;
   color: white;
   border: none;
   border-radius: 5px;
@@ -54,15 +54,20 @@ gap:5px;
   }
 `;
 
-const ResumeAndHireButtons = ({color=defaultColor}) => {
-
-const handleDownload = () => {}
+const ResumeAndHireButtons = ({ color = defaultColor }) => {
+  const handleDownload = () => {};
   return (
     <ButtonsContainer color={color}>
-      <HireMeButton color={color} href="https://www.upwork.com/tanvirmitul">
-       <BiLogoUpwork/> Hire Me
+      <HireMeButton color={color} href='https://www.upwork.com/tanvirmitul'>
+        <BiLogoUpwork /> Hire Me
       </HireMeButton>
-      <ResumeButton onClick={handleDownload} color={color} download="Tanvir Mitul-Resume" target='_blank' href="https://www.mediafire.com/file/ak8o9ziwpb810p2/Tanvit_Mitul_Resume.pdf/file">
+      <ResumeButton
+        onClick={handleDownload}
+        color={color}
+        download='Tanvir Mitul-Resume'
+        target='_blank'
+        href='https://www.mediafire.com/file/gscglhvfmhfzpbx/Tanvir_Mitul_Resume_.pdf/file'
+      >
         <FaDownload /> Resume
       </ResumeButton>
     </ButtonsContainer>
