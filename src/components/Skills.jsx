@@ -110,7 +110,7 @@ const Skills = ({ color = defaultColor }) => {
     },
     {
       category: 'Front-End Frameworks',
-      items: ['React.js', 'MUI', 'Chakra UI'],
+      items: ['React.js', 'Next.Js', 'MUI', 'Chakra UI'],
     },
     { category: 'Back-End', items: ['NodeJs', 'Express.js'] },
     { category: 'Database', items: ['MongoDB'] },
@@ -161,7 +161,7 @@ const Skills = ({ color = defaultColor }) => {
         return <SiPhp />;
       case 'Laravel':
         return <SiLaravel />;
-      case 'NextJs':
+      case 'Next.Js':
         return <TbBrandNextjs />;
       case 'HTML5':
         return <FaHtml5 />;

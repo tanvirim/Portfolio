@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import styled, { keyframes } from "styled-components";
+import { useState, useEffect } from 'react';
+import styled, { keyframes } from 'styled-components';
 
 const rotateUp = keyframes`
   0% {
@@ -42,8 +42,8 @@ const DeveloperText = styled.p`
 `;
 
 const AnimProfession = () => {
-  const initialText = "&@$^*";
-  const finalText = "Developer";
+  const initialText = '&@$^*';
+  const finalText = 'Developer';
   const [text, setText] = useState(initialText);
 
   useEffect(() => {
@@ -66,15 +66,15 @@ const AnimProfession = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setText(initialText);
-    }, 1000); // Reset to initialText after 1 second
+    }, 1000);
     return () => clearTimeout(timeout);
-  }, [text, initialText])
+  }, [text, initialText]);
 
   return (
     <TextContainer>
       <WebText>Software</WebText>
       <DeveloperText>
-        {text.split("").map((char, index) => (
+        {text.split('').map((char, index) => (
           <span key={index}>{char}</span>
         ))}
       </DeveloperText>

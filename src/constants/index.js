@@ -27,6 +27,22 @@ export const projects = [
     githubLink: 'https://github.com/tanvirim/Game-Lab/',
   },
   {
+    projectName: 'Dua App',
+    technologies: [
+      'Node.js',
+      'Express.js',
+      'SQLite',
+      'Next.js',
+      'Zustand',
+      'Tailwind CSS',
+    ],
+    projectDescription:
+      ' This app provides a collection of essential duas for various occasions, presenting each dua in Arabic, Bangla, and English translations. It also includes audio for pronunciation guidance and references for authenticity.',
+    liveLink: 'https://dualist.vercel.app/',
+    githubLink: 'https://github.com/tanvirim/IRD-Foundation',
+  },
+
+  {
     projectName: 'Employee Evaluation',
     technologies: [
       'Node.js',

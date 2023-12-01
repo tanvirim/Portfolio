@@ -50,6 +50,7 @@ const Container = styled.div`
   position: relative;
   padding: 10px;
   margin-bottom: 20px;
+  font-size: 20px;
   border-left: 5px dotted ${({ color }) => (color ? color : defaultColor)};
   border-right: 5px dotted ${({ color }) => (color ? color : defaultColor)};
 

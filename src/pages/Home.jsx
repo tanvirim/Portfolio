@@ -14,6 +14,8 @@ import Footer from '../components/Footer';
 import { defaultColor } from '../constants';
 
 const HomeSection = styled.section`
+  background-color: rgb(245, 243, 241);
+  padding: 5px;
   @media (min-width: 1024px) {
     margin-left: 250px;
     margin-right: 250px;
@@ -65,6 +67,7 @@ const Home = () => {
     </>
   );
 };
+
 const Section2 = styled.div`
   margin-left: 20px;
 `;

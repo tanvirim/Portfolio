@@ -79,6 +79,7 @@ const Menu = styled.ul`
   list-style: none;
   display: flex;
   gap: 20px;
+  padding: 10px;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -92,6 +93,7 @@ const Menu = styled.ul`
 `;
 
 const MenuItem = styled.li`
+  font-size: 20px;
   color: ${({ color }) => (color ? color : defaultColor)};
   font-weight: bold;
   cursor: pointer;
