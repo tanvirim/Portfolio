@@ -1,7 +1,5 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import styled from "styled-components";
-import { defaultColor } from "../constants";
 import SocialIcons from "./Socialicon";
 import ResumeAndHireButtons from "./Button";
 import AnimProfession from "./AnimProfession";
@@ -9,75 +7,20 @@ import profilePic from "../assets/profile.jpg"; // Import your profile picture
 
 const Intro = ({ color }) => {
   return (
-    <Container>
-      <Avatar src={profilePic} alt="Profile Picture" />
-      <Text color={color}>
-        <span>Tanvir</span>
-        <span>Mitul</span>
-      </Text>
+    <div className="bg-[rgba(173,216,230,0.5)] backdrop-blur-lg border border-[rgba(255,255,255,0.1)] shadow-lg rounded-lg p-5 flex flex-col gap-5 w-[320px] md:w-[450px] items-center jus">
+      <img
+        src={profilePic}
+        alt="Profile Picture"
+        className="w-[100px] h-[100px] md:w-[120px] md:h-[120px] rounded-full object-cover self-center"
+      />
+      <h1 className="text-black font-bold text-3xl leading-none text-center uppercase transition-transform duration-300 ease-in-out hover:scale-110 flex flex-col">
+        Tanvir {"  "}Mitul
+      </h1>
       <AnimProfession />
       <SocialIcons color={color} />
       <ResumeAndHireButtons color={color} />
-    </Container>
+    </div>
   );
 };
-
-const Container = styled.div`
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  background: rgba(173, 216, 230, 0.5);
-  backdrop-filter: blur(15px);
-  box-shadow: 10px 20px 30px rgba(0, 128, 255, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  width: 320px;
-  height: fit-content;
-  padding: 20px;
-
-  @media screen and (min-width: 1080px) {
-    width: 450px;
-    height: fit-content;
-    align-items: center;
-  }
-`;
-
-const Avatar = styled.img`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  align-self: center;
-
-  @media screen and (min-width: 1080px) {
-    width: 120px;
-    height: 120px;
-  }
-`;
-
-const Text = styled.h1`
-  align-self: center;
-  font-weight: bold;
-  color: black;
-  font-size: 3rem;
-  letter-spacing: 5px;
-  display: flex;
-  flex-direction: column;
-  text-transform: uppercase;
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-
-  span {
-    white-space: nowrap;
-  }
-
-  @media screen and (min-width: 1080px) {
-    flex-direction: row;
-    gap: 20px;
-  }
-`;
 
 export default Intro;

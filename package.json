@@ -22,9 +22,11 @@
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.15.0",
     "react-scroll": "^1.8.9",
     "react-slick": "^0.29.0",
+    "slick-carousel": "^1.8.1",
     "styled-components": "^6.0.7"
   },
   "devDependencies": {

@@ -7,16 +7,11 @@ import { Link } from "react-router-dom"; // Assuming you're using React Router f
 import { AiOutlineDoubleRight } from "react-icons/ai"; // You can choose any icon you prefer
 
 const AboutMe = ({ color = defaultColor }) => {
-  const AboutTitle = styled.h2`
-    text-transform: uppercase;
-    border-bottom: 3px solid ${color};
-    padding-bottom: 10px;
-    width: 300px;
-    margin: 0 auto;
-    margin-bottom: 20px;
-    font-size: 30px;
-    font-weight: bold;
+  const AboutTitle = styled.h1`
+    font-size: 25px;
     text-align: center;
+    box-shadow: 0px 10px 30px rgba(0, 128, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   `;
 
   return (
@@ -44,7 +39,7 @@ const AboutMe = ({ color = defaultColor }) => {
 const Container = styled.div`
   position: relative;
   padding: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 100px;
   font-size: 20px;
 
   h1 {

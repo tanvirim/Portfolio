@@ -15,13 +15,6 @@ import { defaultColor } from "../constants";
 
 const Home = () => {
   const [color, setColor] = useState(defaultColor);
-  console.log({ color });
-  const gradientStyle = {
-    backgroundImage: `url("/src/assets/blackFrame.jpg")`,
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-  };
 
   const handleColorState = (newState) => {
     setColor(newState);
@@ -30,7 +23,7 @@ const Home = () => {
   return (
     <>
       <div className="px-2 md:px-10 lg:px-40">
-        <Section1 style={gradientStyle}>
+        <Section1>
           <Navbar color={color} />
           <div className="bar">
             <Bar color={color} />

@@ -30,7 +30,7 @@ import {
 } from "react-icons/fa";
 import { TbBrandNextjs } from "react-icons/tb";
 import { RiGitMergeLine } from "react-icons/ri";
-
+import styled from "styled-components";
 const Skills = ({ color }) => {
   const skills = [
     {
@@ -118,13 +118,16 @@ const Skills = ({ color }) => {
         return null;
     }
   };
-
+  const SkillsTitle = styled.h1`
+    font-size: 25px;
+    text-align: center;
+    box-shadow: 0px 10px 30px rgba(0, 128, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  `;
   return (
     <>
       {/* Title */}
-      <h2 className="mx-auto uppercase border-b-4 border-current pb-2 w-60 mb-6 text-2xl font-bold text-center">
-        Skills
-      </h2>
+      <SkillsTitle>Skills</SkillsTitle>
 
       {/* Skill Container */}
       <div className="flex flex-wrap justify-center gap-8">
