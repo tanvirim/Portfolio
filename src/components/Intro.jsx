@@ -23,7 +23,7 @@ const Intro = ({ color }) => {
 };
 
 const Container = styled.div`
-  border-radius: 15px;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -39,7 +39,6 @@ const Container = styled.div`
     width: 450px;
     height: fit-content;
     align-items: center;
-    padding: 20px;
   }
 `;
 
@@ -58,8 +57,8 @@ const Avatar = styled.img`
 
 const Text = styled.h1`
   align-self: center;
-  color: ${({ color }) => (color ? color : defaultColor)};
   font-weight: bold;
+  color: black;
   font-size: 3rem;
   letter-spacing: 5px;
   display: flex;

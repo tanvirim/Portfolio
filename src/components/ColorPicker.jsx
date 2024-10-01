@@ -27,7 +27,7 @@ const ColorPicker = ({ colorStateForHome }) => {
               onClick={() => setShowPicker(!showPicker)}
             />
           ) : (
-            <AiOutlineClose 
+            <AiOutlineClose
               size="25px"
               color={color}
               onClick={() => setShowPicker(!showPicker)}
@@ -46,34 +46,33 @@ const ColorPicker = ({ colorStateForHome }) => {
 export default ColorPicker;
 
 const Container = styled.div`
-border: 2px solid #b5b1b1;
   width: 90px;
   background-color: white;
-  padding: 20px  15px  15px  30px;
   border-radius: 5px;
- 
   z-index: 99;
   position: relative;
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
+  padding: 10px 0;
 
   .hidden-component {
-    display: none; /* Initially hidden */
-    position: absolute; /* Position it without affecting other elements */
-    top: 70px; /* Adjust the top position as needed */
-    left: 50%; /* Center horizontally */
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 50%;
     transform: translateX(-50%);
-    background-color: #fff;
-    border: 1px solid #ccc;
+
     padding: 10px;
     box-shadow: 0 2px 4px rgba(46, 42, 42, 0.8);
   }
 
   .visible {
-    display: block; /* Show the component when it's visible */
+    display: block;
     z-index: 999;
   }
-  .icon-container{
+  .icon-container {
     transition: all 0.3s ease-in-out;
   }
   .icon-container:hover {

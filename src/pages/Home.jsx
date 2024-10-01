@@ -17,7 +17,7 @@ const Home = () => {
   const [color, setColor] = useState(defaultColor);
   console.log({ color });
   const gradientStyle = {
-    backgroundImage: `url("/src/assets/black-frame-view.jpg")`,
+    backgroundImage: `url("/src/assets/blackFrame.jpg")`,
     backgroundPosition: "center",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
@@ -67,6 +67,9 @@ const Home = () => {
 const Section1 = styled.div`
   height: 100vh;
   position: relative;
+  box-shadow: 0px 10px 30px rgba(0, 128, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 100px;
   .contribution {
     position: absolute;
     bottom: 0;

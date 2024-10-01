@@ -84,7 +84,7 @@ const ProjectCardsContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 50px;
 `;
 
 const ProjectCard = styled.div`
@@ -100,7 +100,7 @@ const ProjectCard = styled.div`
   background: rgba(173, 216, 230, 0.2);
   backdrop-filter: blur(15px);
   box-shadow: 0px 20px 30px rgba(0, 128, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.1);
 
   h2 {
     color: ${({ color }) => (color ? color : defaultColor)};
