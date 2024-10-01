@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
-import styled from 'styled-components';
-import brandImage from '../assets/brand.png';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { AiOutlineClose } from 'react-icons/ai';
-import { defaultColor } from '../constants';
-import { Link as ScrollLink, animateScroll as scroll } from 'react-scroll';
+import { useState } from "react";
+import styled from "styled-components";
+import brandImage from "../assets/brand.png";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { AiOutlineClose } from "react-icons/ai";
+import { defaultColor } from "../constants";
+import { Link as ScrollLink, animateScroll as scroll } from "react-scroll";
 
 const Navbar = ({ color = defaultColor }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,33 +18,32 @@ const Navbar = ({ color = defaultColor }) => {
     <NavbarContainer>
       <NavbarContent>
         <Logo>
-          {/* Use the scroll function to scroll to the top */}
           <a
-            href='/'
+            href="/"
             onClick={(e) => {
               e.preventDefault();
               scroll.scrollToTop();
             }}
           >
-            <img width={50} src={brandImage} alt='Brand Logo' />
+            <img width={50} src={brandImage} alt="Brand Logo" />
           </a>
         </Logo>
         <MobileButton onClick={toggleMenu}>
           {isOpen ? (
-            <AiOutlineClose size='30px' color={color} />
+            <AiOutlineClose size="30px" color="black" />
           ) : (
-            <GiHamburgerMenu size='30px' color={color} />
+            <GiHamburgerMenu size="30px" color="black" />
           )}
         </MobileButton>
         <Menu color={color} {...(isOpen && { isopen: true })}>
           <MenuItem color={color}>
-            <ScrollLink to='projects'>PROJECTS</ScrollLink>
+            <ScrollLink to="projects">PROJECTS</ScrollLink>
           </MenuItem>
           <MenuItem color={color}>
-            <ScrollLink to='about'>ABOUT</ScrollLink>
+            <ScrollLink to="about">ABOUT</ScrollLink>
           </MenuItem>
           <MenuItem color={color}>
-            <ScrollLink to='contact'>CONTACT</ScrollLink>
+            <ScrollLink to="contact">CONTACT</ScrollLink>
           </MenuItem>
         </Menu>
       </NavbarContent>
@@ -74,8 +73,9 @@ const Logo = styled.a`
 `;
 
 const Menu = styled.ul`
+  display: flex;
   background-color: transparent;
-  z-index: 999;
+  z-index: 9;
   list-style: none;
   display: flex;
   gap: 20px;
@@ -85,9 +85,11 @@ const Menu = styled.ul`
     flex-direction: column;
     align-items: center;
     position: absolute;
-    top: 60px;
-    right: ${({ isopen }) => (isopen ? '0' : '-100%')};
-    width: 30%;
+    top: 0;
+    right: ${({ isopen }) => (isopen ? "0" : "-100%")};
+    background-color: ${({ color }) => (color ? color : defaultColor)};
+    width: 100%;
+    height: 25vh;
     transition: right 0.3s ease-in-out;
   }
 `;
@@ -116,7 +118,9 @@ const MenuItem = styled.li`
 const MobileButton = styled.button`
   background-color: transparent;
   display: none;
-
+  z-index: 99;
+  cursor: pointer;
+  padding: 10px;
   @media (max-width: 768px) {
     display: block;
   }

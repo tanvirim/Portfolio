@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
-import styled, { keyframes } from 'styled-components';
-import ContactForm from './ContactForm';
-import { defaultColor } from '../constants';
+import styled, { keyframes } from "styled-components";
+import ContactForm from "./ContactForm";
+import { defaultColor } from "../constants";
 
 const FooterContainer = styled.footer`
-  border-left: 5px dotted ${({ color }) => (color ? color : defaultColor)};
-  border-right: 5px dotted ${({ color }) => (color ? color : defaultColor)};
+  /* border-left: 5px dotted ${({ color }) => (color ? color : defaultColor)};
+  border-right: 5px dotted ${({ color }) => (color ? color : defaultColor)}; */
 
   display: flex;
   flex-direction: column;
@@ -48,7 +48,7 @@ const GameLink = styled.a`
   animation: ${scaleAnimation} 2s alternate infinite ease-in-out; /* Add this line for default animation */
 
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     width: 100%;
     height: 2px;
@@ -79,9 +79,9 @@ const Footer = ({ color = defaultColor }) => {
           &copy; Tanvir Mitul {new Date().getFullYear()}
         </CopyrightText>
         <GameLink
-          href='https://tanvirim.github.io/simon-game'
-          target='_blank'
-          rel='noopener noreferrer'
+          href="https://tanvirim.github.io/simon-game"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           Play Simon Game
         </GameLink>

@@ -1,12 +1,61 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
-import styled from 'styled-components';
-import { defaultColor, projects } from '../../constants';
-import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'; // Import icons from react-icons/fa
+import styled from "styled-components";
+import { defaultColor, projects } from "../../constants";
+import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 
-import { Link } from 'react-router-dom'; // Assuming you're using React Router for navigation
-import { AiOutlineDoubleRight } from 'react-icons/ai';
+import { Link } from "react-router-dom";
+import { AiOutlineDoubleRight } from "react-icons/ai";
+
+const ProjectCards = ({ color = defaultColor }) => {
+  return (
+    <>
+      <ProjectTitle>Projects</ProjectTitle>
+      <ProjectCardsContainer color={color}>
+        {projects.map((project, index) => (
+          <ProjectCard color={color} key={index} imageLink={project.imageLink}>
+            <h2>{project.projectName}</h2>
+            <ul>
+              {project.technologies.map((tech, techIndex) => (
+                <li key={techIndex}>
+                  <button className="technology-button">{tech}</button>
+                </li>
+              ))}
+            </ul>
+            <p>{project.projectDescription}</p>
+            <div className="project-links">
+              <a
+                href={project.githubLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaGithub color={color ? color : defaultColor} size={23} />
+              </a>
+              <a
+                href={project.liveLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaExternalLinkAlt
+                  color={color ? color : defaultColor}
+                  size={20}
+                />
+              </a>
+            </div>
+          </ProjectCard>
+        ))}
+      </ProjectCardsContainer>
+      <StyledLearnMoreButton color={color} to="/projects">
+        All Projects
+        <AiOutlineDoubleRight />
+      </StyledLearnMoreButton>
+    </>
+  );
+};
+
+export default ProjectCards;
+
 const StyledLearnMoreButton = styled(Link)`
   margin-top: 20px;
   margin-left: 70%;
@@ -35,23 +84,23 @@ const ProjectCardsContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-
-  border-left: 5px dotted ${({ color }) => (color ? color : defaultColor)};
-  border-right: 5px dotted ${({ color }) => (color ? color : defaultColor)};
+  gap: 20px;
 `;
 
 const ProjectCard = styled.div`
-  gap: 10px;
+  gap: 5px;
   padding: 20px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
   border-radius: 10px;
   width: 350px;
-  background-color: #fff; /* Set your card background color */
-  text-align: left; /* Align text to the left */
+  text-align: left;
   transition: transform 0.2s;
   display: flex;
-  flex-direction: column; /* Display technologies as a column */
+  flex-direction: column;
+  height: 420px;
+  background: rgba(173, 216, 230, 0.2);
+  backdrop-filter: blur(15px);
+  box-shadow: 0px 20px 30px rgba(0, 128, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 
   h2 {
     color: ${({ color }) => (color ? color : defaultColor)};
@@ -121,50 +170,3 @@ const ProjectTitle = styled.h2`
   font-weight: bold;
   text-align: center;
 `;
-const ProjectCards = ({ color = defaultColor }) => {
-  return (
-    <>
-      <ProjectTitle>Projects</ProjectTitle>
-      <ProjectCardsContainer color={color}>
-        {projects.map((project, index) => (
-          <ProjectCard color={color} key={index} imageLink={project.imageLink}>
-            <h2>{project.projectName}</h2>
-            <ul>
-              {project.technologies.map((tech, techIndex) => (
-                <li key={techIndex}>
-                  <button className='technology-button'>{tech}</button>
-                </li>
-              ))}
-            </ul>
-            <p>{project.projectDescription}</p>
-            <div className='project-links'>
-              <a
-                href={project.githubLink}
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                <FaGithub color={color ? color : defaultColor} size={23} />
-              </a>
-              <a
-                href={project.liveLink}
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                <FaExternalLinkAlt
-                  color={color ? color : defaultColor}
-                  size={20}
-                />
-              </a>
-            </div>
-          </ProjectCard>
-        ))}
-      </ProjectCardsContainer>
-      <StyledLearnMoreButton color={color} to='/projects'>
-        All Projects
-        <AiOutlineDoubleRight />
-      </StyledLearnMoreButton>
-    </>
-  );
-};
-
-export default ProjectCards;

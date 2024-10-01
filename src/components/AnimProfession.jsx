@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import styled, { keyframes } from 'styled-components';
+import { useState, useEffect } from "react";
+import styled, { keyframes } from "styled-components";
 
 const rotateUp = keyframes`
   0% {
@@ -18,6 +18,7 @@ const rotateUp = keyframes`
 
 const TextContainer = styled.div`
   font-weight: bold;
+  color: black;
   display: flex;
   align-items: center;
   white-space: nowrap;
@@ -42,8 +43,8 @@ const DeveloperText = styled.p`
 `;
 
 const AnimProfession = () => {
-  const initialText = '&@$^*';
-  const finalText = 'Developer';
+  const initialText = "&@$^*";
+  const finalText = "Developer";
   const [text, setText] = useState(initialText);
 
   useEffect(() => {
@@ -74,7 +75,7 @@ const AnimProfession = () => {
     <TextContainer>
       <WebText>Software</WebText>
       <DeveloperText>
-        {text.split('').map((char, index) => (
+        {text.split("").map((char, index) => (
           <span key={index}>{char}</span>
         ))}
       </DeveloperText>

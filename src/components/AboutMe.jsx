@@ -1,44 +1,39 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
-import styled from 'styled-components';
-import { defaultColor } from '../constants';
-import { Link } from 'react-router-dom'; // Assuming you're using React Router for navigation
-import { AiOutlineDoubleRight } from 'react-icons/ai'; // You can choose any icon you prefer
-
-const AboutTitle = styled.h2`
-  text-transform: uppercase;
-  border-bottom: 3px solid ${defaultColor};
-  padding-bottom: 10px;
-  width: 300px;
-  margin: 0 auto;
-  margin-bottom: 20px;
-  font-size: 30px;
-  font-weight: bold;
-  text-align: center;
-`;
+import styled from "styled-components";
+import { defaultColor } from "../constants";
+import { Link } from "react-router-dom"; // Assuming you're using React Router for navigation
+import { AiOutlineDoubleRight } from "react-icons/ai"; // You can choose any icon you prefer
 
 const AboutMe = ({ color = defaultColor }) => {
+  const AboutTitle = styled.h2`
+    text-transform: uppercase;
+    border-bottom: 3px solid ${color};
+    padding-bottom: 10px;
+    width: 300px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+  `;
+
   return (
     <>
       <AboutTitle>About me</AboutTitle>
       <Container color={color}>
         <p>
-          `As a <span>JavaScript</span> developer specializing in the
-          <span> MERN stack</span> , I'm dedicated to crafting dynamic web
-          applications. I leverage a combination of{' '}
-          <span>object-oriented </span>and <span>functional programming</span>{' '}
+          `As a <span>JavaScript</span> developer ,I leverage a combination of{" "}
+          <span>object-oriented </span>and <span>functional programming</span>{" "}
           to efficiently solve challenges. My enthusiasm for learning extends to
-          embracing <span>new technology stacks </span>,and my proficiency in{' '}
-          <span>TypeScript </span>
-          further enhances my adaptability, making me a valuable asset for any
-          software development team. Moreover, I excel as a{' '}
-          <span>team player</span> and demonstrate strong{' '}
+          embracing <span>new technology stacks </span>. Moreover, I excel as a{" "}
+          <span>team player</span> and demonstrate strong{" "}
           <span> leadership skills</span>, effectively collaborating with
           colleagues to achieve our shared objectives.
         </p>
 
-        <StyledLearnMoreButton color={color} to='/about'>
+        <StyledLearnMoreButton color={color} to="/about">
           Learn More
           <AiOutlineDoubleRight />
         </StyledLearnMoreButton>
@@ -51,8 +46,6 @@ const Container = styled.div`
   padding: 10px;
   margin-bottom: 20px;
   font-size: 20px;
-  border-left: 5px dotted ${({ color }) => (color ? color : defaultColor)};
-  border-right: 5px dotted ${({ color }) => (color ? color : defaultColor)};
 
   h1 {
     font-size: 25px;

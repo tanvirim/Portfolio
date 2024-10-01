@@ -1,85 +1,71 @@
-import { useState } from 'react';
-import ColorPicker from '../components/ColorPicker';
-import GitContributionsBar from '../components/GitContributions';
-import Navbar from '../components/Navbar';
+import { useState } from "react";
+import ColorPicker from "../components/ColorPicker";
+import GitContributionsBar from "../components/GitContributions";
+import Navbar from "../components/Navbar";
 
-import styled from 'styled-components';
-import Intro from '../components/Intro';
-import Bar from '../components/Bar';
-import AboutMe from '../components/AboutMe';
+import styled from "styled-components";
+import Intro from "../components/Intro";
+import Bar from "../components/Bar";
+import AboutMe from "../components/AboutMe";
 
-import ProjectCards from '../components/project/Project';
-import Skills from '../components/Skills';
-import Footer from '../components/Footer';
-import { defaultColor } from '../constants';
+import ProjectCards from "../components/project/Project";
+import Skills from "../components/Skills";
+import Footer from "../components/Footer";
+import { defaultColor } from "../constants";
 
-const HomeSection = styled.section`
-  background-color: rgb(245, 243, 241);
-  padding: 5px;
-  @media (min-width: 1024px) {
-    margin-left: 250px;
-    margin-right: 250px;
-  }
-`;
 const Home = () => {
-  //colorState start
   const [color, setColor] = useState(defaultColor);
+  console.log({ color });
+  const gradientStyle = {
+    backgroundImage: `url("/src/assets/black-frame-view.jpg")`,
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+  };
 
   const handleColorState = (newState) => {
     setColor(newState);
   };
-  //colorState end
 
   return (
     <>
-      <HomeSection>
-        <Section1>
+      <div className="px-2 md:px-10 lg:px-40">
+        <Section1 style={gradientStyle}>
           <Navbar color={color} />
-          <div className='bar'>
+          <div className="bar">
             <Bar color={color} />
           </div>
-          <div className='intro'>
+          <div className="intro mt-10">
             <Intro color={color} />
           </div>
 
-          <div className='color-picker'>
+          <div className="color-picker">
             <ColorPicker colorStateForHome={handleColorState} />
           </div>
-          <div className='contribution'>
+          <div className="contribution">
             <GitContributionsBar color={color} />
           </div>
         </Section1>
 
-        <Section2 id='about'>
+        <div id="about">
           <AboutMe color={color} />
           <Skills color={color} />
-          {/* <Education color={color} /> */}
-        </Section2>
+        </div>
 
-        <Section3 id='projects'>
+        <div id="projects">
           <ProjectCards color={color} />
-        </Section3>
+        </div>
 
-        <Section4 id='contact'>
+        <div id="contact">
           <Footer color={color} />
-        </Section4>
-      </HomeSection>
+        </div>
+      </div>
     </>
   );
 };
 
-const Section2 = styled.div`
-  margin-left: 20px;
-`;
-const Section4 = styled.div`
-  margin-left: 20px;
-`;
-const Section3 = styled.div`
-  margin-left: 20px;
-`;
-
 const Section1 = styled.div`
-  height: 700px;
+  height: 100vh;
   position: relative;
   .contribution {
     position: absolute;
