@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
-import emailjs from '@emailjs/browser';
-import styled from 'styled-components';
-import { defaultColor } from '../constants';
+import { useState } from "react";
+import emailjs from "@emailjs/browser";
+import styled from "styled-components";
+import { defaultColor } from "../constants";
 
 const FormContainer = styled.div`
   max-width: 400px;
@@ -11,7 +11,6 @@ const FormContainer = styled.div`
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #fff;
 `;
 
 const InputField = styled.input`
@@ -47,9 +46,9 @@ const SubmitButton = styled.button`
 
 const ContactForm = ({ color }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
+    name: "",
+    email: "",
+    message: "",
   });
 
   const handleChange = (e) => {
@@ -62,23 +61,23 @@ const ContactForm = ({ color }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('click hoytese');
+    console.log("click hoytese");
 
     // Send the email using EmailJS
     emailjs
-      .sendForm('service_omm1e0n', 'template_qmj1gvo', formData)
+      .sendForm("service_omm1e0n", "template_qmj1gvo", formData)
       .then((response) => {
-        console.log('Email sent successfully:', response);
-        alert('Email sent successfully!');
+        console.log("Email sent successfully:", response);
+        alert("Email sent successfully!");
         setFormData({
-          name: '',
-          email: '',
-          message: '',
+          name: "",
+          email: "",
+          message: "",
         });
       })
       .catch((error) => {
-        console.error('Error sending email:', error);
-        alert('An error occurred while sending the email.');
+        console.error("Error sending email:", error);
+        alert("An error occurred while sending the email.");
       });
   };
 
@@ -87,26 +86,26 @@ const ContactForm = ({ color }) => {
       <FormContainer>
         <form onSubmit={handleSubmit}>
           <InputField
-            type='text'
-            name='name'
-            placeholder='Your Name'
+            type="text"
+            name="name"
+            placeholder="Your Name"
             value={formData.name}
             onChange={handleChange}
           />
           <InputField
-            type='email'
-            name='email'
-            placeholder='Your Email'
+            type="email"
+            name="email"
+            placeholder="Your Email"
             value={formData.email}
             onChange={handleChange}
           />
           <TextAreaField
-            name='message'
-            placeholder='Message'
+            name="message"
+            placeholder="Message"
             value={formData.message}
             onChange={handleChange}
           />
-          <SubmitButton color={color} type='submit'>
+          <SubmitButton color={color} type="submit">
             Send Email
           </SubmitButton>
         </form>

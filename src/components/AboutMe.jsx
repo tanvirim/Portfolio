@@ -3,20 +3,13 @@
 /* eslint-disable react/no-unescaped-entities */
 import styled from "styled-components";
 import { defaultColor } from "../constants";
-import { Link } from "react-router-dom"; // Assuming you're using React Router for navigation
-import { AiOutlineDoubleRight } from "react-icons/ai"; // You can choose any icon you prefer
+import { Link } from "react-router-dom";
+import { AiOutlineDoubleRight } from "react-icons/ai";
 
 const AboutMe = ({ color = defaultColor }) => {
-  const AboutTitle = styled.h1`
-    font-size: 25px;
-    text-align: center;
-    box-shadow: 0px 10px 30px rgba(0, 128, 255, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  `;
-
   return (
-    <>
-      <AboutTitle>About me</AboutTitle>
+    <div className="custom-shadow-border mb-20 p-5">
+      <div className="title-text-style">ABOUT ME</div>
       <Container color={color}>
         <p>
           `As a <span>JavaScript</span> developer ,I leverage a combination of{" "}
@@ -33,9 +26,10 @@ const AboutMe = ({ color = defaultColor }) => {
           <AiOutlineDoubleRight />
         </StyledLearnMoreButton>
       </Container>
-    </>
+    </div>
   );
 };
+
 const Container = styled.div`
   position: relative;
   padding: 10px;

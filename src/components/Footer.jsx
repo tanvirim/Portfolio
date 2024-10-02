@@ -6,9 +6,6 @@ import ContactForm from "./ContactForm";
 import { defaultColor } from "../constants";
 
 const FooterContainer = styled.footer`
-  /* border-left: 5px dotted ${({ color }) => (color ? color : defaultColor)};
-  border-right: 5px dotted ${({ color }) => (color ? color : defaultColor)}; */
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -71,8 +68,8 @@ const GameLink = styled.a`
 
 const Footer = ({ color = defaultColor }) => {
   return (
-    <>
-      <FooterTitle>Contact</FooterTitle>
+    <div className="custom-shadow-border mb-20 p-5">
+      <div className="title-text-style">CONTACT</div>
       <FooterContainer color={color}>
         <ContactForm color={color} />
         <CopyrightText>
@@ -86,19 +83,8 @@ const Footer = ({ color = defaultColor }) => {
           Play Simon Game
         </GameLink>
       </FooterContainer>
-    </>
+    </div>
   );
 };
-const FooterTitle = styled.h2`
-  margin: 0 auto;
-  margin-top: 40px;
-  text-transform: uppercase;
-  border-bottom: 3px solid ${defaultColor};
-  padding-bottom: 10px;
-  width: 300px;
-  margin-bottom: 20px;
-  font-size: 30px;
-  font-weight: bold;
-  text-align: center;
-`;
+
 export default Footer;

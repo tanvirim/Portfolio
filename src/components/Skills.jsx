@@ -125,11 +125,8 @@ const Skills = ({ color }) => {
     border: 1px solid rgba(255, 255, 255, 0.1);
   `;
   return (
-    <>
-      {/* Title */}
-      <SkillsTitle>Skills</SkillsTitle>
-
-      {/* Skill Container */}
+    <div className="custom-shadow-border mb-20 p-5">
+      <div className="title-text-style mb-5">SKILLS</div>
       <div className="flex flex-wrap justify-center gap-8">
         {skills.map((category, index) => (
           <div key={index} className="flex flex-col items-center">
@@ -155,7 +152,7 @@ const Skills = ({ color }) => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

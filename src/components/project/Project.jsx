@@ -10,8 +10,8 @@ import { AiOutlineDoubleRight } from "react-icons/ai";
 
 const ProjectCards = ({ color = defaultColor }) => {
   return (
-    <>
-      <ProjectTitle>Projects</ProjectTitle>
+    <div className="custom-shadow-border mb-10 p-5">
+      <div className="title-text-style mb-6">Projects</div>
       <ProjectCardsContainer color={color}>
         {projects.map((project, index) => (
           <ProjectCard color={color} key={index} imageLink={project.imageLink}>
@@ -50,7 +50,7 @@ const ProjectCards = ({ color = defaultColor }) => {
         All Projects
         <AiOutlineDoubleRight />
       </StyledLearnMoreButton>
-    </>
+    </div>
   );
 };
 

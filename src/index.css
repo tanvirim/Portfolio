@@ -16,3 +16,50 @@ body{
   color: rgb(219, 218, 218) !important;
   background-color: #1A202C !important;
 }
+
+.custom-shadow-border {
+  box-shadow: 0px 10px 30px rgba(0, 128, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+
+
+
+.title-text-style {
+  font-size:50px;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #1ce5ff;
+  text-shadow: 0 10px 7px rgba(3, 30, 179, 0.4),0 6px 1px #aca3a3;
+  
+
+  text-align: center;
+  font-weight: bold;
+}
+
+.title-text-style:hover {
+  animation: glitch .2s linear infinite;
+  cursor: pointer;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
