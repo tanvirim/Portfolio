@@ -1,12 +1,14 @@
-import ProjectCards from '../components/project/Project';
+import ProjectCards from "../components/project/Project";
 
 const ProjectPage = () => {
   return (
-    <div className='container mx-auto mt-8 px-8 mr-8'>
-      <p className='text-3xl font-bold text-center mb-8'>
-        This Page is Under Constructions
-      </p>
-      <ProjectCards />
+    <div className="flex items-center justify-center ">
+      <div className="text-center">
+        <p className="text-3xl font-bold mb-8">
+          This Page is Under Construction
+        </p>
+        <ProjectCards />
+      </div>
     </div>
   );
 };

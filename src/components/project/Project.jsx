@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { defaultColor, projects } from "../../constants";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
@@ -9,11 +9,15 @@ import { Link } from "react-router-dom";
 import { AiOutlineDoubleRight } from "react-icons/ai";
 
 const ProjectCards = ({ color = defaultColor }) => {
+  const location = useLocation();
+  const isRootRoute = location.pathname === "/";
+  const displayedProjects = isRootRoute ? projects.slice(0, 3) : projects;
+
   return (
     <div className="custom-shadow-border mb-14 pb-4">
       <div className="title-text-style mb-6">Projects</div>
       <ProjectCardsContainer color={color}>
-        {projects.map((project, index) => (
+        {displayedProjects.map((project, index) => (
           <ProjectCard color={color} key={index}>
             <img
               className="h-[140px]  object-cover rounded-t-lg "
@@ -56,10 +60,12 @@ const ProjectCards = ({ color = defaultColor }) => {
           </ProjectCard>
         ))}
       </ProjectCardsContainer>
-      <StyledLearnMoreButton color={color} to="/projects">
-        All Projects
-        <AiOutlineDoubleRight />
-      </StyledLearnMoreButton>
+      {isRootRoute && (
+        <StyledLearnMoreButton color={color} to="/projects">
+          All Projects
+          <AiOutlineDoubleRight />
+        </StyledLearnMoreButton>
+      )}
     </div>
   );
 };
