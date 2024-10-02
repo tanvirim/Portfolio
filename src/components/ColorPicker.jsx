@@ -44,7 +44,6 @@ const ColorPicker = ({ colorStateForHome }) => {
 export default ColorPicker;
 
 const Container = styled.div`
-  width: 90px;
   background-color: ${({ color }) => (color ? color : defaultColor)};
   border-radius: 5px;
   z-index: 99;
@@ -53,7 +52,9 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 10px 0;
+  padding: 10px;
+  width: 60px;
+  box-shadow: 0 2px 4px rgba(46, 42, 42, 0.8);
 
   .hidden-component {
     display: none;

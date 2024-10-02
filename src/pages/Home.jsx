@@ -12,6 +12,7 @@ import ProjectCards from "../components/project/Project";
 import Skills from "../components/Skills";
 import Footer from "../components/Footer";
 import { defaultColor } from "../constants";
+import Welcome from "../components/Welcome";
 
 const Home = () => {
   const [color, setColor] = useState(defaultColor);
@@ -22,7 +23,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="px-2 md:px-10 lg:px-40 lg:mx-20">
+      <div className="px-2 md:px-10 lg:px-20 ">
         <Section1>
           <Navbar color={color} />
           <div className="bar">
@@ -30,6 +31,9 @@ const Home = () => {
           </div>
           <div className="intro ">
             <Intro color={color} />
+          </div>
+          <div className="welcome">
+            <Welcome />
           </div>
 
           <div className="color-picker">
@@ -84,6 +88,12 @@ const Section1 = styled.div`
     top: 130px;
     left: 30px;
   }
+  .welcome {
+    position: absolute;
+    top: 100px;
+    left: 35%;
+    z-index: 4;
+  }
   .bar {
     position: absolute;
     top: -20px;
@@ -92,6 +102,10 @@ const Section1 = styled.div`
   }
   @media (max-width: 768px) {
     overflow-x: hidden;
+
+    .welcome {
+      visibility: hidden;
+    }
   }
 `;
 

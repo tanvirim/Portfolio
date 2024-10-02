@@ -25,6 +25,7 @@ export const projects = [
       " Search Made Easy: Quickly find your favorite games by name, platform, genre, and more. No more endless scrolling—just search, and you're there! Dark Mode, Infinite Scrolling Beautifully Responsive ",
     liveLink: "https://game-lab-tanvirim.vercel.app/",
     githubLink: "https://github.com/tanvirim/Game-Lab/",
+    imageLink: "https://i.ibb.co.com/xFr80P8/image.png",
   },
   {
     projectName: "Dua App",
@@ -40,6 +41,31 @@ export const projects = [
       " This app provides a collection of essential duas for various occasions, presenting each dua in Arabic, Bangla, and English translations. It also includes audio for pronunciation guidance and references for authenticity.",
     liveLink: "https://dualist.vercel.app/",
     githubLink: "https://github.com/tanvirim/IRD-Foundation",
+    imageLink: "https://i.ibb.co.com/CnyfH1R/image.png",
+  },
+  {
+    projectName: "The Chat App!",
+    technologies: [
+      "Express.js",
+      "MongoDB",
+      "React",
+      "Styled Component",
+      "Socket.Io",
+    ],
+    projectDescription:
+      "Real-time Chat: Seamlessly chat with other users in real time.Avatar Selection: Choose a unique avatar, thanks to the api.multiavatar.com.Secure & Protected: bcryptjs for password protection and used MongoDB for a reliable database.",
+    liveLink: "https://chat-app-client-kydmfnloo-tanvirim.vercel.app/",
+    githubLink: "https://github.com/tanvirim/Chat-App",
+    imageLink: "https://i.ibb.co.com/qyqRrCP/image.png",
+  },
+  {
+    projectName: "Expense Management App",
+    technologies: ["Express.js", "MongoDB", "React", "ANT Design", "Redux"],
+    projectDescription:
+      "The Expense Management App simplifies expense tracking and management. It ensures data security with user authentication. Users can filter expenses by type and category. Visual representations offer insights through dynamic graphs.",
+    liveLink: "https://adorable-pink-pantyhose.cyclic.cloud/",
+    githubLink: "https://github.com/Tanvir-Mitul/GameHub-App",
+    imageLink: "https://i.ibb.co.com/tK67c1L/image.png",
   },
 
   {
@@ -56,28 +82,7 @@ export const projects = [
       " Employees can conveniently update their progress using forms.Admins can analyze the data and provide valuable recommendations for promotions, increments, or both, based on the employees",
     liveLink: "https://employee-evaluation.netlify.app/admin-dashboard",
     githubLink: "https://github.com/tanvirim/employee-evaluation",
-  },
-  {
-    projectName: "Expense Management App",
-    technologies: ["Express.js", "MongoDB", "React", "ANT Design", "Redux"],
-    projectDescription:
-      "The Expense Management App simplifies expense tracking and management. It ensures data security with user authentication. Users can filter expenses by type and category. Visual representations offer insights through dynamic graphs.",
-    liveLink: "https://adorable-pink-pantyhose.cyclic.cloud/",
-    githubLink: "https://github.com/Tanvir-Mitul/GameHub-App",
-  },
-  {
-    projectName: "The Chat App!",
-    technologies: [
-      "Express.js",
-      "MongoDB",
-      "React",
-      "Styled Component",
-      "Socket.Io",
-    ],
-    projectDescription:
-      "Real-time Chat: Seamlessly chat with other users in real time.Avatar Selection: Choose a unique avatar, thanks to the api.multiavatar.com.Secure & Protected: bcryptjs for password protection and used MongoDB for a reliable database.",
-    liveLink: "https://chat-app-client-kydmfnloo-tanvirim.vercel.app/",
-    githubLink: "https://github.com/tanvirim/Chat-App",
+    imageLink: "https://i.ibb.co.com/PD8Wq52/image.png",
   },
 ];
 export const StaticDate = [
