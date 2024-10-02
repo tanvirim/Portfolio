@@ -5,11 +5,17 @@ import styled from "styled-components";
 import { defaultColor } from "../constants";
 import { Link } from "react-router-dom";
 import { AiOutlineDoubleRight } from "react-icons/ai";
+import introGif from "../assets/intro.gif";
 
 const AboutMe = ({ color = defaultColor }) => {
   return (
     <div className="custom-shadow-border mb-20 p-5">
-      <div className="title-text-style">ABOUT ME</div>
+      <div className="title-text-style">
+        ABOUT ME{" "}
+        {/* <span>
+          <img  src={introGif} alt="" />
+        </span> */}
+      </div>
       <Container color={color}>
         <p>
           `As a <span>JavaScript</span> developer ,I leverage a combination of{" "}
