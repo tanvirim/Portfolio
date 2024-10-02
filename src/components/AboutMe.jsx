@@ -24,15 +24,15 @@ const AboutMe = ({ color = defaultColor }) => {
 
   return (
     <div className="custom-shadow-border mb-20 p-5">
-      <div className="title-text-style text-white">ABOUT ME </div>
+      <div className="title-text-style text-white">ABOUT ME</div>
       <div className="relative p-10 mb-4 text-lg text-gray-200">
         <Text color={color}>
-          `As a <span>JavaScript</span> developer ,I leverage a combination of{" "}
-          <span>object-oriented </span>and <span>functional programming</span>{" "}
+          `As a <span>JavaScript</span> developer, I leverage a combination of{" "}
+          <span>object-oriented</span> and <span>functional programming</span>{" "}
           to efficiently solve challenges. My enthusiasm for learning extends to
-          embracing <span>new technology stacks </span>. Moreover, I excel as a{" "}
+          embracing <span>new technology stacks</span>. Moreover, I excel as a{" "}
           <span>team player</span> and demonstrate strong{" "}
-          <span> leadership skills</span>, effectively collaborating with
+          <span>leadership skills</span>, effectively collaborating with
           colleagues to achieve our shared objectives.
         </Text>
 
@@ -90,15 +90,33 @@ const AboutMe = ({ color = defaultColor }) => {
               </div>
             </div>
 
-            {/* Education and Hobbies */}
+            {/* Education Section with Time Length */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
               <div>
                 <h3 className="text-2xl font-semibold mb-2">Education</h3>
                 <p className="text-gray-300">
-                  B.Sc. in MSE in Rajshahi University of Engineering and
-                  Technology.
+                  <strong>
+                    Rajshahi University of Engineering and Technology
+                  </strong>
+                  <br />
+                  B.Sc. in MSE (2017 - 2022) {/* Add your actual timeline */}
+                </p>
+
+                <p className="text-gray-300">
+                  <strong>BCIC College</strong>
+                  <br />
+                  Dept. of Science (2012 - 2016){" "}
+                  {/* Add your actual timeline */}
+                </p>
+                <p className="text-gray-300">
+                  <strong>Kushtia Zilla School</strong>
+                  <br />
+                  Secondary School (2009 - 2011)
+                  {/* Add your actual timeline */}
                 </p>
               </div>
+
+              {/* Hobbies */}
               <div>
                 <h3 className="text-2xl font-semibold mb-2">Hobbies</h3>
                 <p className="text-gray-300">
@@ -107,42 +125,42 @@ const AboutMe = ({ color = defaultColor }) => {
               </div>
             </div>
 
-            {/* Work Experience */}
+            {/* Work Experience Section with Time Length */}
             <div className="mt-6">
               <h3 className="text-2xl font-semibold mb-2">Work Experience</h3>
               <ul className="text-gray-300 list-disc ml-6">
                 <li>
-                  Software Developer at{" "}
+                  <strong>Software Developer</strong> at{" "}
                   <a
                     href="https://www.facebook.com/seopage1.dhaka"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {" "}
-                    Seopage1{" "}
-                  </a>
+                    Seopage1
+                  </a>{" "}
+                  (2024 - Present) {/* Add your actual timeline */}
                 </li>
                 <li>
-                  Jr. Software Developer at{" "}
+                  <strong>Jr. Software Developer</strong> at{" "}
                   <a
                     href="https://www.facebook.com/seopage1.dhaka"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {" "}
-                    Seopage1{" "}
-                  </a>
+                    Seopage1
+                  </a>{" "}
+                  (2024 - 2024)
                 </li>
                 <li>
-                  Intern at{" "}
+                  <strong>Intern</strong> at{" "}
                   <a
                     href="https://www.facebook.com/qubitechbd"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {" "}
-                    Qubitech Solutions{" "}
-                  </a>
+                    Qubitech Solutions
+                  </a>{" "}
+                  (2023 - 2024)
                 </li>
               </ul>
             </div>
