@@ -18,7 +18,7 @@ const rotateUp = keyframes`
 
 const TextContainer = styled.div`
   font-weight: bold;
-  color: black;
+
   display: flex;
   align-items: center;
   white-space: nowrap;
@@ -72,7 +72,7 @@ const AnimProfession = () => {
   }, [text, initialText]);
 
   return (
-    <TextContainer>
+    <TextContainer className="intro-text-style">
       <WebText>Software</WebText>
       <DeveloperText>
         {text.split("").map((char, index) => (

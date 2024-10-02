@@ -5,14 +5,34 @@ import styled, { keyframes } from "styled-components";
 import ContactForm from "./ContactForm";
 import { defaultColor } from "../constants";
 
+const Footer = ({ color = defaultColor }) => {
+  return (
+    <div className="custom-shadow-border mb-20 p-5">
+      <div className="title-text-style">CONTACT</div>
+      <FooterContainer color={color}>
+        <ContactForm color={color} />
+        <CopyrightText>
+          &copy; Tanvir Mitul {new Date().getFullYear()}
+        </CopyrightText>
+        <GameLink
+          href="https://tanvirim.github.io/simon-game"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Play Simon Game
+        </GameLink>
+      </FooterContainer>
+    </div>
+  );
+};
+
+export default Footer;
 const FooterContainer = styled.footer`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 10px;
-
-  background-color: transparent;
   text-align: center;
   padding: 20px 0;
 `;
@@ -42,7 +62,7 @@ const GameLink = styled.a`
   margin-top: 10px;
   display: inline-block;
   transition: color 0.3s ease;
-  animation: ${scaleAnimation} 2s alternate infinite ease-in-out; /* Add this line for default animation */
+  animation: ${scaleAnimation} 2s alternate infinite ease-in-out;
 
   &:before {
     content: "";
@@ -65,26 +85,3 @@ const GameLink = styled.a`
     }
   }
 `;
-
-const Footer = ({ color = defaultColor }) => {
-  return (
-    <div className="custom-shadow-border mb-20 p-5">
-      <div className="title-text-style">CONTACT</div>
-      <FooterContainer color={color}>
-        <ContactForm color={color} />
-        <CopyrightText>
-          &copy; Tanvir Mitul {new Date().getFullYear()}
-        </CopyrightText>
-        <GameLink
-          href="https://tanvirim.github.io/simon-game"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Play Simon Game
-        </GameLink>
-      </FooterContainer>
-    </div>
-  );
-};
-
-export default Footer;

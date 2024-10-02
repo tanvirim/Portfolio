@@ -33,6 +33,16 @@ body{
   font-weight: bold;
 
 }
+.intro-text-style{
+  font-size:25px;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #1ce5ff;
+  text-shadow: 0 5px 5px rgba(3, 107, 121, 0.4),0 3px 2px #aca3a3;
+  text-align: center;
+  font-weight: bold;
+
+}
 
 
 .title-text-style {

@@ -18,18 +18,16 @@ const ColorPicker = ({ colorStateForHome }) => {
 
   return (
     <>
-      <Container>
+      <Container color={color}>
         <div className="icon-container">
           {!showPicker ? (
             <MdFormatColorFill
               size="30px"
-              color={color}
               onClick={() => setShowPicker(!showPicker)}
             />
           ) : (
             <AiOutlineClose
               size="25px"
-              color={color}
               onClick={() => setShowPicker(!showPicker)}
             />
           )}
@@ -47,7 +45,7 @@ export default ColorPicker;
 
 const Container = styled.div`
   width: 90px;
-  background-color: white;
+  background-color: ${({ color }) => (color ? color : defaultColor)};
   border-radius: 5px;
   z-index: 99;
   position: relative;

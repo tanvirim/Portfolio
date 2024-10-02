@@ -75,7 +75,7 @@ const Section1 = styled.div`
   .color-picker {
     position: absolute;
     top: 60px;
-    left: 45%;
+    left: 50%;
     z-index: 5;
   }
   .intro {

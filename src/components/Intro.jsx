@@ -13,8 +13,8 @@ const Intro = ({ color }) => {
         alt="Profile Picture"
         className="w-[100px] h-[100px] md:w-[120px] md:h-[120px] rounded-full object-cover self-center"
       />
-      <h1 className="text-black font-bold text-3xl leading-none text-center uppercase transition-transform duration-300 ease-in-out hover:scale-110 flex flex-col">
-        Tanvir {"  "}Mitul
+      <h1 className="text-black font-bold text-3xl leading-none text-center  transition-transform duration-300 ease-in-out hover:scale-110 flex flex-col intro-text-style">
+        Tanvir Imam Mitul
       </h1>
       <AnimProfession />
       <SocialIcons color={color} />
