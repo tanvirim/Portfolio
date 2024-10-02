@@ -5,6 +5,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Define reusable color variables */
+:root {
+  --primary-color: #1ce5ff;
+  --secondary-color: #5153d6;
+  --background-color: #1A202C;
+  --text-color: rgb(219, 218, 218);
+  --shadow-color-1: rgba(3, 30, 179, 0.4);
+  --shadow-color-2: rgba(3, 107, 121, 0.4);
+  --shadow-color-3: #aca3a3;
+  --scrollbar-color: rgb(53, 53, 53);
+}
+
 * {
   font-family: 'Barlow', 'Poppins', 'Times New Roman', Times, serif;
   margin: 0;
@@ -12,9 +24,10 @@
   box-sizing: border-box;
   scroll-behavior: smooth;
 }
-body{
-  color: rgb(219, 218, 218) !important;
-  background-color: #1A202C !important;
+
+body {
+  color: var(--text-color) !important;
+  background-color: var(--background-color) !important;
 }
 
 .custom-shadow-border {
@@ -22,61 +35,84 @@ body{
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-
-.nav-text-style{
-  font-size:25px;
+.nav-text-style {
+  font-size: 25px;
   white-space: nowrap;
   overflow: hidden;
-  color: #1ce5ff;
-  text-shadow: 0 8px 5px rgba(3, 30, 179, 0.4),0 3px 2px #aca3a3;
+  color: var(--primary-color);
+  text-shadow: 0 8px 5px var(--shadow-color-1), 0 3px 2px var(--shadow-color-3);
   text-align: center;
   font-weight: bold;
-
-}
-.intro-text-style{
-  font-size:25px;
-  white-space: nowrap;
-  overflow: hidden;
-  color: #1ce5ff;
-  text-shadow: 0 5px 5px rgba(3, 107, 121, 0.4),0 3px 2px #aca3a3;
-  text-align: center;
-  font-weight: bold;
-
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
-
-.title-text-style {
-  font-size:50px;
-  white-space: nowrap;
-  overflow: hidden;
-  color: #1ce5ff;
-  text-shadow: 0 10px 7px rgba(3, 30, 179, 0.4),0 6px 1px #aca3a3;
-  text-align: center;
-  font-weight: bold;
-}
-
-.title-text-style:hover {
-  animation: glitch .2s linear infinite;
+.nav-text-style:hover {
+  transform: scale(1.05);
+  color: var(--secondary-color);
   cursor: pointer;
 }
 
-@keyframes glitch {
-  0% {
-    transform: translate(0);
-  }
-  20% {
-    transform: translate(-2px, 2px);
-  }
-  40% {
-    transform: translate(-2px, -2px);
-  }
-  60% {
-    transform: translate(2px, 2px);
-  }
-  80% {
-    transform: translate(2px, -2px);
-  }
-  100% {
-    transform: translate(0);
-  }
+.intro-text-style {
+  font-size: 25px;
+  white-space: nowrap;
+  overflow: hidden;
+  color: var(--primary-color);
+  text-shadow: 0 5px 5px var(--shadow-color-2), 0 3px 2px var(--shadow-color-3);
+  text-align: center;
+  font-weight: bold;
+  transition: transform 0.4s ease, color 0.4s ease;
+}
+
+
+.intro-text-style:hover {
+  transform: scale(1.05);
+  color: var(--secondary-color);
+ 
+}
+
+.title-text-style {
+  font-size: 50px;
+  white-space: nowrap;
+  overflow: hidden;
+  color: var(--primary-color);
+  text-shadow: 0 10px 7px var(--shadow-color-1), 0 6px 1px var(--shadow-color-3);
+  text-align: center;
+  font-weight: bold;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.title-text-style:hover {
+  transform: scale(1.05);
+  color: var(--secondary-color);
+  cursor: pointer;
+}
+
+/* React Modal Transitions */
+.ReactModal__Overlay {
+  opacity: 0;
+  transform: translateX(-100px);
+  transition: all 500ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+  transform: translateX(0px);
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+  transform: translateX(-100px);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-color);
+}
+
+::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 6px rgba(53, 52, 52, 0.3);
 }

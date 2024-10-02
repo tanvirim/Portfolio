@@ -11,7 +11,7 @@ const Intro = ({ color }) => {
       <img
         src={profilePic}
         alt="Profile Picture"
-        className="w-[100px] h-[100px] md:w-[120px] md:h-[120px] rounded-full object-cover self-center"
+        className="w-[100px] h-[100px] md:w-[150px] md:h-[150px] rounded-full object-cover self-center"
       />
       <h1 className="text-black font-bold text-3xl leading-none text-center  transition-transform duration-300 ease-in-out hover:scale-110 flex flex-col intro-text-style">
         Tanvir Imam Mitul
