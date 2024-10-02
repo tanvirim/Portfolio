@@ -19,6 +19,23 @@ export const educationHistory = [
 
 export const projects = [
   {
+    projectName: "Chalk Board App",
+    technologies: [
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "React",
+      "Canvas",
+      "MUI",
+      "Redux toolkit",
+    ],
+    projectDescription:
+      "Create, edit, and save drawings with ease. Download your work, receive notifications, and engage with others through comments and reactions. Explore and discover other users' creations using the search feature.",
+    liveLink: "https://chalkboard-mitul.netlify.app/create-drawing",
+    githubLink: "https://github.com/tanvirmitul1/whiteboard-application",
+    imageLink: "https://i.ibb.co.com/Tc5PVc0/image.png",
+  },
+  {
     projectName: "Game Hub | Search Your Game",
     technologies: ["React", "RAWG API", "Chakra UI", "React Query", "Justand"],
     projectDescription:

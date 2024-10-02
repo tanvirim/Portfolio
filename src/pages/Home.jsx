@@ -106,6 +106,11 @@ const Section1 = styled.div`
     .welcome {
       visibility: hidden;
     }
+    .intro {
+      position: absolute;
+      top: 120px;
+      left: 20px;
+    }
   }
 `;
 
