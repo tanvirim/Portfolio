@@ -19,6 +19,7 @@ import {
   SiReactquery,
   SiNetlify,
   SiVercel,
+  SiMysql,
 } from "react-icons/si";
 import { BiLogoTailwindCss } from "react-icons/bi";
 import {
@@ -42,7 +43,7 @@ const Skills = ({ color }) => {
       items: ["React.js", "Next.Js", "MUI", "Chakra UI"],
     },
     { category: "Back-End", items: ["NodeJs", "Express.js"] },
-    { category: "Database", items: ["MongoDB"] },
+    { category: "Database", items: ["MongoDB", "MySQL"] },
     { category: "CSS Frameworks", items: ["Tailwind CSS", "Bootstrap"] },
     {
       category: "State Management",
@@ -114,6 +115,8 @@ const Skills = ({ color }) => {
         return <DiIllustrator />;
       case "React Query":
         return <SiReactquery />;
+      case "MySQL":
+        return <SiMysql />;
       default:
         return null;
     }
