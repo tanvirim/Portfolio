@@ -111,9 +111,39 @@ const AboutMe = ({ color = defaultColor }) => {
             <div className="mt-6">
               <h3 className="text-2xl font-semibold mb-2">Work Experience</h3>
               <ul className="text-gray-300 list-disc ml-6">
-                <li>Software Developer at ABC Corp</li>
-                <li>Frontend Developer at XYZ Technologies</li>
-                <li>Intern at 123 Solutions</li>
+                <li>
+                  Software Developer at{" "}
+                  <a
+                    href="https://www.facebook.com/seopage1.dhaka"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {" "}
+                    Seopage1{" "}
+                  </a>
+                </li>
+                <li>
+                  Jr. Software Developer at{" "}
+                  <a
+                    href="https://www.facebook.com/seopage1.dhaka"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {" "}
+                    Seopage1{" "}
+                  </a>
+                </li>
+                <li>
+                  Intern at{" "}
+                  <a
+                    href="https://www.facebook.com/qubitechbd"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {" "}
+                    Qubitech Solutions{" "}
+                  </a>
+                </li>
               </ul>
             </div>
 
