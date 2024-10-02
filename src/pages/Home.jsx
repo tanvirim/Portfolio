@@ -22,7 +22,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="px-2 md:px-10 lg:px-40 2xl:px-100">
+      <div className="px-2 md:px-10 lg:px-40 lg:mx-20">
         <Section1>
           <Navbar color={color} />
           <div className="bar">
