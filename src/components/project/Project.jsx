@@ -10,7 +10,7 @@ import { AiOutlineDoubleRight } from "react-icons/ai";
 
 const ProjectCards = ({ color = defaultColor }) => {
   return (
-    <div className="custom-shadow-border mb-10">
+    <div className="custom-shadow-border mb-14 pb-4">
       <div className="title-text-style mb-6">Projects</div>
       <ProjectCardsContainer color={color}>
         {projects.map((project, index) => (
