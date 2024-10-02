@@ -20,8 +20,8 @@ const Container = styled.div`
   }
 
   @media screen and (min-width: 1080px) {
-    width: 350px;
-    height: 350px;
+    width: 400px;
+    height: 400px;
   }
 `;
 export default Bar;

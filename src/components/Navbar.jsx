@@ -30,20 +30,35 @@ const Navbar = ({ color = defaultColor }) => {
         </Logo>
         <MobileButton onClick={toggleMenu}>
           {isOpen ? (
-            <AiOutlineClose size="30px" color="black" />
+            <AiOutlineClose size="35px" className=" nav-text-style mr-4" />
           ) : (
-            <GiHamburgerMenu size="30px" color="black" />
+            <GiHamburgerMenu
+              size="35px"
+              color={color}
+              className=" nav-text-style mr-4"
+            />
           )}
         </MobileButton>
         <Menu color={color} {...(isOpen && { isopen: true })}>
           <MenuItem color={color}>
-            <ScrollLink to="projects">PROJECTS</ScrollLink>
+            <ScrollLink to="skills" className="nav-text-style">
+              SKILLS
+            </ScrollLink>
           </MenuItem>
           <MenuItem color={color}>
-            <ScrollLink to="about">ABOUT</ScrollLink>
+            <ScrollLink to="projects" className="nav-text-style">
+              PROJECTS
+            </ScrollLink>
           </MenuItem>
           <MenuItem color={color}>
-            <ScrollLink to="contact">CONTACT</ScrollLink>
+            <ScrollLink to="about" className="nav-text-style">
+              ABOUT
+            </ScrollLink>
+          </MenuItem>
+          <MenuItem color={color}>
+            <ScrollLink to="contact" className="nav-text-style">
+              CONTACT
+            </ScrollLink>
           </MenuItem>
         </Menu>
       </NavbarContent>
@@ -89,7 +104,7 @@ const Menu = styled.ul`
     right: ${({ isopen }) => (isopen ? "0" : "-100%")};
     background-color: ${({ color }) => (color ? color : defaultColor)};
     width: 100%;
-    height: 25vh;
+    height: 30vh;
     transition: right 0.3s ease-in-out;
   }
 `;

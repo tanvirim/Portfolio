@@ -23,7 +23,16 @@ body{
 }
 
 
+.nav-text-style{
+  font-size:25px;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #1ce5ff;
+  text-shadow: 0 8px 5px rgba(3, 30, 179, 0.4),0 3px 2px #aca3a3;
+  text-align: center;
+  font-weight: bold;
 
+}
 
 
 .title-text-style {
@@ -32,8 +41,6 @@ body{
   overflow: hidden;
   color: #1ce5ff;
   text-shadow: 0 10px 7px rgba(3, 30, 179, 0.4),0 6px 1px #aca3a3;
-  
-
   text-align: center;
   font-weight: bold;
 }

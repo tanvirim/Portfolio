@@ -22,13 +22,13 @@ const Home = () => {
 
   return (
     <>
-      <div className="px-2 md:px-10 lg:px-40">
+      <div className="px-2 md:px-10 lg:px-40 2xl:px-100">
         <Section1>
           <Navbar color={color} />
           <div className="bar">
             <Bar color={color} />
           </div>
-          <div className="intro mt-10">
+          <div className="intro ">
             <Intro color={color} />
           </div>
 
@@ -42,6 +42,9 @@ const Home = () => {
 
         <div id="about">
           <AboutMe color={color} />
+        </div>
+
+        <div id="skills">
           <Skills color={color} />
         </div>
 
@@ -71,8 +74,8 @@ const Section1 = styled.div`
   }
   .color-picker {
     position: absolute;
-    top: 10px;
-    left: 50%;
+    top: 60px;
+    left: 45%;
     z-index: 5;
   }
   .intro {

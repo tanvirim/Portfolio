@@ -51,6 +51,7 @@ const GitContributionsBar = ({ color }) => {
     grid-template-columns: repeat(7, 1fr);
     grid-gap: 5px;
     width: 20%;
+    margin-top: 20px;
 
     .column {
       position: relative;
@@ -76,10 +77,10 @@ const GitContributionsBar = ({ color }) => {
     }
     .column:hover .tooltip {
       display: block;
-      top: -60px; /* Adjust this value to position the tooltip as needed */
+      top: -60px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 99; /* Ensure the tooltip is above other elements */
+      z-index: 99;
     }
     .class1 {
       background-color: rgba(
