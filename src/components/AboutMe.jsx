@@ -14,6 +14,48 @@ Modal.setAppElement("#root");
 const AboutMe = ({ color = defaultColor }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Dynamic Data for AboutMe
+  const educationData = [
+    {
+      institution: "Rajshahi University of Engineering and Technology",
+      degree: "B.Sc. in MSE",
+      timeline: "2017 - 2022",
+    },
+    {
+      institution: "BCIC College",
+      degree: "Dept. of Science",
+      timeline: "2012 - 2016",
+    },
+    {
+      institution: "Kushtia Zilla School",
+      degree: "Secondary School",
+      timeline: "2009 - 2011",
+    },
+  ];
+
+  const hobbies = ["Coding", "Reading", "Traveling", "Photography"];
+
+  const workExperience = [
+    {
+      role: "Software Developer",
+      company: "Seopage1",
+      link: "https://www.facebook.com/seopage1.dhaka",
+      timeline: "2024 - Present",
+    },
+    {
+      role: "Jr. Software Developer",
+      company: "Seopage1",
+      link: "https://www.facebook.com/seopage1.dhaka",
+      timeline: "2024 - 2024",
+    },
+    {
+      role: "Intern",
+      company: "Qubitech Solutions",
+      link: "https://www.facebook.com/qubitechbd",
+      timeline: "2023 - 2024",
+    },
+  ];
+
   const openModal = () => {
     setIsOpen(true);
   };
@@ -27,7 +69,7 @@ const AboutMe = ({ color = defaultColor }) => {
       <div className="title-text-style text-white">ABOUT ME</div>
       <div className="relative p-10 mb-4 text-lg text-gray-200">
         <Text color={color}>
-          `As a <span>JavaScript</span> developer, I leverage a combination of{" "}
+          As a <span>JavaScript</span> developer, I leverage a combination of{" "}
           <span>object-oriented</span> and <span>functional programming</span>{" "}
           to efficiently solve challenges. My enthusiasm for learning extends to
           embracing <span>new technology stacks</span>. Moreover, I excel as a{" "}
@@ -81,7 +123,9 @@ const AboutMe = ({ color = defaultColor }) => {
 
               {/* Introduction */}
               <div>
-                <h2 className="text-3xl font-bold mb-4">Introduction</h2>
+                <h2 className="text-3xl font-bold mb-4 about-title-text-style ">
+                  Introduction
+                </h2>
                 <p className="text-gray-300 leading-relaxed">
                   I'm a passionate software developer with a focus on JavaScript
                   and modern web technologies. I love building efficient,
@@ -90,78 +134,49 @@ const AboutMe = ({ color = defaultColor }) => {
               </div>
             </div>
 
-            {/* Education Section with Time Length */}
+            {/* Dynamic Education Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
               <div>
-                <h3 className="text-2xl font-semibold mb-2">Education</h3>
-                <p className="text-gray-300">
-                  <strong>
-                    Rajshahi University of Engineering and Technology
-                  </strong>
-                  <br />
-                  B.Sc. in MSE (2017 - 2022) {/* Add your actual timeline */}
-                </p>
-
-                <p className="text-gray-300">
-                  <strong>BCIC College</strong>
-                  <br />
-                  Dept. of Science (2012 - 2016){" "}
-                  {/* Add your actual timeline */}
-                </p>
-                <p className="text-gray-300">
-                  <strong>Kushtia Zilla School</strong>
-                  <br />
-                  Secondary School (2009 - 2011)
-                  {/* Add your actual timeline */}
-                </p>
+                <h3 className="text-2xl font-semibold mb-2 about-title-text-style ">
+                  Education
+                </h3>
+                {educationData.map((edu, index) => (
+                  <p className="text-gray-300" key={index}>
+                    <strong>{edu.institution}</strong>
+                    <br />
+                    {edu.degree} ({edu.timeline})
+                  </p>
+                ))}
               </div>
 
-              {/* Hobbies */}
+              {/* Dynamic Hobbies */}
               <div>
-                <h3 className="text-2xl font-semibold mb-2">Hobbies</h3>
-                <p className="text-gray-300">
-                  Coding, Reading, Traveling, Photography.
-                </p>
+                <h3 className="text-2xl font-semibold mb-2 about-title-text-style ">
+                  Hobbies
+                </h3>
+                <p className="text-gray-300">{hobbies.join(", ")}</p>
               </div>
             </div>
 
-            {/* Work Experience Section with Time Length */}
+            {/* Dynamic Work Experience */}
             <div className="mt-6">
-              <h3 className="text-2xl font-semibold mb-2">Work Experience</h3>
+              <h3 className="text-2xl font-semibold mb-2 about-title-text-style ">
+                Work Experience
+              </h3>
               <ul className="text-gray-300 list-disc ml-6">
-                <li>
-                  <strong>Software Developer</strong> at{" "}
-                  <a
-                    href="https://www.facebook.com/seopage1.dhaka"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Seopage1
-                  </a>{" "}
-                  (2024 - Present) {/* Add your actual timeline */}
-                </li>
-                <li>
-                  <strong>Jr. Software Developer</strong> at{" "}
-                  <a
-                    href="https://www.facebook.com/seopage1.dhaka"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Seopage1
-                  </a>{" "}
-                  (2024 - 2024)
-                </li>
-                <li>
-                  <strong>Intern</strong> at{" "}
-                  <a
-                    href="https://www.facebook.com/qubitechbd"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Qubitech Solutions
-                  </a>{" "}
-                  (2023 - 2024)
-                </li>
+                {workExperience.map((work, index) => (
+                  <li key={index}>
+                    <strong>{work.role}</strong> at{" "}
+                    <a
+                      href={work.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {work.company}
+                    </a>{" "}
+                    ({work.timeline})
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -170,7 +185,7 @@ const AboutMe = ({ color = defaultColor }) => {
               <a
                 href="/path-to-your-resume.pdf"
                 download
-                className="flex items-center px-4 py-2 bg-indigo-500 text-white rounded-md hover:scale-105 transition-transform"
+                className="flex items-center px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition-transform"
               >
                 Download Resume
                 <AiOutlineDownload className="ml-2" />

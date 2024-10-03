@@ -121,12 +121,7 @@ const Skills = ({ color }) => {
         return null;
     }
   };
-  const SkillsTitle = styled.h1`
-    font-size: 25px;
-    text-align: center;
-    box-shadow: 0px 10px 30px rgba(0, 128, 255, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  `;
+
   return (
     <div className="custom-shadow-border mb-20 p-5">
       <div className="title-text-style mb-5">SKILLS</div>

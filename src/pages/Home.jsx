@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ColorPicker from "../components/ColorPicker";
 import GitContributionsBar from "../components/GitContributions";
 import Navbar from "../components/Navbar";
@@ -15,6 +15,32 @@ import { defaultColor } from "../constants";
 import Welcome from "../components/Welcome";
 
 const Home = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isClicked, setIsClicked] = useState(false);
+
+  // Track the mouse position
+  useEffect(() => {
+    const handleMouseMove = (event) => {
+      setMousePosition({
+        x: event.clientX,
+        y: event.clientY,
+      });
+    };
+
+    const handleMouseClick = () => {
+      setIsClicked(true);
+      setTimeout(() => setIsClicked(false), 300);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousedown", handleMouseClick);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousedown", handleMouseClick);
+    };
+  }, []);
+
   const [color, setColor] = useState(defaultColor);
 
   const handleColorState = (newState) => {
@@ -23,6 +49,14 @@ const Home = () => {
 
   return (
     <>
+      <div
+        className="custom-cursor"
+        style={{
+          left: `${mousePosition.x}px`,
+          top: `${mousePosition.y}px`,
+          transform: isClicked ? "scale(1.5)" : "scale(1)",
+        }}
+      />
       <div className="px-2 md:px-10 lg:px-20 ">
         <Section1>
           <Navbar color={color} />
