@@ -103,7 +103,7 @@ const AboutMe = ({ color = defaultColor }) => {
           }}
         >
           <button
-            className="absolute top-2 right-2 text-gray-400 hover:text-white"
+            className="absolute top-0 right-4 text-gray-400 hover:text-white text-6xl"
             onClick={closeModal}
           >
             &times;
@@ -134,6 +134,28 @@ const AboutMe = ({ color = defaultColor }) => {
               </div>
             </div>
 
+            {/* Dynamic Work Experience */}
+            <div className="mt-6">
+              <h3 className="text-2xl font-semibold mb-2 about-title-text-style ">
+                Work Experience
+              </h3>
+              <ul className="text-gray-300 list-disc ml-6">
+                {workExperience.map((work, index) => (
+                  <li key={index}>
+                    <strong>{work.role}</strong> at{" "}
+                    <a
+                      href={work.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {work.company}
+                    </a>{" "}
+                    ({work.timeline})
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             {/* Dynamic Education Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
               <div>
@@ -156,28 +178,6 @@ const AboutMe = ({ color = defaultColor }) => {
                 </h3>
                 <p className="text-gray-300">{hobbies.join(", ")}</p>
               </div>
-            </div>
-
-            {/* Dynamic Work Experience */}
-            <div className="mt-6">
-              <h3 className="text-2xl font-semibold mb-2 about-title-text-style ">
-                Work Experience
-              </h3>
-              <ul className="text-gray-300 list-disc ml-6">
-                {workExperience.map((work, index) => (
-                  <li key={index}>
-                    <strong>{work.role}</strong> at{" "}
-                    <a
-                      href={work.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {work.company}
-                    </a>{" "}
-                    ({work.timeline})
-                  </li>
-                ))}
-              </ul>
             </div>
 
             {/* Resume Download */}

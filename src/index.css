@@ -42,7 +42,7 @@ body {
   overflow: hidden;
   color: var(--primary-color);
   text-shadow: 0 8px 5px var(--shadow-color-1), 0 3px 2px var(--shadow-color-3);
-  text-align: center;
+
   font-weight: bold;
   transition: transform 0.3s ease, color 0.3s ease;
 }
