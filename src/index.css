@@ -132,28 +132,47 @@ body {
   box-shadow: inset 0 0 6px rgba(53, 52, 52, 0.3);
 }
 
-.custom-cursor {
+.custom-cursor-bg {
   position: fixed;
   top: 0;
   left: 0;
-  width: 60px;
-  height: 60px;
-  background-color: rgb(255, 255, 0);
-  box-shadow: 0 0 80px rgba(255, 223, 0, 0.9), 
-    0 0 100px rgba(255, 223, 0, 0.9), 
-    0 0 140px rgba(255, 223, 0, 0.9),
-    0 0 190px rgba(255, 140, 0, 0.9), 
-    inset 0 0 20px rgba(255, 255, 224, 0.9); 
   border-radius: 50%;
   pointer-events: none;
   transform: translate(-50%, -50%);
   transition: transform 0.2s ease-out, opacity 0.2s ease-out;
-  z-index: 0;
-
-  &.click {
-    transform: scale(1.5);
-    transition: transform 0.1s ease-in;
-  }
-
+  width: 20vmax;
+  height: 20vmax;
+    background: linear-gradient(90deg, #3effe8 1.98%, #3effe8 1.99%, #8c0fee);
+    filter: blur(60px);
+    z-index: -1;
+    transform: rotate(0deg) scale(1);
+    animation: breathe 8s linear infinite;
   
 }
+
+.custom-cursor-icon {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: 1px solid rgb(26, 212, 236);
+  z-index: 99999;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+.custom-cursor-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px; 
+  height: 8px; 
+  background-color: rgb(26, 212, 236);
+  border-radius: 50%;
+  transform: translate(-50%, -50%); 
+}
+

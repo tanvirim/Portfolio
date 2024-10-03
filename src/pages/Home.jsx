@@ -50,13 +50,21 @@ const Home = () => {
   return (
     <>
       <div
-        className="custom-cursor"
+        className="custom-cursor-icon"
         style={{
           left: `${mousePosition.x}px`,
           top: `${mousePosition.y}px`,
           transform: isClicked ? "scale(1.5)" : "scale(1)",
         }}
       />
+      <div
+        className="custom-cursor-bg"
+        style={{
+          left: `${mousePosition.x - 100}px`,
+          top: `${mousePosition.y - 100}px`,
+        }}
+      />
+
       <div className="px-2 md:px-10 lg:px-20 ">
         <Section1>
           <Navbar color={color} />
