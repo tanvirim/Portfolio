@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import Modal from "react-modal"; // Make sure to install react-modal
-import styled, { createGlobalStyle } from "styled-components";
+import Modal from "react-modal";
+import styled, { createGlobalStyle, keyframes } from "styled-components";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useState } from "react";
 
@@ -8,13 +8,13 @@ import { useState } from "react";
 const GlobalStyle = createGlobalStyle`
   @media (max-width: 600px) {
     .modal {
-      padding: 10px; /* Less padding on mobile */
+      padding: 10px;
     }
     h2 {
-      font-size: 1.2rem; /* Responsive font size */
+      font-size: 1.2rem;
     }
     img {
-      max-height: 300px; /* Limit image height on mobile */
+      max-height: 300px;
     }
   }
 `;
@@ -30,9 +30,11 @@ const ProjectModal = ({
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
+  const [loading, setLoading] = useState(true); // State to track image loading
 
   const handleImageChange = (newIndex) => {
     setTransitioning(true);
+    setLoading(true); // Set loading to true when changing image
     setTimeout(() => {
       setCurrentImageIndex(newIndex);
       setTransitioning(false);
@@ -51,6 +53,10 @@ const ProjectModal = ({
     }
   };
 
+  const handleImageLoad = () => {
+    setLoading(false); // Set loading to false when image is loaded
+  };
+
   return (
     <>
       <GlobalStyle />
@@ -67,7 +73,6 @@ const ProjectModal = ({
             padding: "10px",
             margin: "0 auto",
             backgroundColor: "rgb(17, 24, 39)",
-
             border: "none",
             width: "90%",
             borderRadius: "10px",
@@ -92,10 +97,13 @@ const ProjectModal = ({
                 fontSize: "30px",
               }}
             />
+            {loading && <Loader />} {/* Show loader when loading is true */}
             <img
               src={project.images[currentImageIndex]}
               alt={project.projectName}
+              onLoad={handleImageLoad} // Trigger when image has loaded
               className={`${transitioning ? "fade-out" : "fade-in"} rounded-lg`}
+              style={{ display: loading ? "none" : "block" }} // Hide image until loaded
             />
             <FaChevronRight
               onClick={nextImage}
@@ -204,4 +212,23 @@ const NavButton = styled.button`
   &:hover {
     background-color: ${({ disabled }) => (disabled ? "#ccc" : "#5c6bc0")};
   }
+`;
+
+// Loader animation
+const spin = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+const Loader = styled.div`
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid white;
+  width: 80px;
+  height: 80px;
+  animation: ${spin} 1s linear infinite;
 `;
