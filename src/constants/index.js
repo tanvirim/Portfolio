@@ -34,6 +34,16 @@ export const projects = [
     liveLink: "https://chalkboard-mitul.netlify.app/create-drawing",
     githubLink: "https://github.com/tanvirmitul1/whiteboard-application",
     imageLink: "https://i.ibb.co.com/Tc5PVc0/image.png",
+
+    images: [
+      "https://i.ibb.co.com/9sjGcDp/image.png",
+      "https://i.ibb.co.com/gtyvtJY/image.png/image.png",
+      "https://i.ibb.co.com/Cm0WwVr/image.png",
+      "https://i.ibb.co.com/0V8v1P4/image.png",
+      "https://i.ibb.co.com/SR0j9JQ/image.png",
+      "https://i.ibb.co.com/pwRTGtL/image.png",
+      "https://i.ibb.co.com/KztcJjQ/image.png",
+    ],
   },
   {
     projectName: "Game Hub | Search Your Game",
@@ -43,6 +53,11 @@ export const projects = [
     liveLink: "https://game-lab-tanvirim.vercel.app/",
     githubLink: "https://github.com/tanvirim/Game-Lab/",
     imageLink: "https://i.ibb.co.com/xFr80P8/image.png",
+
+    images: [
+      "https://i.ibb.co.com/p0BgkfN/image.png",
+      "https://i.ibb.co.com/3C5x3QD/image.png",
+    ],
   },
   {
     projectName: "Dua App",
@@ -59,6 +74,10 @@ export const projects = [
     liveLink: "https://dualist.vercel.app/",
     githubLink: "https://github.com/tanvirim/IRD-Foundation",
     imageLink: "https://i.ibb.co.com/CnyfH1R/image.png",
+    images: [
+      "https://i.ibb.co.com/k95Zrbv/image.png",
+      "https://i.ibb.co.com/vkHxtKh/image.png",
+    ],
   },
   {
     projectName: "The Chat App!",
@@ -74,6 +93,11 @@ export const projects = [
     liveLink: "https://chat-app-client-kydmfnloo-tanvirim.vercel.app/",
     githubLink: "https://github.com/tanvirim/Chat-App",
     imageLink: "https://i.ibb.co.com/qyqRrCP/image.png",
+    images: [
+      "https://i.ibb.co.com/S0hvjLS/image.png",
+      "https://i.ibb.co.com/k1XL3SX/image.png",
+      "https://i.ibb.co.com/1MKpBXJ/image.png",
+    ],
   },
   {
     projectName: "Expense Management App",
@@ -83,6 +107,7 @@ export const projects = [
     liveLink: "https://adorable-pink-pantyhose.cyclic.cloud/",
     githubLink: "https://github.com/Tanvir-Mitul/GameHub-App",
     imageLink: "https://i.ibb.co.com/tK67c1L/image.png",
+    images: ["https://i.ibb.co.com/tK67c1L/image.png"],
   },
 
   {
@@ -100,6 +125,11 @@ export const projects = [
     liveLink: "https://employee-evaluation.netlify.app/admin-dashboard",
     githubLink: "https://github.com/tanvirim/employee-evaluation",
     imageLink: "https://i.ibb.co.com/PD8Wq52/image.png",
+    images: [
+      "https://i.ibb.co.com/phJjHzS/image.png",
+      "https://i.ibb.co.com/th7z25p/image.png",
+      "https://i.ibb.co.com/PD8Wq52/image.png",
+    ],
   },
 ];
 export const StaticDate = [

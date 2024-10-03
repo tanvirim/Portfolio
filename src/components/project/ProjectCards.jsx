@@ -4,23 +4,55 @@ import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { defaultColor, projects } from "../../constants";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
-
 import { Link } from "react-router-dom";
 import { AiOutlineDoubleRight } from "react-icons/ai";
+import { useState } from "react";
+import ProjectModal from "./ProjectModal"; // Import the new ProjectModal component
 
 const ProjectCards = ({ color = defaultColor }) => {
   const location = useLocation();
   const isRootRoute = location.pathname === "/";
-  const displayedProjects = isRootRoute ? projects.slice(0, 3) : projects;
+  const displayedProjects = isRootRoute ? projects.slice(0, 6) : projects;
+
+  // State for modal visibility and current project index
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+
+  const openModal = (index) => {
+    setCurrentProjectIndex(index);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const nextProject = () => {
+    if (currentProjectIndex < displayedProjects.length - 1) {
+      setCurrentProjectIndex((prevIndex) => prevIndex + 1);
+    }
+  };
+
+  const prevProject = () => {
+    if (currentProjectIndex > 0) {
+      setCurrentProjectIndex((prevIndex) => prevIndex - 1);
+    }
+  };
+
+  const currentProject = displayedProjects[currentProjectIndex];
 
   return (
     <div className="custom-shadow-border mb-14 pb-4">
       <div className="title-text-style mb-6">Projects</div>
       <ProjectCardsContainer color={color}>
         {displayedProjects.map((project, index) => (
-          <ProjectCard color={color} key={index}>
+          <ProjectCard
+            color={color}
+            key={index}
+            onClick={() => openModal(index)}
+          >
             <img
-              className="h-[140px]  object-cover rounded-t-lg "
+              className="h-[140px] object-cover rounded-t-lg"
               src={project.imageLink}
               alt={project.projectName}
             />
@@ -66,6 +98,17 @@ const ProjectCards = ({ color = defaultColor }) => {
           <AiOutlineDoubleRight />
         </StyledLearnMoreButton>
       )}
+
+      {/* Modal for image slider */}
+      <ProjectModal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        project={currentProject}
+        nextProject={nextProject}
+        prevProject={prevProject}
+        isNextDisabled={currentProjectIndex === displayedProjects.length - 1}
+        isPrevDisabled={currentProjectIndex === 0}
+      />
     </div>
   );
 };
@@ -114,57 +157,47 @@ const ProjectCard = styled.div`
   flex-direction: column;
   height: fit-content;
   background: rgba(173, 216, 230, 0.2);
-  box-shadow: 0px 20px 30px rgba(0, 128, 255, 0.2);
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 
   h3 {
-    color: ${({ color }) => (color ? color : defaultColor)};
     font-size: 20px;
-    margin-bottom: 5px;
-    text-align: center;
-  }
-
-  p {
-    margin-top: 10px;
+    color: ${({ color }) => (color ? color : defaultColor)};
   }
 
   ul {
     list-style: none;
     padding: 0;
-    display: flex;
-    flex-wrap: wrap; /* Display technologies as a flex row */
   }
 
   li {
-    margin-right: 10px;
+    display: inline;
   }
 
   .technology-button {
-    background-color: ${({ color }) => (color ? color : defaultColor)};
-    color: #fff;
-    padding: 5px 10px;
+    background: ${({ color }) => (color ? color : defaultColor)};
+    color: white;
+    padding: 5px;
+    margin: 2px;
     border: none;
     border-radius: 5px;
-    font-size: 10px;
-    margin-bottom: 5px;
-  }
+    cursor: pointer;
+    transition: background 0.3s;
 
-  .project-links {
-    margin-top: 5px;
-    margin-right: 10px;
-    display: flex;
-
-    a {
-      margin-right: 20px; /* Add spacing between links */
-      text-decoration: none;
-      transition: transform 0.3s;
-      &:hover {
-        transform: scale(1.2);
-      }
+    &:hover {
+      background: #3f51b5;
     }
   }
 
+  .project-links {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
   &:hover {
-    transform: scale(1.025);
+    transform: scale(1.05);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
   }
 `;

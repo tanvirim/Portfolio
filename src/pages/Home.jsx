@@ -8,7 +8,7 @@ import Intro from "../components/Intro";
 import Bar from "../components/Bar";
 import AboutMe from "../components/AboutMe";
 
-import ProjectCards from "../components/project/Project";
+import ProjectCards from "../components/project/ProjectCards";
 import Skills from "../components/Skills";
 import Footer from "../components/Footer";
 import { defaultColor } from "../constants";

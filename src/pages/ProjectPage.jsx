@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import ProjectCards from "../components/project/Project";
+import ProjectCards from "../components/project//ProjectCards";
 
 const ProjectPage = () => {
   const navigate = useNavigate();
