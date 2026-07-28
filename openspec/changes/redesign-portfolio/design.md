@@ -29,15 +29,15 @@ The About page (`AboutPage.jsx` + `components/aboutPage/*`) duplicates and fragm
 *Alternative considered*: keep `/about` as the canonical detailed page and slim down the home-page modal — rejected because the single-page scroll is the primary/shared entry point (nav links, resume, etc. anchor to it) and splitting content increases duplication risk again.
 
 **3. Design tokens via Tailwind theme extension, not a parallel CSS-variable system.**
-Define the color palette, font scale, spacing, and breakpoints in `tailwind.config.js` `theme.extend`, and drop the free-form runtime `ColorPicker`/`defaultColor` accent-swapping feature. `styled-components` usage is reduced to cases Tailwind can't express cleanly (e.g., keyframe-heavy custom cursor); those pull their values from the same token set via a small exported JS theme object, not separate hardcoded hex codes.
+Define the color palette, font scale, spacing, and breakpoints in `tailwind.config.js` `theme.extend`, and drop the free-form runtime `ColorPicker`/`defaultColor` accent-swapping feature. During implementation, every remaining `styled-components` usage turned out to translate cleanly to Tailwind utilities (including the keyframe-heavy custom cursor, moved to plain CSS `@keyframes` in `index.css`), so `styled-components` was dropped entirely rather than kept for edge cases — simpler than the originally planned "Tailwind + a small styled-components JS theme object" split, with one styling system instead of two.
 *Alternative considered*: keep styled-components as the primary styling layer — rejected; Tailwind is already the dominant approach and consolidating avoids maintaining two parallel styling mental models. Chakra UI is dropped entirely (lightly used, redundant with Tailwind).
 
 **4. One animation library: Framer Motion.**
 Replace hand-rolled CSS `@keyframes` (in styled-components) for page/section transitions, reveal-on-scroll, and hover effects with Framer Motion, since it's already a dependency. Keep small, cheap pure-CSS transitions (e.g., `:hover` color changes) as plain CSS/Tailwind — Framer Motion is for orchestrated/entrance animations only, not a blanket replacement of every transition.
 *Alternative considered*: drop Framer Motion and keep CSS keyframes — rejected since it's a sunk dependency and gives easier scroll-triggered/staggered animations for a "professional, amazing" feel.
 
-**5. One carousel: keep `react-slick` (`slick-carousel`), drop `nuka-carousel`.**
-`react-slick` is the more actively maintained/broadly used option of the two already present. Remove `nuka-carousel` from `package.json` and any usage.
+**5. Zero carousels: drop both `nuka-carousel` and `react-slick`/`slick-carousel`.**
+The redesigned project cards use curated project data without per-project image galleries, so the modal/slider UI that justified a carousel library no longer exists. Rather than keep one carousel dependency unused "for exactly one library" compliance, both were removed — the requirement's intent (no redundant carousel libraries) is satisfied more simply by having none.
 
 **6. Breakpoint scale: Tailwind defaults (`sm 640`, `md 768`, `lg 1024`, `xl 1280`, `2xl 1536`) used consistently everywhere, replacing ad hoc `max-width: 768px` styled-components media queries.**
 Any remaining styled-components media queries are rewritten to match these same pixel values so behavior is consistent whether a component uses Tailwind classes or styled-components.

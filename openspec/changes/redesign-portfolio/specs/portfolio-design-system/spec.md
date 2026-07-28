@@ -32,12 +32,12 @@ The system SHALL implement entrance/scroll/orchestrated animations using Framer 
 - **WHEN** a visitor scrolls a new section into view
 - **THEN** the section's entrance animation is driven by Framer Motion, not a component-local CSS `@keyframes` block duplicating the same effect
 
-### Requirement: Single carousel implementation
-The system SHALL use exactly one carousel library across the site. Any redundant second carousel dependency SHALL be removed along with its usages.
+### Requirement: At most one carousel implementation
+The system SHALL use at most one carousel library across the site. Redundant carousel dependencies SHALL be removed along with their usages; if no page uses carousel UI, no carousel library SHALL be listed as a dependency.
 
-#### Scenario: Only one carousel package remains
+#### Scenario: No redundant carousel packages remain
 - **WHEN** the project's dependency manifest is inspected after this change
-- **THEN** only one carousel-related package is listed, and it is the one actively used by all carousel UI on the site
+- **THEN** at most one carousel-related package is listed, and if present it is actively used by carousel UI on the site — never two competing carousel libraries
 
 ### Requirement: Terminal-style streaming introduction
 The system SHALL present a terminal/CLI-style animated introduction as the hero section's signature element, streaming the developer's name, title, and key profile facts sourced from the same content data module used elsewhere on the site. The streamed text SHALL be present in the DOM as real text at render time, with the animation implemented as a visual reveal (not delayed content injection).
