@@ -1,11 +1,16 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import styled from "styled-components";
-import brandImage from "../assets/brand.png";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { AiOutlineClose } from "react-icons/ai";
+import { AnimatePresence, motion } from "framer-motion";
+import { Menu as MenuIcon, X } from "lucide-react";
 import { defaultColor } from "../constants";
-import { Link as ScrollLink, animateScroll as scroll } from "react-scroll";
+import { Link as ScrollLink } from "react-scroll";
+
+const NAV_ITEMS = [
+  { to: "skills", label: "SKILLS" },
+  { to: "projects", label: "PROJECTS" },
+  { to: "about", label: "ABOUT" },
+  { to: "contact", label: "CONTACT" },
+];
 
 const Navbar = ({ color = defaultColor }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,130 +20,61 @@ const Navbar = ({ color = defaultColor }) => {
   };
 
   return (
-    <NavbarContainer>
-      <NavbarContent>
-        <Logo>
-          <a
-            href="/"
-            onClick={(e) => {
-              e.preventDefault();
-              scroll.scrollToTop();
-            }}
-          >
-            <img width={50} src={brandImage} alt="Brand Logo" />
-          </a>
-        </Logo>
-        <MobileButton onClick={toggleMenu}>
+    <nav className="relative bg-transparent">
+      <div className="bg-transparent flex justify-between md:justify-start items-center md:gap-10">
+        <button
+          className="bg-transparent z-[99] cursor-pointer p-1.5 sm:p-2.5 md:hidden"
+          onClick={toggleMenu}
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+        >
           {isOpen ? (
-            <AiOutlineClose size="35px" className=" nav-text-style mr-4" />
+            <X size={26} className="nav-text-style" />
           ) : (
-            <GiHamburgerMenu
-              size="35px"
-              color={color}
-              className=" nav-text-style mr-4"
-            />
+            <MenuIcon size={26} color={color} className="nav-text-style" />
           )}
-        </MobileButton>
-        <Menu color={color} {...(isOpen && { isopen: true })}>
-          <MenuItem color={color}>
-            <ScrollLink to="skills" className="nav-text-style">
-              SKILLS
-            </ScrollLink>
-          </MenuItem>
-          <MenuItem color={color}>
-            <ScrollLink to="projects" className="nav-text-style">
-              PROJECTS
-            </ScrollLink>
-          </MenuItem>
-          <MenuItem color={color}>
-            <ScrollLink to="about" className="nav-text-style">
-              ABOUT
-            </ScrollLink>
-          </MenuItem>
-          <MenuItem color={color}>
-            <ScrollLink to="contact" className="nav-text-style">
-              CONTACT
-            </ScrollLink>
-          </MenuItem>
-        </Menu>
-      </NavbarContent>
-    </NavbarContainer>
+        </button>
+
+        <ul className="hidden md:flex bg-transparent list-none gap-5 p-2.5">
+          {NAV_ITEMS.map((item) => (
+            <li
+              key={item.to}
+              className="text-xl font-bold cursor-pointer transition-all duration-300 ease-in-out hover:scale-[1.2]"
+              style={{ color }}
+            >
+              <ScrollLink to={item.to} className="nav-text-style">
+                {item.label}
+              </ScrollLink>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.ul
+            initial={{ opacity: 0, y: -8, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.98 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="md:hidden absolute left-0 top-full mt-2 z-[9] flex flex-col items-center list-none w-48 rounded-lg overflow-hidden shadow-lg"
+            style={{ backgroundColor: color }}
+          >
+            {NAV_ITEMS.map((item) => (
+              <li key={item.to} className="w-full text-center">
+                <ScrollLink
+                  to={item.to}
+                  onClick={() => setIsOpen(false)}
+                  className="block py-3 text-white font-bold cursor-pointer hover:brightness-90 transition-all"
+                >
+                  {item.label}
+                </ScrollLink>
+              </li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </nav>
   );
 };
-
-const NavbarContainer = styled.nav`
-  background-color: transparent;
-`;
-
-const NavbarContent = styled.div`
-  background-color: transparent;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Logo = styled.a`
-  cursor: pointer;
-  font-size: 24px;
-  font-weight: bold;
-
-  img {
-    background-color: transparent;
-  }
-`;
-
-const Menu = styled.ul`
-  display: flex;
-  background-color: transparent;
-  z-index: 9;
-  list-style: none;
-  display: flex;
-  gap: 20px;
-  padding: 10px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    right: ${({ isopen }) => (isopen ? "0" : "-100%")};
-    background-color: ${({ color }) => (color ? color : defaultColor)};
-    width: 100%;
-    height: 30vh;
-    transition: right 0.3s ease-in-out;
-  }
-`;
-
-const MenuItem = styled.li`
-  font-size: 20px;
-  color: ${({ color }) => (color ? color : defaultColor)};
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-
-  &:hover {
-    transform: scale(1.2);
-  }
-
-  @media (max-width: 768px) {
-    color: white;
-    background-color: ${({ color }) => (color ? color : defaultColor)};
-    padding-top: 8px;
-    text-align: center;
-    height: 40px;
-    width: 100%;
-  }
-`;
-
-const MobileButton = styled.button`
-  background-color: transparent;
-  display: none;
-  z-index: 99;
-  cursor: pointer;
-  padding: 10px;
-  @media (max-width: 768px) {
-    display: block;
-  }
-`;
 
 export default Navbar;
