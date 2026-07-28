@@ -1,81 +1,72 @@
 /* eslint-disable react/prop-types */
 
-import styled from "styled-components";
-import { ChromePicker } from "react-color";
 import { useState } from "react";
-import { MdFormatColorFill } from "react-icons/md";
-import { AiOutlineClose } from "react-icons/ai";
+import { Palette, Check } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { defaultColor } from "../constants";
+
+const PRESET_COLORS = [
+  "#10b981", // emerald (default)
+  "#1ce5ff", // cyan
+  "#5153d6", // indigo
+  "#8b5cf6", // violet
+  "#ec4899", // pink
+  "#f59e0b", // amber
+  "#ef4444", // red
+  "#0ea5e9", // sky
+];
 
 const ColorPicker = ({ colorStateForHome }) => {
   const [color, setColor] = useState(defaultColor);
-  const [showPicker, setShowPicker] = useState(false);
 
-  const handleChange = (color) => {
-    setColor(color.hex);
-    colorStateForHome(color.hex);
+  const handleChange = (hex) => {
+    setColor(hex);
+    colorStateForHome(hex);
   };
 
   return (
-    <>
-      <Container color={color}>
-        <div className="icon-container">
-          {!showPicker ? (
-            <MdFormatColorFill
-              size="30px"
-              onClick={() => setShowPicker(!showPicker)}
-            />
-          ) : (
-            <AiOutlineClose
-              size="25px"
-              onClick={() => setShowPicker(!showPicker)}
-            />
-          )}
+    <Popover>
+      <PopoverTrigger asChild>
+        <button
+          aria-label="Change accent color"
+          className="game-btn-circle w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border border-white/10"
+          style={{ backgroundColor: color }}
+        >
+          <Palette size={16} className="text-white drop-shadow" />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent
+        align="end"
+        collisionPadding={16}
+        className="w-56 max-w-[calc(100vw-2rem)] bg-popover text-popover-foreground border border-border"
+      >
+        <p className="text-xs text-muted-foreground mb-1 px-1">Accent color</p>
+        <div className="grid grid-cols-4 gap-2 px-1">
+          {PRESET_COLORS.map((preset) => (
+            <button
+              key={preset}
+              aria-label={preset}
+              onClick={() => handleChange(preset)}
+              className="game-btn-circle w-9 h-9 rounded-full flex items-center justify-center border border-border"
+              style={{ backgroundColor: preset }}
+            >
+              {preset === color && <Check size={16} className="text-white drop-shadow" />}
+            </button>
+          ))}
         </div>
-
-        <div className={`hidden-component ${showPicker ? "visible" : ""}`}>
-          {showPicker && <ChromePicker color={color} onChange={handleChange} />}
+        <div className="flex items-center gap-2 mt-3 px-1">
+          <input
+            type="color"
+            value={color}
+            onChange={(event) => handleChange(event.target.value)}
+            className="w-9 h-9 rounded-full border border-border bg-transparent cursor-pointer p-0 [&::-webkit-color-swatch-wrapper]:p-0 [&::-webkit-color-swatch]:rounded-full [&::-webkit-color-swatch]:border-none"
+            aria-label="Custom color"
+          />
+          <span className="text-xs text-muted-foreground font-mono">{color}</span>
         </div>
-      </Container>
-    </>
+      </PopoverContent>
+    </Popover>
   );
 };
 
 export default ColorPicker;
-
-const Container = styled.div`
-  background-color: ${({ color }) => (color ? color : defaultColor)};
-  border-radius: 5px;
-  z-index: 99;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 10px;
-  width: 60px;
-  box-shadow: 0 2px 4px rgba(46, 42, 42, 0.8);
-
-  .hidden-component {
-    display: none;
-    position: absolute;
-    top: 70px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    padding: 10px;
-    box-shadow: 0 2px 4px rgba(46, 42, 42, 0.8);
-  }
-
-  .visible {
-    display: block;
-    z-index: 999;
-  }
-  .icon-container {
-    transition: all 0.3s ease-in-out;
-  }
-  .icon-container:hover {
-    transform: scale(1.3);
-    cursor: pointer;
-  }
-`;

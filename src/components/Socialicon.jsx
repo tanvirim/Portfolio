@@ -7,20 +7,20 @@ import { defaultColor } from '../constants';
 const SocialIcons = ({color=defaultColor}) => {
   const icons = [
     {
-      url: "https://github.com/tanvirim",
-      icon: <FaGithub color={color ? color : defaultColor} size={32} />,
+      url: "https://github.com/tanvirmitul1",
+      icon: <FaGithub color={color ? color : defaultColor} size={22} />,
     },
     {
       url: "https://www.linkedin.com/in/tanu0/",
-      icon: <FaLinkedin color={color ? color : defaultColor} size={32} />,
+      icon: <FaLinkedin color={color ? color : defaultColor} size={22} />,
     },
     {
       url: "https://www.hackerrank.com/blackpanther1411",
-      icon: <FaHackerrank color={color ? color : defaultColor} size={32} />,
+      icon: <FaHackerrank color={color ? color : defaultColor} size={22} />,
     },
     {
       url: "https://www.facebook.com/tanu0",
-      icon: <FaFacebook size={32} color={color ? color : defaultColor} />,
+      icon: <FaFacebook size={22} color={color ? color : defaultColor} />,
     },
   ];
 
@@ -44,7 +44,7 @@ const SocialIcons = ({color=defaultColor}) => {
 const Container = styled.div`
   display: flex;
   justify-content: flex-start;
-  gap: 15px;
+  gap: 10px;
   a {
     animation: wave 5s linear infinite; /* Add the wave animation */
     animation-fill-mode: both;

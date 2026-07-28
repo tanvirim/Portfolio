@@ -4,15 +4,14 @@ const Introduction = () => {
     <div className='p-4'>
       <h2 className='text-2xl font-semibold mb-4'>Introduction</h2>
       <p>
-        Hi, I'm Tanvir Mitul, `As a JavaScript developer specializing in the
-        MERN stack , I'm dedicated to crafting dynamic web applications. I
-        leverage a combination of object-oriented and functional programming to
-        efficiently solve challenges. My enthusiasm for learning extends to
-        embracing new technology stacks ,and my proficiency in TypeScript
-        further enhances my adaptability, making me a valuable asset for any
-        software development team. Moreover, I excel as a team player and
-        demonstrate strong leadership skills, effectively collaborating with
-        colleagues to achieve our shared objectives.
+        Hi, I'm Tanvir Imam Mitul, a Full Stack Engineer with a DevOps focus.
+        I build and ship production systems end-to-end — from Next.js/React
+        frontends and Node.js/NestJS backends, down to the VPS, Docker
+        containers, and Nginx configs that run them in production. I'm
+        currently at Dream71 Bangladesh Limited, leading frontend
+        architecture for large-scale AI-driven national platforms under the
+        ICT Division, while owning deployment and infrastructure for several
+        of them.
       </p>
     </div>
   );
