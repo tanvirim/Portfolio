@@ -6,60 +6,92 @@ import { DiIllustrator } from "react-icons/di";
 import {
   SiJavascript,
   SiTypescript,
+  SiPython,
   SiReact,
   SiMongodb,
   SiExpress,
-  SiPython,
+  SiNestjs,
+  SiSocketdotio,
+  SiJsonwebtokens,
+  SiSwagger,
   SiRedux,
-  SiPhp,
-  SiLaravel,
   SiMui,
-  SiChakraui,
   SiRender,
   SiReactquery,
   SiNetlify,
   SiVercel,
   SiMysql,
+  SiSqlite,
+  SiPostgresql,
+  SiDocker,
+  SiNginx,
+  SiLinux,
+  SiPm2,
+  SiOracle,
+  SiGithubactions,
+  SiEslint,
+  SiPrettier,
+  SiVitest,
 } from "react-icons/si";
 import { BiLogoTailwindCss } from "react-icons/bi";
 import {
   FaNodeJs,
-  FaCss3Alt,
   FaHtml5,
+  FaCss3Alt,
   FaGithub,
   FaFigma,
+  FaServer,
+  FaCubes,
 } from "react-icons/fa";
 import { TbBrandNextjs } from "react-icons/tb";
 import { RiGitMergeLine } from "react-icons/ri";
-import styled from "styled-components";
+import { motion } from "framer-motion";
+
 const Skills = ({ color }) => {
   const skills = [
     {
-      category: "Programming Languages",
-      items: ["JavaScript", "TypeScript", "HTML5", "CSS3"],
+      category: "Languages",
+      items: ["JavaScript", "TypeScript", "Python"],
     },
     {
-      category: "Front-End Frameworks",
-      items: ["React.js", "Next.Js", "MUI", "Chakra UI"],
+      category: "Frontend",
+      items: ["Next.Js", "React.js", "Tailwind CSS", "Redux Toolkit", "Shadcn/UI"],
     },
-    { category: "Back-End", items: ["NodeJs", "Express.js"] },
-    { category: "Database", items: ["MongoDB", "MySQL"] },
-    { category: "CSS Frameworks", items: ["Tailwind CSS", "Bootstrap"] },
+    {
+      category: "Backend",
+      items: [
+        "NodeJs",
+        "Express.js",
+        "NestJS",
+        "Socket.io",
+        "JWT / OAuth",
+        "REST / Swagger",
+      ],
+    },
+    { category: "Database", items: ["MongoDB", "MySQL", "SQLite", "PostgreSQL"] },
     {
       category: "State Management",
-      items: ["Redux", "React Query"],
+      items: ["Redux", "React Query", "Zustand"],
+    },
+    {
+      category: "DevOps & Infrastructure",
+      items: [
+        "Docker",
+        "Nginx",
+        "Linux",
+        "PM2",
+        "VPS / Production Servers",
+        "Oracle Cloud",
+        "GitHub Actions",
+      ],
+    },
+    {
+      category: "Tooling & Quality",
+      items: ["Git", "GitHub", "ESLint", "Prettier", "Vitest", "Figma"],
     },
     {
       category: "Software Ecosystem",
-      items: [
-        "Git",
-        "GitHub",
-        "Render",
-        "Vercel",
-        "Netlify",
-        "Figma",
-        "Adobe Illustrator",
-      ],
+      items: ["Render", "Vercel", "Netlify", "MUI", "Bootstrap", "Adobe Illustrator"],
     },
   ];
 
@@ -75,6 +107,8 @@ const Skills = ({ color }) => {
         return <SiJavascript />;
       case "TypeScript":
         return <SiTypescript />;
+      case "Python":
+        return <SiPython />;
       case "React.js":
         return <SiReact />;
       case "NodeJs":
@@ -83,14 +117,22 @@ const Skills = ({ color }) => {
         return <SiMongodb />;
       case "Express.js":
         return <SiExpress />;
-      case "Python":
-        return <SiPython />;
+      case "NestJS":
+        return <SiNestjs />;
+      case "Socket.io":
+        return <SiSocketdotio />;
+      case "JWT / OAuth":
+        return <SiJsonwebtokens />;
+      case "REST / Swagger":
+        return <SiSwagger />;
       case "Redux":
         return <SiRedux />;
-      case "PHP":
-        return <SiPhp />;
-      case "Laravel":
-        return <SiLaravel />;
+      case "Redux Toolkit":
+        return <SiRedux />;
+      case "Zustand":
+        return <FaCubes />;
+      case "Shadcn/UI":
+        return <FaCubes />;
       case "Next.Js":
         return <TbBrandNextjs />;
       case "HTML5":
@@ -99,8 +141,6 @@ const Skills = ({ color }) => {
         return <FaCss3Alt />;
       case "MUI":
         return <SiMui />;
-      case "Chakra UI":
-        return <SiChakraui />;
       case "Git":
         return <RiGitMergeLine />;
       case "GitHub":
@@ -117,17 +157,48 @@ const Skills = ({ color }) => {
         return <SiReactquery />;
       case "MySQL":
         return <SiMysql />;
+      case "SQLite":
+        return <SiSqlite />;
+      case "PostgreSQL":
+        return <SiPostgresql />;
+      case "Docker":
+        return <SiDocker />;
+      case "Nginx":
+        return <SiNginx />;
+      case "Linux":
+        return <SiLinux />;
+      case "PM2":
+        return <SiPm2 />;
+      case "VPS / Production Servers":
+        return <FaServer />;
+      case "Oracle Cloud":
+        return <SiOracle />;
+      case "GitHub Actions":
+        return <SiGithubactions />;
+      case "ESLint":
+        return <SiEslint />;
+      case "Prettier":
+        return <SiPrettier />;
+      case "Vitest":
+        return <SiVitest />;
       default:
         return null;
     }
   };
 
   return (
-    <div className="custom-shadow-border mb-20 p-5">
+    <div className="px-5">
       <div className="title-text-style mb-5">SKILLS</div>
-      <div className="flex flex-wrap justify-center gap-8">
+      <div className="flex flex-wrap justify-center gap-8" style={{ perspective: "1000px" }}>
         {skills.map((category, index) => (
-          <div key={index} className="flex flex-col items-center">
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 40, rotateX: -10 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
+            className="game-card flex flex-col items-center rounded-2xl border border-border bg-card/60 px-6 py-5"
+          >
             {/* Category Title */}
             <h3 className="text-2xl text-center font-bold border-b-2 pb-2 mb-4">
               {category.category}
@@ -138,16 +209,19 @@ const Skills = ({ color }) => {
               {category.items.map((item, itemIndex) => (
                 <div
                   key={itemIndex}
-                  className="flex flex-col items-center text-center mx-5 my-2"
+                  className="flex flex-col items-center text-center mx-5 my-2 transition-transform duration-200 hover:scale-125 hover:-translate-y-1"
                 >
-                  <div className="text-3xl mb-2 text-current" style={{ color }}>
+                  <div
+                    className="text-3xl mb-2 text-current drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
+                    style={{ color }}
+                  >
                     {getIcon(item)}
                   </div>
                   <div className="text-lg">{item}</div>
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>

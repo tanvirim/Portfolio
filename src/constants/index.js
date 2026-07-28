@@ -1,23 +1,58 @@
-export const defaultColor = "#20b9e5";
+export const defaultColor = "#10b981";
 export const educationHistory = [
   {
-    institution: "RUET",
-    duration: "2016 - 2022",
+    institution: "Rajshahi University of Engineering and Technology (RUET)",
+    duration: "2017 - 2023",
     degree: "BSc in Materials Science and Engineering",
   },
   {
-    institution: "Bcic College",
-    duration: "2014 - 2016",
+    institution: "BCIC College",
+    duration: "2012 - 2016",
     degree: "HSC in Science",
   },
   {
-    institution: "Bcic College",
-    duration: "2010 - 2014",
+    institution: "Kushtia Zilla School",
+    duration: "2009 - 2011",
     degree: "SSC in Science",
   },
 ];
 
 export const projects = [
+  {
+    projectName: "TAS — AI Meeting Minutes",
+    technologies: ["Next.js", "TypeScript", "AI/ML"],
+    projectDescription:
+      "Transcribe. Generate meeting minutes. Collaborate. Converts speech to text with AI and instantly generates structured meeting minutes — decisions, action items, and speaker attribution.",
+    liveLink: "https://tas.bangla.gov.bd/",
+  },
+  {
+    projectName: "Eblict Crowd Data Platform",
+    technologies: [
+      "Next.js 14",
+      "TypeScript",
+      "Express.js",
+      "MongoDB",
+      "Socket.io",
+      "Redux Toolkit",
+      "Tailwind CSS",
+    ],
+    projectDescription:
+      "A collaborative platform for managing crowd-sourced data annotation projects. Built a real-time collaboration system with Socket.io group chat and WebRTC video calling, JWT-based auth with RBAC, a multi-format data pipeline for passages/dialogues/translations/Q&A, a RESTful API with Swagger docs and rate limiting, RTK Query for server state, a 'Relax & Refresh' module with procedural Web Audio API sound synthesis, and a responsive analytics dashboard with Chart.js and Recharts.",
+    liveLink: "http://114.130.116.78/",
+  },
+  {
+    projectName: "Clustar — Focused Workspace",
+    technologies: [],
+    projectDescription:
+      "Tools built for focused work. Annotate documents, chat with AI, and manage your workflow — all from a single dashboard built for focus.",
+    liveLink: "https://clustar.duckdns.org/",
+  },
+  {
+    projectName: "BanglaGovBD — EBLICT Information Portal",
+    technologies: ["Next.js", "TypeScript", "Tailwind", "MUI"],
+    projectDescription:
+      "Multi-level category → subcategory → detail navigation, with a full CRUD Next.js Admin CMS for content, media, and auth.",
+  },
   {
     projectName: "Chalk Board App",
     technologies: [
@@ -46,10 +81,10 @@ export const projects = [
     ],
   },
   {
-    projectName: "Game Hub | Search Your Game",
-    technologies: ["React", "RAWG API", "Chakra UI", "React Query", "Justand"],
+    projectName: "Game Lab — Search Any Game",
+    technologies: ["React", "TypeScript", "RAWG API", "Zustand"],
     projectDescription:
-      " Search Made Easy: Quickly find your favorite games by name, platform, genre, and more. No more endless scrolling—just search, and you're there! Dark Mode, Infinite Scrolling Beautifully Responsive ",
+      "Efficient large-dataset handling from the RAWG API with smart caching and pagination for smooth browsing. Search Made Easy: quickly find your favorite games by name, platform, genre, and more, with dark mode and infinite scrolling.",
     liveLink: "https://game-lab-tanvirim.vercel.app/",
     githubLink: "https://github.com/tanvirim/Game-Lab/",
     imageLink: "https://i.ibb.co.com/xFr80P8/image.png",

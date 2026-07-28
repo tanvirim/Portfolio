@@ -1,23 +1,9 @@
 /* eslint-disable react/prop-types */
-import Modal from "react-modal";
-import styled, { createGlobalStyle, keyframes } from "styled-components";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { Dialog, DialogContent } from "../ui/dialog";
+import styled, { keyframes } from "styled-components";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
-
-// Global styles for responsiveness
-const GlobalStyle = createGlobalStyle`
-  @media (max-width: 600px) {
-    .modal {
-      padding: 10px;
-    }
-    h2 {
-      font-size: 1.2rem;
-    }
-    img {
-      max-height: 300px;
-    }
-  }
-`;
+import { defaultColor } from "../../constants";
 
 const ProjectModal = ({
   isOpen,
@@ -27,6 +13,7 @@ const ProjectModal = ({
   prevProject,
   isNextDisabled,
   isPrevDisabled,
+  color = defaultColor,
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
@@ -58,78 +45,79 @@ const ProjectModal = ({
   };
 
   return (
-    <>
-      <GlobalStyle />
-      <Modal
-        isOpen={isOpen}
-        onRequestClose={onRequestClose}
-        ariaHideApp={false}
-        style={{
-          overlay: { zIndex: 998, backgroundColor: "rgba(0, 0, 0, 0.5)" },
-          content: {
-            zIndex: 999,
-            maxHeight: "100vh",
-            overflowY: "auto",
-            padding: "10px",
-            margin: "0 auto",
-            backgroundColor: "rgb(17, 24, 39)",
-            border: "none",
-            width: "90%",
-            borderRadius: "10px",
-          },
-        }}
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!open) onRequestClose();
+      }}
+    >
+      <DialogContent
+        showCloseButton={false}
+        className="max-h-[90vh] overflow-y-auto p-3 sm:p-5 bg-white dark:bg-gray-900 border-none text-base w-full max-w-[calc(100%-2rem)] sm:max-w-2xl lg:max-w-3xl rounded-[10px]"
       >
         <button
-          className="absolute top-0 right-4 text-gray-400 hover:text-white text-6xl"
+          className="absolute top-2 right-3 sm:top-0 sm:right-4 text-gray-400 hover:text-gray-900 dark:hover:text-white text-4xl sm:text-6xl leading-none"
           onClick={onRequestClose}
         >
           &times;
         </button>
 
         <ModalContent>
-          <h2 className="about-title-text-style mt-2">{project.projectName}</h2>
-          <ImageSlider>
-            <FaChevronLeft
-              onClick={prevImage}
-              style={{
-                cursor: currentImageIndex === 0 ? "not-allowed" : "pointer",
-                opacity: currentImageIndex === 0 ? 0.5 : 1,
-                fontSize: "30px",
-              }}
-            />
-            {loading && <Loader />} {/* Show loader when loading is true */}
-            <img
-              src={project.images[currentImageIndex]}
-              alt={project.projectName}
-              onLoad={handleImageLoad} // Trigger when image has loaded
-              className={`${transitioning ? "fade-out" : "fade-in"} rounded-lg`}
-              style={{ display: loading ? "none" : "block" }} // Hide image until loaded
-            />
-            <FaChevronRight
-              onClick={nextImage}
-              style={{
-                cursor:
-                  currentImageIndex === project.images.length - 1
-                    ? "not-allowed"
-                    : "pointer",
-                opacity:
-                  currentImageIndex === project.images.length - 1 ? 0.5 : 1,
-                fontSize: "30px",
-              }}
-            />
-          </ImageSlider>
-          <p>{project.projectDescription}</p>
+          <h2 className="about-title-text-style mt-2 text-xl sm:text-2xl">{project.projectName}</h2>
+          {project.images && project.images.length > 0 && (
+            <ImageSlider>
+              <ChevronLeft
+                className="w-6 h-6 sm:w-8 sm:h-8 shrink-0"
+                onClick={prevImage}
+                style={{
+                  cursor: currentImageIndex === 0 ? "not-allowed" : "pointer",
+                  opacity: currentImageIndex === 0 ? 0.5 : 1,
+                }}
+              />
+              {loading && <Loader />} {/* Show loader when loading is true */}
+              <img
+                src={project.images[currentImageIndex]}
+                alt={project.projectName}
+                onLoad={handleImageLoad} // Trigger when image has loaded
+                className={`${transitioning ? "fade-out" : "fade-in"} rounded-lg`}
+                style={{ display: loading ? "none" : "block" }} // Hide image until loaded
+              />
+              <ChevronRight
+                className="w-6 h-6 sm:w-8 sm:h-8 shrink-0"
+                onClick={nextImage}
+                style={{
+                  cursor:
+                    currentImageIndex === project.images.length - 1
+                      ? "not-allowed"
+                      : "pointer",
+                  opacity:
+                    currentImageIndex === project.images.length - 1 ? 0.5 : 1,
+                }}
+              />
+            </ImageSlider>
+          )}
+          <p className="text-sm sm:text-base">{project.projectDescription}</p>
           <ButtonContainer>
-            <NavButton onClick={prevProject} disabled={isPrevDisabled}>
+            <NavButton
+              className="game-btn"
+              color={color}
+              onClick={prevProject}
+              disabled={isPrevDisabled}
+            >
               Previous Project
             </NavButton>
-            <NavButton onClick={nextProject} disabled={isNextDisabled}>
+            <NavButton
+              className="game-btn"
+              color={color}
+              onClick={nextProject}
+              disabled={isNextDisabled}
+            >
               Next Project
             </NavButton>
           </ButtonContainer>
         </ModalContent>
-      </Modal>
-    </>
+      </DialogContent>
+    </Dialog>
   );
 };
 
@@ -140,7 +128,7 @@ const ModalContent = styled.div`
   text-align: center;
   max-width: 90%;
   margin: auto;
-  color: white;
+  color: var(--foreground);
   height: 100%;
 
   img {
@@ -174,8 +162,7 @@ const ImageSlider = styled.div`
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    font-size: 24px;
-    color: white;
+    color: var(--foreground);
     transition: opacity 0.3s;
 
     &:hover {
@@ -184,33 +171,45 @@ const ImageSlider = styled.div`
   }
 
   svg:first-of-type {
-    left: 20px;
+    left: 4px;
   }
 
   svg:last-of-type {
-    right: 20px;
+    right: 4px;
+  }
+
+  @media (min-width: 640px) {
+    svg:first-of-type {
+      left: 20px;
+    }
+
+    svg:last-of-type {
+      right: 20px;
+    }
   }
 `;
 
 const ButtonContainer = styled.div`
   margin-top: 20px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 10px;
 `;
 
 const NavButton = styled.button`
-  margin: 0 10px;
-  padding: 12px 20px;
-  background-color: #3f51b5;
+  padding: 10px 16px;
+  background-color: ${({ disabled, color }) => (disabled ? "#6b7280" : color)};
   color: white;
-  border: none;
-  border-radius: 5px;
+  font-weight: bold;
+  border-radius: 999px;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-  transition: background-color 0.3s;
-  font-size: 16px;
+  font-size: 14px;
+  opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
 
-  &:hover {
-    background-color: ${({ disabled }) => (disabled ? "#ccc" : "#5c6bc0")};
+  @media (min-width: 640px) {
+    padding: 12px 24px;
+    font-size: 16px;
   }
 `;
 
@@ -225,9 +224,9 @@ const spin = keyframes`
 `;
 
 const Loader = styled.div`
-  border: 4px solid rgba(255, 255, 255, 0.3);
+  border: 4px solid var(--border-soft);
   border-radius: 50%;
-  border-top: 4px solid white;
+  border-top: 4px solid var(--foreground);
   width: 80px;
   height: 80px;
   animation: ${spin} 1s linear infinite;

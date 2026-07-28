@@ -2,47 +2,10 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
-import styled from "styled-components";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
+import { Button } from "./ui/button";
 import { defaultColor } from "../constants";
-
-const FormContainer = styled.div`
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-`;
-
-const InputField = styled.input`
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-`;
-
-const TextAreaField = styled.textarea`
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-`;
-
-const SubmitButton = styled.button`
-  background-color: ${({ color }) => (color ? color : defaultColor)};
-  margin-left: 60%;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
 
 const ContactForm = ({ color }) => {
   const [formData, setFormData] = useState({
@@ -82,35 +45,40 @@ const ContactForm = ({ color }) => {
   };
 
   return (
-    <>
-      <FormContainer>
-        <form onSubmit={handleSubmit}>
-          <InputField
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            value={formData.name}
-            onChange={handleChange}
-          />
-          <InputField
-            type="email"
-            name="email"
-            placeholder="Your Email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-          <TextAreaField
-            name="message"
-            placeholder="Message"
-            value={formData.message}
-            onChange={handleChange}
-          />
-          <SubmitButton color={color} type="submit">
-            Send Email
-          </SubmitButton>
-        </form>
-      </FormContainer>
-    </>
+    <div className="max-w-[400px] mx-auto p-5 border border-[#ccc] rounded-[5px]">
+      <form onSubmit={handleSubmit}>
+        <Input
+          type="text"
+          name="name"
+          placeholder="Your Name"
+          value={formData.name}
+          onChange={handleChange}
+          className="h-auto w-full py-2.5 px-2.5 mb-2.5 border-[#ccc] rounded-[5px]"
+        />
+        <Input
+          type="email"
+          name="email"
+          placeholder="Your Email"
+          value={formData.email}
+          onChange={handleChange}
+          className="h-auto w-full py-2.5 px-2.5 mb-2.5 border-[#ccc] rounded-[5px]"
+        />
+        <Textarea
+          name="message"
+          placeholder="Message"
+          value={formData.message}
+          onChange={handleChange}
+          className="w-full py-2.5 px-2.5 mb-2.5 border-[#ccc] rounded-[5px]"
+        />
+        <Button
+          type="submit"
+          style={{ backgroundColor: color ? color : defaultColor }}
+          className="game-btn ml-[60%] text-white py-2.5 px-6 h-auto rounded-full font-bold"
+        >
+          Send Email
+        </Button>
+      </form>
+    </div>
   );
 };
 

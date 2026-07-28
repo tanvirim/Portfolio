@@ -7,7 +7,7 @@ import { defaultColor } from "../constants";
 
 const Footer = ({ color = defaultColor }) => {
   return (
-    <div className="custom-shadow-border mb-20 p-5">
+    <div className="px-5">
       <div className="title-text-style">CONTACT</div>
       <FooterContainer color={color}>
         <ContactForm color={color} />
