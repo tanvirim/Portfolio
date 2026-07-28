@@ -1,18 +1,24 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import ColorPicker from "../components/ColorPicker";
+import ThemeToggle from "../components/ThemeToggle";
 import GitContributionsBar from "../components/GitContributions";
 import Navbar from "../components/Navbar";
-
-import styled from "styled-components";
-import Intro from "../components/Intro";
-import Bar from "../components/Bar";
+import TerminalIntro from "../components/TerminalIntro";
+import Welcome from "../components/Welcome";
+import SocialIcons from "../components/Socialicon";
 import AboutMe from "../components/AboutMe";
-
 import ProjectCards from "../components/project/ProjectCards";
 import Skills from "../components/Skills";
 import Footer from "../components/Footer";
 import { defaultColor } from "../constants";
-import Welcome from "../components/Welcome";
+
+const revealProps = {
+  initial: { opacity: 0, y: 32 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.6, ease: "easeOut" },
+};
 
 const Home = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -43,6 +49,13 @@ const Home = () => {
 
   const [color, setColor] = useState(defaultColor);
 
+  // Keeps CSS-only elements (nav links, section titles — driven by
+  // var(--primary-color) in index.css) in sync with the picked accent,
+  // since those aren't wired up as React props.
+  useEffect(() => {
+    document.documentElement.style.setProperty("--primary-color", color);
+  }, [color]);
+
   const handleColorState = (newState) => {
     setColor(newState);
   };
@@ -65,95 +78,77 @@ const Home = () => {
         }}
       />
 
-      <div className="px-2 md:px-10 lg:px-20 ">
-        <Section1>
-          <Navbar color={color} />
-          <div className="bar">
-            <Bar color={color} />
-          </div>
-          <div className="intro ">
-            <Intro color={color} />
-          </div>
-          <div className="welcome">
-            <Welcome />
-          </div>
+      {/* Ambient background wash — ties every section together instead of
+          each one sitting in its own isolated box. */}
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div
+          className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full opacity-[0.15] blur-[120px]"
+          style={{ backgroundColor: color }}
+        />
+        <div
+          className="absolute top-[60%] -right-40 w-[600px] h-[600px] rounded-full opacity-[0.12] blur-[120px]"
+          style={{ backgroundColor: "var(--secondary-color)" }}
+        />
+      </div>
 
-          <div className="color-picker">
+      <div className="flex flex-col px-4 sm:px-6 md:px-10 lg:px-20 max-w-screen-2xl mx-auto overflow-x-hidden">
+        <div className="flex justify-between items-start gap-4 mb-6 pt-8">
+          <div className="flex-1 min-w-0">
+            <Navbar color={color} />
+          </div>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
             <ColorPicker colorStateForHome={handleColorState} />
           </div>
-          <div className="contribution">
+        </div>
+
+        <section className="relative pb-16 order-3 lg:order-none">
+          <div className="hidden lg:grid lg:grid-cols-2 gap-8 items-stretch mt-6">
+            <div className="hidden lg:flex lg:flex-col lg:items-center lg:gap-4">
+              <Welcome />
+              <SocialIcons color={color} />
+            </div>
+            <TerminalIntro color={color} />
+          </div>
+
+          <div
+            className="game-card-subtle mt-8 rounded-xl border border-white/10 bg-[#0d1117] shadow-[0_20px_50px_rgba(0,0,0,0.45)] p-5"
+            style={{ "--tile-accent": color }}
+          >
+            <div className="flex items-center gap-2 pb-3 mb-3 border-b border-white/10">
+              <span className="w-3 h-3 rounded-full bg-red-500/80" />
+              <span className="w-3 h-3 rounded-full bg-amber-400/80" />
+              <span className="w-3 h-3 rounded-full bg-green-500/80" />
+              <span className="ml-3 text-xs text-gray-400 font-mono">
+                recent GitHub activity
+              </span>
+            </div>
             <GitContributionsBar color={color} />
           </div>
-        </Section1>
+        </section>
 
-        <div id="about">
+        <motion.div
+          id="about"
+          className="section-flow order-2 lg:order-none"
+          {...revealProps}
+        >
           <AboutMe color={color} />
-        </div>
+        </motion.div>
 
-        <div id="skills">
+        <motion.div id="skills" className="section-flow order-4 lg:order-none" {...revealProps}>
           <Skills color={color} />
-        </div>
+        </motion.div>
 
-        <div id="projects">
+        <motion.div id="projects" className="section-flow order-5 lg:order-none" {...revealProps}>
           <ProjectCards color={color} />
-        </div>
+        </motion.div>
 
-        <div id="contact">
+        <motion.div id="contact" className="section-flow order-6 lg:order-none" {...revealProps}>
           <Footer color={color} />
-        </div>
+        </motion.div>
       </div>
     </>
   );
 };
-
-const Section1 = styled.div`
-  height: 100vh;
-  position: relative;
-  box-shadow: 0px 10px 30px rgba(0, 128, 255, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: 100px;
-  .contribution {
-    position: absolute;
-    bottom: 0;
-    top: 50px;
-    right: 5%;
-  }
-  .color-picker {
-    position: absolute;
-    top: 60px;
-    left: 50%;
-    z-index: 5;
-  }
-  .intro {
-    position: absolute;
-    z-index: 4;
-    top: 130px;
-    left: 30px;
-  }
-  .welcome {
-    position: absolute;
-    top: 100px;
-    left: 35%;
-    z-index: 4;
-  }
-  .bar {
-    position: absolute;
-    top: -20px;
-    left: -20px;
-    z-index: 3;
-  }
-  @media (max-width: 768px) {
-    overflow-x: hidden;
-
-    .welcome {
-      visibility: hidden;
-    }
-    .intro {
-      position: absolute;
-      top: 120px;
-      left: 20px;
-    }
-  }
-`;
 
 export default Home;
