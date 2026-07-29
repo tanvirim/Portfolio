@@ -2,6 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 
 import { useState } from "react";
+import { differenceInYears } from "date-fns";
 import { MapPin, ChevronsRight, Download } from "lucide-react";
 import { Dialog, DialogContent } from "./ui/dialog";
 import profilePic from "../assets/profile.jpg";
@@ -14,10 +15,18 @@ import formatList from "../utils/formatList";
 
 const NAME_PLAIN = "Tanvir Imam ";
 const NAME_ACCENT = "Mitul";
-const TAGLINE = "Full Stack Engineer building reliable, production-ready web platforms";
+// Career start (first internship, see workExperience below) — years of
+// experience is computed from this instead of hardcoded, so it keeps
+// ticking up on its own every year rather than needing a manual bump.
+const EXPERIENCE_START = new Date(2023, 0, 1);
+const experienceYears = Math.max(
+  1,
+  differenceInYears(new Date(), EXPERIENCE_START)
+);
+const TAGLINE = `Full Stack Engineer with ${experienceYears}+ years of experience building reliable, production-ready web platforms`;
 const ROLE_LINE = "Software Engineer @ Dream71 Bangladesh Limited";
 const DESCRIPTION =
-  "I build and ship production systems end to end — Next.js/React frontends, Node.js/NestJS backends, and the Docker/Nginx infrastructure that runs them.";
+  "I build and ship production systems end to end - Next.js/React frontends, Node.js/NestJS backends, and the Docker/Nginx infrastructure that runs them.";
 const LOCATION_TEXT = "Dhaka, Bangladesh";
 const CURRENTLY_TEXT = `Building ${formatList(shippedProjects.map((p) => p.name))}`;
 const CURRENTLY_LINKS = shippedProjects.map(({ name, url }) => ({
@@ -244,9 +253,8 @@ const Hero = ({ color = defaultColor }) => {
       </p>
 
       <div
-        className={`flex flex-col gap-4 transition-all duration-700 ease-out ${
-          showRest ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"
-        }`}
+        className={`flex flex-col gap-4 transition-all duration-700 ease-out ${showRest ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"
+          }`}
       >
         <div className="flex flex-wrap items-center gap-4 mt-1">
           <SocialIcons color={color} />
@@ -292,12 +300,13 @@ const Hero = ({ color = defaultColor }) => {
                   Introduction
                 </h2>
                 <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                  Full Stack Engineer with a DevOps focus — building and
-                  shipping production systems end-to-end, currently leading
-                  frontend architecture for large-scale AI-driven national
-                  platforms (Kagoj.ai, Jiggasha.ai, TAS) under the ICT Division
-                  at Dream71 Bangladesh Limited, while owning deployment, server
-                  hardening, and infrastructure.
+                  Full Stack Engineer with {experienceYears}+ years of
+                  experience and a DevOps focus — building and shipping
+                  production systems end-to-end, currently leading frontend
+                  architecture for large-scale AI-driven national platforms (
+                  {formatList(shippedProjects.map((p) => p.name))}) under the
+                  ICT Division at Dream71 Bangladesh Limited, while owning
+                  deployment, server hardening, and infrastructure.
                 </p>
               </div>
             </div>
