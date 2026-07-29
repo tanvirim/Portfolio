@@ -548,3 +548,41 @@ html {
     transform: none !important;
   }
 }
+
+/* ============================================================
+   "Terminal card" — the frosted, code-editor-style shell shared
+   by every terminal-look panel (Hero terminal, GitHub activity,
+   Skills, Projects, Contact). One definition here instead of the
+   same long Tailwind utility string duplicated per component —
+   change the look once, every panel picks it up.
+   Translucent on purpose so HeroPattern/HeroBubbles show through.
+   ============================================================ */
+.terminal-card {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background-color: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.dark .terminal-card {
+  border-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(13, 17, 23, 0.35);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+
+.terminal-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.dark .terminal-card-header {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.03);
+}

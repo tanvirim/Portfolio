@@ -55,12 +55,12 @@ const TerminalIntro = ({ color = defaultColor }) => {
 
   return (
     <div
-      className="game-card-subtle w-full min-w-0 rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-[#0d1117]/70 backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.45)] overflow-hidden"
+      className="game-card-subtle terminal-card w-full min-w-0"
       style={{ '--term-accent': color, '--tile-accent': color }}
       role="group"
       aria-label="Terminal status panel"
     >
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.03]">
+      <div className="terminal-card-header">
         <span className="w-3 h-3 rounded-full bg-red-500/80" />
         <span className="w-3 h-3 rounded-full bg-amber-400/80" />
         <span className="w-3 h-3 rounded-full bg-green-500/80" />

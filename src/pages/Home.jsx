@@ -186,10 +186,10 @@ const Home = () => {
           </div>
 
           <div
-            className="game-card-subtle mt-8 rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-[#0d1117]/70 backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.45)] p-5"
+            className="game-card-subtle terminal-card mt-8"
             style={{ "--tile-accent": color }}
           >
-            <div className="flex items-center gap-2 pb-3 mb-3 border-b border-black/10 dark:border-white/10">
+            <div className="terminal-card-header">
               <span className="w-3 h-3 rounded-full bg-red-500/80" />
               <span className="w-3 h-3 rounded-full bg-amber-400/80" />
               <span className="w-3 h-3 rounded-full bg-green-500/80" />
@@ -197,7 +197,9 @@ const Home = () => {
                 recent GitHub activity
               </span>
             </div>
-            <GitContributionsBar color={color} />
+            <div className="p-5">
+              <GitContributionsBar color={color} />
+            </div>
           </div>
         </section>
 
