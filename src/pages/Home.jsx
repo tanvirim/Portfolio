@@ -101,7 +101,7 @@ const Home = () => {
         </div>
 
         <section id="about" className="relative pb-16 order-1 lg:order-none">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch mt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mt-6">
             <Hero color={color} />
             <TerminalIntro color={color} />
           </div>

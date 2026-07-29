@@ -82,7 +82,7 @@ const Hero = ({ color = defaultColor }) => {
         </span>
       </div>
 
-      <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight text-white">
+      <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight text-gray-900 dark:text-white">
         Tanvir Imam <span style={{ color }}>Mitul</span>
       </h1>
 
@@ -116,6 +116,12 @@ const Hero = ({ color = defaultColor }) => {
         <SocialIcons color={color} />
       </div>
 
+      <p className="flex items-center gap-2 text-xs text-gray-500 mt-2">
+        <Dot color="#4ade80" />
+        <span className="font-medium text-gray-300">Currently</span>{" "}
+        Building Kagoj.ai, Jiggasha.ai &amp; TAS
+      </p>
+
       <div className="flex flex-wrap items-center gap-3">
         <button
           className="game-btn text-xs font-bold flex items-center gap-1 px-3.5 py-2 text-white rounded-full"
@@ -126,12 +132,6 @@ const Hero = ({ color = defaultColor }) => {
           <ChevronsRight size={14} />
         </button>
       </div>
-
-      <p className="flex items-center gap-2 text-xs text-gray-500 mt-2">
-        <Dot color="#4ade80" />
-        <span className="font-medium text-gray-300">Currently</span>{" "}
-        Building Kagoj.ai, Jiggasha.ai &amp; TAS
-      </p>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent
