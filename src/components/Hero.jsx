@@ -7,6 +7,17 @@ import { Dialog, DialogContent } from "./ui/dialog";
 import profilePic from "../assets/profile.jpg";
 import { defaultColor } from "../constants";
 import SocialIcons from "./Socialicon";
+import useTypewriter from "../Hooks/useTypewriter";
+import usePrefersReducedMotion from "../Hooks/usePrefersReducedMotion";
+
+const NAME_PLAIN = "Tanvir Imam ";
+const NAME_ACCENT = "Mitul";
+const TAGLINE = "Full Stack Engineer building reliable, production-ready web platforms";
+const ROLE_LINE = "Software Engineer @ Dream71 Bangladesh Limited";
+const DESCRIPTION =
+  "I build and ship production systems end to end — Next.js/React frontends, Node.js/NestJS backends, and the Docker/Nginx infrastructure that runs them.";
+const LOCATION_TEXT = "Dhaka, Bangladesh";
+const CURRENTLY_TEXT = "Building Kagoj.ai, Jiggasha.ai & TAS";
 
 const educationData = [
   {
@@ -66,6 +77,46 @@ const Hero = ({ color = defaultColor }) => {
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  // Sequenced typing — name, then tagline, then role line — each one only
+  // starts once the previous is done, so the intro reads like it's being
+  // typed live instead of just fading in as static text. The rest of the
+  // content (description, location, socials, status) fades/slides in once
+  // the sequence finishes, so nothing just pops in as a static block either.
+  const nameTyping = useTypewriter(NAME_PLAIN + NAME_ACCENT, {
+    speed: 55,
+    instant: prefersReducedMotion,
+  });
+  const taglineTyping = useTypewriter(TAGLINE, {
+    speed: 18,
+    enabled: nameTyping.done,
+    instant: prefersReducedMotion,
+  });
+  const roleTyping = useTypewriter(ROLE_LINE, {
+    speed: 18,
+    enabled: taglineTyping.done,
+    instant: prefersReducedMotion,
+  });
+  const descriptionTyping = useTypewriter(DESCRIPTION, {
+    speed: 9,
+    enabled: roleTyping.done,
+    instant: prefersReducedMotion,
+  });
+  const locationTyping = useTypewriter(LOCATION_TEXT, {
+    speed: 28,
+    enabled: descriptionTyping.done,
+    instant: prefersReducedMotion,
+  });
+  const currentlyTyping = useTypewriter(CURRENTLY_TEXT, {
+    speed: 20,
+    enabled: locationTyping.done,
+    instant: prefersReducedMotion,
+  });
+  const showRest = prefersReducedMotion || currentlyTyping.done;
+
+  const namePlainShown = nameTyping.output.slice(0, NAME_PLAIN.length);
+  const nameAccentShown = nameTyping.output.slice(NAME_PLAIN.length);
 
   return (
     <div className="flex flex-col justify-center gap-4 py-2">
@@ -82,57 +133,127 @@ const Hero = ({ color = defaultColor }) => {
         </span>
       </div>
 
-      <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight text-gray-900 dark:text-white">
-        Tanvir Imam <span style={{ color }}>Mitul</span>
+      <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight text-gray-900 dark:text-white min-h-[1.2em] sm:min-h-[1.2em]">
+        {namePlainShown}
+        <span style={{ color }}>{nameAccentShown}</span>
+        {!nameTyping.done && (
+          <span
+            className="inline-block w-[3px] h-8 sm:h-10 ml-1 align-middle terminal-cursor"
+            style={{ backgroundColor: color }}
+            aria-hidden="true"
+          />
+        )}
       </h1>
 
-      <p className="text-lg text-gray-600 dark:text-gray-300">
-        Full Stack Engineer building reliable, production-ready web platforms
+      <p className="text-lg text-gray-600 dark:text-gray-300 min-h-[1.75em]">
+        {nameTyping.done && (
+          <>
+            {taglineTyping.output}
+            {!taglineTyping.done && (
+              <span
+                className="inline-block w-[2px] h-5 ml-0.5 align-middle terminal-cursor"
+                style={{ backgroundColor: color }}
+                aria-hidden="true"
+              />
+            )}
+          </>
+        )}
       </p>
 
-      <p className="text-sm text-gray-500 dark:text-gray-400">
-        Software Engineer @{" "}
-        <a
-          href="https://dream71.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline decoration-dotted underline-offset-2 hover:text-gray-900 dark:hover:text-white"
-        >
-          Dream71 Bangladesh Limited
-        </a>
+      <p className="text-sm text-gray-500 dark:text-gray-400 min-h-[1.5em]">
+        {taglineTyping.done && !roleTyping.done && (
+          <>
+            {roleTyping.output}
+            <span
+              className="inline-block w-[2px] h-3.5 ml-0.5 align-middle terminal-cursor"
+              style={{ backgroundColor: color }}
+              aria-hidden="true"
+            />
+          </>
+        )}
+        {roleTyping.done && (
+          <>
+            Software Engineer @{" "}
+            <a
+              href="https://dream71.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-dotted underline-offset-2 hover:text-gray-900 dark:hover:text-white"
+            >
+              Dream71 Bangladesh Limited
+            </a>
+          </>
+        )}
       </p>
 
-      <p className="max-w-md text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-        I build and ship production systems end to end — Next.js/React
-        frontends, Node.js/NestJS backends, and the Docker/Nginx infrastructure
-        that runs them.
+      <p className="max-w-md text-sm text-gray-500 dark:text-gray-400 leading-relaxed min-h-[3.75em]">
+        {roleTyping.done && (
+          <>
+            {descriptionTyping.output}
+            {!descriptionTyping.done && (
+              <span
+                className="inline-block w-[2px] h-3.5 ml-0.5 align-middle terminal-cursor"
+                style={{ backgroundColor: color }}
+                aria-hidden="true"
+              />
+            )}
+          </>
+        )}
       </p>
 
-      <p className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
-        <MapPin size={14} /> Dhaka, Bangladesh
+      <p className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 min-h-[1.5em]">
+        {descriptionTyping.done && (
+          <>
+            <MapPin size={14} /> {locationTyping.output}
+            {!locationTyping.done && (
+              <span
+                className="inline-block w-[2px] h-3.5 ml-0.5 align-middle terminal-cursor"
+                style={{ backgroundColor: color }}
+                aria-hidden="true"
+              />
+            )}
+          </>
+        )}
       </p>
 
-      <div className="flex flex-wrap items-center gap-4 mt-1">
-        <SocialIcons color={color} />
-      </div>
-
-      <p className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-500 mt-2">
-        <Dot color="#4ade80" />
-        <span className="font-medium text-gray-700 dark:text-gray-300">
-          Currently
-        </span>{" "}
-        Building Kagoj.ai, Jiggasha.ai &amp; TAS
+      <p className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-500 mt-2 min-h-[1.25em]">
+        {locationTyping.done && (
+          <>
+            <Dot color="#4ade80" />
+            <span className="font-medium text-gray-700 dark:text-gray-300">
+              Currently
+            </span>{" "}
+            {currentlyTyping.output}
+            {!currentlyTyping.done && (
+              <span
+                className="inline-block w-[2px] h-3 ml-0.5 align-middle terminal-cursor"
+                style={{ backgroundColor: color }}
+                aria-hidden="true"
+              />
+            )}
+          </>
+        )}
       </p>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <button
-          className="game-btn text-xs font-bold flex items-center gap-1 px-3.5 py-2 text-black rounded-full"
-          style={{ backgroundColor: color }}
-          onClick={openModal}
-        >
-          Learn More
-          <ChevronsRight size={14} />
-        </button>
+      <div
+        className={`flex flex-col gap-4 transition-all duration-700 ease-out ${
+          showRest ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"
+        }`}
+      >
+        <div className="flex flex-wrap items-center gap-4 mt-1">
+          <SocialIcons color={color} />
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            className="game-btn text-xs font-bold flex items-center gap-1 px-3.5 py-2 text-black rounded-full"
+            style={{ backgroundColor: color }}
+            onClick={openModal}
+          >
+            Learn More
+            <ChevronsRight size={14} />
+          </button>
+        </div>
       </div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>

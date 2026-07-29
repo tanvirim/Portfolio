@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { ChevronsRight, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import ProjectModal from "./ProjectModal"; // Import the new ProjectModal component
+import SectionTitle from "../SectionTitle";
 
 const ProjectCards = ({ color = defaultColor }) => {
   const location = useLocation();
@@ -44,7 +45,12 @@ const ProjectCards = ({ color = defaultColor }) => {
 
   return (
     <div className="px-5">
-      <div className="title-text-style mb-6">Projects</div>
+      <SectionTitle
+        title="Projects"
+        subtitle="A selection of products and platforms I've designed, built, and shipped."
+        color={color}
+        className="mb-6"
+      />
 
       <div
         className="game-card-subtle terminal-card"

@@ -46,6 +46,7 @@ import {
 import { TbBrandNextjs } from "react-icons/tb";
 import { RiGitMergeLine } from "react-icons/ri";
 import { motion } from "framer-motion";
+import SectionTitle from "./SectionTitle";
 
 const Skills = ({ color }) => {
   const skills = [
@@ -188,7 +189,12 @@ const Skills = ({ color }) => {
 
   return (
     <div className="px-5">
-      <div className="title-text-style mb-6">SKILLS</div>
+      <SectionTitle
+        title="SKILLS"
+        subtitle="Languages, frameworks, and infrastructure I use to ship production software."
+        color={color}
+        className="mb-6"
+      />
 
       <div
         className="game-card-subtle terminal-card"

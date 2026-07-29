@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { ExternalLink } from "lucide-react";
 import ContactForm from "./ContactForm";
+import SectionTitle from "./SectionTitle";
 import { defaultColor } from "../constants";
 
 const SHIPPED_PROJECTS = [
@@ -12,7 +13,12 @@ const SHIPPED_PROJECTS = [
 const Footer = ({ color = defaultColor }) => {
   return (
     <div className="px-5">
-      <div className="title-text-style mb-6">CONTACT</div>
+      <SectionTitle
+        title="CONTACT"
+        subtitle="Have a project in mind? I'd love to hear about it."
+        color={color}
+        className="mb-6"
+      />
 
       <div className="max-w-md mx-auto w-full">
         <div
