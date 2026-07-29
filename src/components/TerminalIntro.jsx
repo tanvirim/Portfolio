@@ -41,7 +41,7 @@ const renderOutput = (text, links) => {
         href={link.href}
         target="_blank"
         rel="noopener noreferrer"
-        className="underline decoration-dotted underline-offset-2 hover:text-white"
+        className="underline decoration-dotted underline-offset-2 hover:text-gray-900 dark:hover:text-white"
       >
         {part}
       </a>
@@ -55,16 +55,16 @@ const TerminalIntro = ({ color = defaultColor }) => {
 
   return (
     <div
-      className="game-card-subtle w-full min-w-0 rounded-xl border border-white/10 bg-[#0d1117] shadow-[0_20px_50px_rgba(0,0,0,0.45)] overflow-hidden"
+      className="game-card-subtle w-full min-w-0 rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#0d1117] shadow-[0_20px_50px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.45)] overflow-hidden"
       style={{ '--term-accent': color, '--tile-accent': color }}
       role="group"
       aria-label="Terminal status panel"
     >
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10 bg-white/[0.03]">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.03]">
         <span className="w-3 h-3 rounded-full bg-red-500/80" />
         <span className="w-3 h-3 rounded-full bg-amber-400/80" />
         <span className="w-3 h-3 rounded-full bg-green-500/80" />
-        <span className="ml-3 text-xs text-gray-400 font-mono">
+        <span className="ml-3 text-xs text-gray-500 dark:text-gray-400 font-mono">
           tanvir@portfolio:~
         </span>
       </div>
@@ -88,7 +88,7 @@ const TerminalIntro = ({ color = defaultColor }) => {
                 <span>{line.command}</span>
               </div>
               <p
-                className={`pl-4 text-gray-200 whitespace-nowrap overflow-hidden ${
+                className={`pl-4 text-gray-800 dark:text-gray-200 whitespace-nowrap overflow-hidden ${
                   prefersReducedMotion ? '' : 'terminal-typewriter'
                 }`}
                 style={

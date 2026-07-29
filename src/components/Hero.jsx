@@ -76,7 +76,7 @@ const Hero = ({ color = defaultColor }) => {
           className="game-card w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 shadow-xl shrink-0"
           style={{ borderColor: color }}
         />
-        <span className="inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-gray-300">
+        <span className="inline-flex w-fit items-center gap-2 rounded-full border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 px-3 py-1 text-xs font-medium text-gray-600 dark:text-gray-300">
           <Dot color={color} />
           Open to new opportunities
         </span>
@@ -86,29 +86,29 @@ const Hero = ({ color = defaultColor }) => {
         Tanvir Imam <span style={{ color }}>Mitul</span>
       </h1>
 
-      <p className="text-lg text-gray-300">
+      <p className="text-lg text-gray-600 dark:text-gray-300">
         Full Stack Engineer building reliable, production-ready web platforms
       </p>
 
-      <p className="text-sm text-gray-400">
+      <p className="text-sm text-gray-500 dark:text-gray-400">
         Software Engineer @{" "}
         <a
           href="https://dream71.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="underline decoration-dotted underline-offset-2 hover:text-white"
+          className="underline decoration-dotted underline-offset-2 hover:text-gray-900 dark:hover:text-white"
         >
           Dream71 Bangladesh Limited
         </a>
       </p>
 
-      <p className="max-w-md text-sm text-gray-400 leading-relaxed">
+      <p className="max-w-md text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
         I build and ship production systems end to end — Next.js/React
         frontends, Node.js/NestJS backends, and the Docker/Nginx
         infrastructure that runs them.
       </p>
 
-      <p className="flex items-center gap-1.5 text-sm text-gray-400">
+      <p className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
         <MapPin size={14} /> Dhaka, Bangladesh
       </p>
 
@@ -116,9 +116,9 @@ const Hero = ({ color = defaultColor }) => {
         <SocialIcons color={color} />
       </div>
 
-      <p className="flex items-center gap-2 text-xs text-gray-500 mt-2">
+      <p className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-500 mt-2">
         <Dot color="#4ade80" />
-        <span className="font-medium text-gray-300">Currently</span>{" "}
+        <span className="font-medium text-gray-700 dark:text-gray-300">Currently</span>{" "}
         Building Kagoj.ai, Jiggasha.ai &amp; TAS
       </p>
 

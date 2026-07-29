@@ -106,7 +106,8 @@ const Container = styled.div`
     grid-column: 1;
     align-self: center;
     font-size: clamp(8px, 1.6vw, 10px);
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-color);
+    opacity: 0.45;
     font-family: inherit;
   }
 
@@ -115,7 +116,8 @@ const Container = styled.div`
     align-self: end;
     white-space: nowrap;
     font-size: clamp(8px, 1.6vw, 10px);
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-color);
+    opacity: 0.45;
   }
 
   /* Stable wrapper — never transformed, so getBoundingClientRect() on it
@@ -140,14 +142,14 @@ const Container = styled.div`
   }
 
   .column:hover .tile {
-    outline: 1px solid rgba(255, 255, 255, 0.6);
+    outline: 1px solid rgba(148, 163, 184, 0.8);
     transform: scale(1.4) translateY(-2px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
     z-index: 5;
     cursor: pointer;
   }
   .class0 {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: var(--border-soft);
   }
   .class1 {
     background-color: rgba(
@@ -256,12 +258,12 @@ const GitContributionsBar = ({ color }) => {
   return (
     <div className="w-full">
       <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
-        <span className="text-sm text-gray-300 font-mono">
+        <span className="text-sm text-gray-600 dark:text-gray-300 font-mono">
           {isLoading && weeks.length === 0 ? (
             <span className="text-gray-500">Loading contributions…</span>
           ) : (
             <>
-              <strong className="text-white font-semibold">
+              <strong className="text-gray-900 dark:text-white font-semibold">
                 {totalContributions.toLocaleString()}
               </strong>{" "}
               contributions{" "}
@@ -336,7 +338,7 @@ const GitContributionsBar = ({ color }) => {
               className={`px-2.5 py-1 rounded-md text-xs font-mono transition-colors ${
                 year === selectedYear
                   ? "text-white"
-                  : "text-gray-400 hover:text-white hover:bg-white/5"
+                  : "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
               }`}
               style={year === selectedYear ? { backgroundColor: color } : undefined}
             >
@@ -346,7 +348,7 @@ const GitContributionsBar = ({ color }) => {
         </div>
       </div>
 
-      <div className="flex items-center justify-end gap-3 mt-4 text-xs text-gray-500 flex-wrap">
+      <div className="flex items-center justify-end gap-3 mt-4 text-xs text-gray-500 dark:text-gray-400 flex-wrap">
         <div className="flex items-center gap-1">
           <span>Less</span>
           {LEGEND_CLASSES.map((cls) => (
@@ -359,7 +361,7 @@ const GitContributionsBar = ({ color }) => {
                 borderRadius: 3,
                 display: "inline-block",
                 ...(cls === "class0"
-                  ? { backgroundColor: "rgba(255, 255, 255, 0.08)" }
+                  ? { backgroundColor: "var(--border-soft)" }
                   : {
                       backgroundColor: `rgba(${colorRGBA.r || 0}, ${colorRGBA.g || 0}, ${
                         colorRGBA.b || 0
@@ -402,8 +404,8 @@ const GitContributionsBar = ({ color }) => {
                   backgroundImage: `linear-gradient(135deg, ${color}, var(--secondary-color))`,
                 }}
               >
-                <div className="rounded-[7px] bg-[#0d1117] px-3 py-1.5">
-                  <span className="text-xs font-semibold text-white break-words">
+                <div className="rounded-[7px] bg-white dark:bg-[#0d1117] px-3 py-1.5">
+                  <span className="text-xs font-semibold text-gray-900 dark:text-white break-words">
                     {tooltip.text}
                   </span>
                 </div>
