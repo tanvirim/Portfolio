@@ -9,6 +9,7 @@ import { defaultColor } from "../constants";
 import SocialIcons from "./Socialicon";
 import useTypewriter from "../Hooks/useTypewriter";
 import usePrefersReducedMotion from "../Hooks/usePrefersReducedMotion";
+import renderLinkedText from "../utils/renderLinkedText";
 
 const NAME_PLAIN = "Tanvir Imam ";
 const NAME_ACCENT = "Mitul";
@@ -18,6 +19,11 @@ const DESCRIPTION =
   "I build and ship production systems end to end — Next.js/React frontends, Node.js/NestJS backends, and the Docker/Nginx infrastructure that runs them.";
 const LOCATION_TEXT = "Dhaka, Bangladesh";
 const CURRENTLY_TEXT = "Building Kagoj.ai, Jiggasha.ai & TAS";
+const CURRENTLY_LINKS = [
+  { text: "Kagoj.ai", href: "https://kagoj.ai/" },
+  { text: "Jiggasha.ai", href: "https://jiggasha.ai/" },
+  { text: "TAS", href: "https://tas.bangla.gov.bd/" },
+];
 
 const educationData = [
   {
@@ -223,7 +229,9 @@ const Hero = ({ color = defaultColor }) => {
             <span className="font-medium text-gray-700 dark:text-gray-300">
               Currently
             </span>{" "}
-            {currentlyTyping.output}
+            {currentlyTyping.done
+              ? renderLinkedText(CURRENTLY_TEXT, CURRENTLY_LINKS)
+              : currentlyTyping.output}
             {!currentlyTyping.done && (
               <span
                 className="inline-block w-[2px] h-3 ml-0.5 align-middle terminal-cursor"

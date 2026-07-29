@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { defaultColor } from '../constants';
 import usePrefersReducedMotion from '../Hooks/usePrefersReducedMotion';
+import renderLinkedText from '../utils/renderLinkedText';
 
 const LINES = [
   { command: 'whoami', output: 'Tanvir Imam Mitul' },
@@ -20,34 +21,6 @@ const LINES = [
 const CHAR_DURATION_S = 0.045;
 const MIN_LINE_DURATION_S = 0.6;
 const LINE_GAP_S = 0.5;
-
-const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-const renderOutput = (text, links) => {
-  if (!links || links.length === 0) return text;
-
-  const pattern = new RegExp(
-    `(${links.map((link) => escapeRegExp(link.text)).join('|')})`,
-    'g'
-  );
-
-  return text.split(pattern).map((part, index) => {
-    const link = links.find((candidate) => candidate.text === part);
-    if (!link) return part;
-
-    return (
-      <a
-        key={`${part}-${index}`}
-        href={link.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="underline decoration-dotted underline-offset-2 hover:text-gray-900 dark:hover:text-white"
-      >
-        {part}
-      </a>
-    );
-  });
-};
 
 const TerminalIntro = ({ color = defaultColor }) => {
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -101,7 +74,7 @@ const TerminalIntro = ({ color = defaultColor }) => {
                       }
                 }
               >
-                {renderOutput(line.output, line.links)}
+                {renderLinkedText(line.output, line.links)}
               </p>
             </div>
           );
