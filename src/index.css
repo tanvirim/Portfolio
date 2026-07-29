@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100;1,300;1,400;1,500&family=Rubik:wght@300&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&family=Cairo:wght@400;600&family=Dancing+Script:wght@400;500;700&family=Montserrat:wght@300&family=Orbitron:wght@700&family=Poppins&family=Roboto:ital,wght@0,400;0,500;1,100;1,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100;1,300;1,400;1,500&family=Rubik:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&family=Cairo:wght@400;600&family=Dancing+Script:wght@400;500;700&family=Montserrat:wght@300&family=Orbitron:wght@700&family=Poppins&family=Roboto:ital,wght@0,400;0,500;1,100;1,700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -34,17 +34,16 @@
 }
 
 * {
-  font-family: 'Barlow', 'Poppins', 'Times New Roman', Times, serif;
+  font-family: "Barlow", "Poppins", "Times New Roman", Times, serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; */
 }
 
 body {
   color: var(--text-color) !important;
   background-color: var(--background-color) !important;
-
 }
 
 .custom-shadow-border {
@@ -67,7 +66,9 @@ body {
   color: var(--primary-color);
   text-shadow: 0 0 2px currentColor;
   font-weight: bold;
-  transition: transform 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
 }
 .about-title-text-style:hover {
   filter: brightness(85%);
@@ -81,7 +82,9 @@ body {
   text-shadow: 0 0 2px currentColor;
   text-align: center;
   font-weight: bold;
-  transition: transform 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
 }
 
 .nav-text-style:hover {
@@ -98,7 +101,9 @@ body {
   text-shadow: 0 0 2px currentColor;
   text-align: center;
   font-weight: bold;
-  transition: transform 0.4s ease, color 0.4s ease;
+  transition:
+    transform 0.4s ease,
+    color 0.4s ease;
 }
 
 .intro-text-style:hover {
@@ -114,7 +119,9 @@ body {
   text-shadow: 0 0 3px currentColor;
   text-align: center;
   font-weight: bold;
-  transition: transform 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
 }
 
 .title-text-style:hover {
@@ -150,28 +157,38 @@ html {
   display: none; /* Chrome, Safari, new Edge */
 }
 
-/* Custom cursor — ring + dot follow the pointer and recolor instantly with
-   the user's picked accent (--cursor-accent / --cursor-accent-rgb, set
-   inline per-render in Home.jsx). The .dark override tunes glow strength
-   per color mode, and it's hidden entirely on touch devices below since
-   there's no real hover/pointer to react to there. */
+/* Custom cursor — ring + dot follow the pointer using a FIXED color
+   (--cursor-accent, set inline in Home.jsx) that's deliberately not the
+   user-picked accent — that color covers headings/badges/icons across the
+   page, so a same-colored cursor disappears into them. The soft ambient
+   glow (--cursor-glow-accent) still blends in the picked accent since it's
+   translucent/blurred and doesn't need the same crisp contrast. The .dark
+   override tunes glow strength per color mode, and it's hidden entirely on
+   touch devices below since there's no real hover/pointer to react to
+   there. z-index is a high positive value (not -1) so the glow paints on
+   TOP of opaque card backgrounds too (terminal, GitHub activity) instead of
+   disappearing behind them — it stays below the ring/dot (99999) so those
+   stay crisp. */
 .custom-cursor-bg {
   position: fixed;
   top: 0;
   left: 0;
   border-radius: 50%;
   pointer-events: none;
-  transition: left 0.15s ease-out, top 0.15s ease-out, opacity 0.3s ease;
+  transition:
+    left 0.15s ease-out,
+    top 0.15s ease-out,
+    opacity 0.3s ease;
   width: 20vmax;
   height: 20vmax;
   background: radial-gradient(
     circle at 35% 35%,
-    var(--cursor-accent, #10b981),
-    var(--secondary-color) 70%
+    var(--cursor-accent, #5153d6),
+    var(--cursor-glow-accent, var(--primary-color)) 70%
   );
   filter: blur(70px);
   opacity: 0.3;
-  z-index: -1;
+  z-index: 99998;
   animation: cursor-breathe 8s ease-in-out infinite;
 }
 
@@ -180,7 +197,8 @@ html {
 }
 
 @keyframes cursor-breathe {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(-50%, -50%) scale(1) rotate(0deg);
   }
   50% {
@@ -188,15 +206,22 @@ html {
   }
 }
 
+/* The extra 0 0 0 <n>px shadow layer below is a theme-aware (dark ring on
+   light bg / light ring on dark bg) contrast edge on top of the fixed
+   --cursor-accent color, so the ring stays visible regardless of what's
+   underneath — belt-and-suspenders on top of --cursor-accent already not
+   matching the page's own accent color (see the block comment above). */
 .custom-cursor-icon {
   position: fixed;
   top: 0;
   left: 0;
   width: 36px;
   height: 36px;
-  background-color: rgba(var(--cursor-accent-rgb, 16, 185, 129), 0.06);
-  border: 1.5px solid var(--cursor-accent, #10b981);
-  box-shadow: 0 0 16px rgba(var(--cursor-accent-rgb, 16, 185, 129), 0.35);
+  background-color: rgba(var(--cursor-accent-rgb, 81, 83, 214), 0.06);
+  border: 1.5px solid var(--cursor-accent, #5153d6);
+  box-shadow:
+    0 0 0 1.5px rgba(15, 23, 42, 0.55),
+    0 0 16px rgba(var(--cursor-accent-rgb, 81, 83, 214), 0.35);
   z-index: 99999;
   border-radius: 50%;
   pointer-events: none;
@@ -209,17 +234,31 @@ html {
     box-shadow 0.25s ease;
 }
 
+.dark .custom-cursor-icon {
+  box-shadow:
+    0 0 0 1.5px rgba(255, 255, 255, 0.55),
+    0 0 16px rgba(var(--cursor-accent-rgb, 81, 83, 214), 0.45);
+}
+
 .custom-cursor-icon::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
   width: 6px;
   height: 6px;
-  background-color: var(--cursor-accent, #10b981);
+  background-color: var(--cursor-accent, #5153d6);
   border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.6);
   transform: translate(-50%, -50%);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.dark .custom-cursor-icon::after {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);
 }
 
 .custom-cursor-icon.is-clicked {
@@ -227,11 +266,11 @@ html {
 }
 
 .custom-cursor-icon.is-clicked::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: -6px;
   border-radius: 50%;
-  border: 1.5px solid var(--cursor-accent, #10b981);
+  border: 1.5px solid var(--cursor-accent, #5153d6);
   animation: cursor-ripple 0.5s ease-out forwards;
 }
 
@@ -248,8 +287,16 @@ html {
 
 .custom-cursor-icon.is-active {
   transform: translate(-50%, -50%) scale(2.2);
-  background-color: rgba(var(--cursor-accent-rgb, 16, 185, 129), 0.14);
-  box-shadow: 0 0 24px rgba(var(--cursor-accent-rgb, 16, 185, 129), 0.45);
+  background-color: rgba(var(--cursor-accent-rgb, 81, 83, 214), 0.14);
+  box-shadow:
+    0 0 0 1.5px rgba(15, 23, 42, 0.55),
+    0 0 24px rgba(var(--cursor-accent-rgb, 81, 83, 214), 0.45);
+}
+
+.dark .custom-cursor-icon.is-active {
+  box-shadow:
+    0 0 0 1.5px rgba(255, 255, 255, 0.55),
+    0 0 24px rgba(var(--cursor-accent-rgb, 81, 83, 214), 0.55);
 }
 
 .custom-cursor-icon.is-active::after {

@@ -16,6 +16,14 @@ import usePrefersReducedMotion from "../Hooks/usePrefersReducedMotion";
 const INTERACTIVE_SELECTOR =
   'a, button, [role="button"], input, textarea, select, summary';
 
+// The cursor ring/dot deliberately do NOT use the user-picked accent color
+// (`color` below) — that color is used everywhere on the page for headings,
+// badges, and icons (Skills, Projects), so a same-colored cursor visually
+// disappears the moment it crosses any of that content. This matches
+// --secondary-color in index.css, which is reserved for backdrop/glow use
+// and never used for foreground text, so the ring stays visible everywhere.
+const CURSOR_COLOR = "#5153d6";
+
 const revealProps = {
   initial: { opacity: 0, y: 32 },
   whileInView: { opacity: 1, y: 0 },
@@ -70,7 +78,7 @@ const Home = () => {
   }, [prefersReducedMotion]);
 
   const [color, setColor] = useState(defaultColor);
-  const cursorColorRGBA = parseHexColor(color, { r: 16, g: 185, b: 129 });
+  const cursorColorRGBA = parseHexColor(CURSOR_COLOR, { r: 81, g: 83, b: 214 });
 
   // Keeps CSS-only elements (nav links, section titles — driven by
   // var(--primary-color) in index.css) in sync with the picked accent,
@@ -94,7 +102,7 @@ const Home = () => {
             style={{
               left: `${mousePosition.x}px`,
               top: `${mousePosition.y}px`,
-              "--cursor-accent": color,
+              "--cursor-accent": CURSOR_COLOR,
               "--cursor-accent-rgb": `${cursorColorRGBA.r}, ${cursorColorRGBA.g}, ${cursorColorRGBA.b}`,
             }}
           />
@@ -103,7 +111,8 @@ const Home = () => {
             style={{
               left: `${mousePosition.x - 100}px`,
               top: `${mousePosition.y - 100}px`,
-              "--cursor-accent": color,
+              "--cursor-accent": CURSOR_COLOR,
+              "--cursor-glow-accent": color,
             }}
           />
         </>
