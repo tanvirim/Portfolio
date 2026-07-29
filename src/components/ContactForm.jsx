@@ -1,84 +1,90 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
+import { Send } from "lucide-react";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { defaultColor } from "../constants";
 
-const ContactForm = ({ color }) => {
+const ContactForm = ({ color = defaultColor }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("click hoytese");
+    setStatus("sending");
 
-    // Send the email using EmailJS
+    // sendForm's third argument must be the form element itself (it reads
+    // input values off it by their `name` attributes) — not a plain object.
     emailjs
-      .sendForm("service_omm1e0n", "template_qmj1gvo", formData)
-      .then((response) => {
-        console.log("Email sent successfully:", response);
-        alert("Email sent successfully!");
-        setFormData({
-          name: "",
-          email: "",
-          message: "",
-        });
+      .sendForm("service_omm1e0n", "template_qmj1gvo", e.target)
+      .then(() => {
+        setStatus("sent");
+        setFormData({ name: "", email: "", message: "" });
+        setTimeout(() => setStatus("idle"), 3000);
       })
       .catch((error) => {
         console.error("Error sending email:", error);
-        alert("An error occurred while sending the email.");
+        setStatus("error");
       });
   };
 
   return (
-    <div className="max-w-[400px] mx-auto p-5 border border-[#ccc] rounded-[5px]">
-      <form onSubmit={handleSubmit}>
-        <Input
-          type="text"
-          name="name"
-          placeholder="Your Name"
-          value={formData.name}
-          onChange={handleChange}
-          className="h-auto w-full py-2.5 px-2.5 mb-2.5 border-[#ccc] rounded-[5px]"
-        />
-        <Input
-          type="email"
-          name="email"
-          placeholder="Your Email"
-          value={formData.email}
-          onChange={handleChange}
-          className="h-auto w-full py-2.5 px-2.5 mb-2.5 border-[#ccc] rounded-[5px]"
-        />
-        <Textarea
-          name="message"
-          placeholder="Message"
-          value={formData.message}
-          onChange={handleChange}
-          className="w-full py-2.5 px-2.5 mb-2.5 border-[#ccc] rounded-[5px]"
-        />
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+      <Input
+        type="text"
+        name="name"
+        placeholder="Your Name"
+        value={formData.name}
+        onChange={handleChange}
+        required
+        className="h-auto py-2.5 px-3 rounded-lg"
+      />
+      <Input
+        type="email"
+        name="email"
+        placeholder="Your Email"
+        value={formData.email}
+        onChange={handleChange}
+        required
+        className="h-auto py-2.5 px-3 rounded-lg"
+      />
+      <Textarea
+        name="message"
+        placeholder="Message"
+        value={formData.message}
+        onChange={handleChange}
+        required
+        rows={4}
+        className="py-2.5 px-3 rounded-lg"
+      />
+
+      <div className="flex items-center justify-between gap-3 mt-1">
+        <p className="text-xs text-gray-500 dark:text-gray-500 min-h-[1em]">
+          {status === "sent" && "Message sent — thanks!"}
+          {status === "error" && "Something went wrong, try again."}
+        </p>
         <Button
           type="submit"
-          style={{ backgroundColor: color ? color : defaultColor }}
-          className="game-btn ml-[60%] text-black py-2.5 px-6 h-auto rounded-full font-bold"
+          disabled={status === "sending"}
+          style={{ backgroundColor: color }}
+          className="game-btn shrink-0 flex items-center gap-2 text-black py-2.5 px-6 h-auto rounded-full font-bold disabled:opacity-60"
         >
-          Send Email
+          {status === "sending" ? "Sending…" : status === "sent" ? "Sent" : "Send Email"}
+          <Send size={15} />
         </Button>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 };
 

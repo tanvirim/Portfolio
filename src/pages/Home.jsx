@@ -6,7 +6,7 @@ import GitContributionsBar from "../components/GitContributions";
 import Navbar from "../components/Navbar";
 import TerminalIntro from "../components/TerminalIntro";
 import Hero from "../components/Hero";
-// import HeroBubbles from "../components/HeroBubbles";
+import HeroBubbles from "../components/HeroBubbles";
 import HeroPattern from "../components/HeroPattern";
 import ProjectCards from "../components/project/ProjectCards";
 import Skills from "../components/Skills";
@@ -180,7 +180,7 @@ const Home = () => {
 
         <section id="about" className="relative pb-16 order-1 lg:order-none">
           <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mt-6">
-            {/* <HeroBubbles color={color} /> */}
+            <HeroBubbles color={color} />
             <Hero color={color} />
             <TerminalIntro color={color} />
           </div>
