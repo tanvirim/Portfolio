@@ -360,7 +360,7 @@ const GitContributionsBar = ({ color }) => {
                 index === YEARS_BACK + 1 ? "mt-1 pt-2 border-t border-black/10 dark:border-white/10" : ""
               } ${
                 year === selectedYear
-                  ? "text-white"
+                  ? "text-black"
                   : "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
               }`}
               style={year === selectedYear ? { backgroundColor: color } : undefined}

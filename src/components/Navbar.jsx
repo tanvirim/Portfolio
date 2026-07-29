@@ -64,7 +64,7 @@ const Navbar = ({ color = defaultColor }) => {
                 <ScrollLink
                   to={item.to}
                   onClick={() => setIsOpen(false)}
-                  className="block py-3 text-white font-bold cursor-pointer hover:brightness-90 transition-all"
+                  className="block py-3 text-black font-bold cursor-pointer hover:brightness-90 transition-all"
                 >
                   {item.label}
                 </ScrollLink>

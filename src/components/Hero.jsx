@@ -124,7 +124,7 @@ const Hero = ({ color = defaultColor }) => {
 
       <div className="flex flex-wrap items-center gap-3">
         <button
-          className="game-btn text-xs font-bold flex items-center gap-1 px-3.5 py-2 text-white rounded-full"
+          className="game-btn text-xs font-bold flex items-center gap-1 px-3.5 py-2 text-black rounded-full"
           style={{ backgroundColor: color }}
           onClick={openModal}
         >
@@ -218,7 +218,7 @@ const Hero = ({ color = defaultColor }) => {
               <a
                 href="/Tanvir_Mitul_Resume.pdf"
                 download
-                className="game-btn flex items-center px-4 py-2 text-white font-bold rounded-full"
+                className="game-btn flex items-center px-4 py-2 text-black font-bold rounded-full"
                 style={{ backgroundColor: color }}
               >
                 Download Resume

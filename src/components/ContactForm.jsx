@@ -73,7 +73,7 @@ const ContactForm = ({ color }) => {
         <Button
           type="submit"
           style={{ backgroundColor: color ? color : defaultColor }}
-          className="game-btn ml-[60%] text-white py-2.5 px-6 h-auto rounded-full font-bold"
+          className="game-btn ml-[60%] text-black py-2.5 px-6 h-auto rounded-full font-bold"
         >
           Send Email
         </Button>
