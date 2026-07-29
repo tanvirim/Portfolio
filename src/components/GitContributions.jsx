@@ -12,6 +12,13 @@ import SkeletonLoader from "./Skeleton";
 const DAYS_PER_WEEK = 7;
 const YEARS_BACK = 2; // shows current (rolling) year plus this many past calendar years
 
+// 2021-2023 contribution history lives under a different (older) GitHub
+// account than the current one, so those tabs authenticate with a separate
+// login/token pair (see VITE_GITHUB_*_LEGACY in .env) instead of the
+// primary VITE_GITHUB_* credentials used for everything else.
+const LEGACY_YEARS = [2023, 2022, 2021];
+const LEGACY_YEAR_SET = new Set(LEGACY_YEARS);
+
 const countToClass = (count) => {
   if (count > 10) return "class1";
   if (count >= 6) return "class2";
@@ -188,22 +195,31 @@ const Container = styled.div`
 const GitContributionsBar = ({ color }) => {
   const colorRGBA = parseHexColor(color, { r: 77, g: 27, b: 97 });
 
-  const accessToken = import.meta.env.VITE_GITHUB_SECRET_KEY;
-  const login = import.meta.env.VITE_GITHUB_USERNAME;
+  const primaryToken = import.meta.env.VITE_GITHUB_SECRET_KEY;
+  const primaryLogin = import.meta.env.VITE_GITHUB_USERNAME;
+  const legacyToken = import.meta.env.VITE_GITHUB_SECRET_KEY_LEGACY;
+  const legacyLogin = import.meta.env.VITE_GITHUB_USERNAME_LEGACY;
 
   const today = useMemo(() => new Date(), []);
   const currentYear = today.getFullYear();
-  const yearTabs = useMemo(
-    () =>
-      Array.from({ length: YEARS_BACK + 1 }, (_, i) => currentYear - i),
-    [currentYear]
-  );
+  const yearTabs = useMemo(() => {
+    const recentYears = Array.from(
+      { length: YEARS_BACK + 1 },
+      (_, i) => currentYear - i
+    );
+    const olderYears = LEGACY_YEARS.filter((year) => !recentYears.includes(year));
+    return [...recentYears, ...olderYears];
+  }, [currentYear]);
 
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const range = useMemo(
     () => getRangeForYear(selectedYear, currentYear, today),
     [selectedYear, currentYear, today]
   );
+
+  const isLegacyYear = LEGACY_YEAR_SET.has(selectedYear);
+  const login = isLegacyYear ? legacyLogin : primaryLogin;
+  const accessToken = isLegacyYear ? legacyToken : primaryToken;
 
   const { weeks, totalContributions, isLoading, error } = useContributions(
     login,
@@ -330,12 +346,19 @@ const GitContributionsBar = ({ color }) => {
         </div>
 
         <div className="flex flex-col gap-1 shrink-0">
-          {yearTabs.map((year) => (
+          {yearTabs.map((year, index) => (
             <button
               key={year}
               type="button"
               onClick={() => setSelectedYear(year)}
+              title={
+                LEGACY_YEAR_SET.has(year)
+                  ? `${year} contributions (older account)`
+                  : undefined
+              }
               className={`px-2.5 py-1 rounded-md text-xs font-mono transition-colors ${
+                index === YEARS_BACK + 1 ? "mt-1 pt-2 border-t border-black/10 dark:border-white/10" : ""
+              } ${
                 year === selectedYear
                   ? "text-white"
                   : "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
