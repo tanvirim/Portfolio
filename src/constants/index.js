@@ -1,4 +1,4 @@
-export const defaultColor = "#10b981";
+export const defaultColor = "#1ce5ff";
 export const educationHistory = [
   {
     institution: "Rajshahi University of Engineering and Technology (RUET)",

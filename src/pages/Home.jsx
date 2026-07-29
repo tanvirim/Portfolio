@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import ColorPicker from "../components/ColorPicker";
 import ThemeToggle from "../components/ThemeToggle";
@@ -32,46 +32,79 @@ const revealProps = {
 };
 
 const Home = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isClicked, setIsClicked] = useState(false);
-  const [isHoveringInteractive, setIsHoveringInteractive] = useState(false);
+  // Position tracking (outer wrappers) vs. visual state (inner ring/glow)
+  // are deliberately split across separate refs/elements. The outer
+  // wrappers get their transform written directly every animation frame —
+  // no React state, no CSS transition — so they track the real pointer
+  // position with zero lag, the way a native cursor does. Only the INNER
+  // elements (scale on hover/click, the glow's decorative breathing) carry
+  // a CSS transition, since those are deliberate, low-frequency state
+  // changes, not per-frame position updates. Routing position through
+  // React state + a `transition: left/top` (the previous approach) made
+  // every mousemove both re-render the whole page AND ease toward a
+  // constantly-moving target — a perpetual, never-catching-up chase that
+  // reads as sticky/buffering.
+  const cursorWrapRef = useRef(null);
+  const cursorRingRef = useRef(null);
+  const cursorBgRef = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
-  // Track the mouse position, click pulses, and hover state over anything
-  // clickable — the custom cursor reacts to all three (see .is-clicked /
-  // .is-active in index.css). Skipped entirely when the user prefers
-  // reduced motion, since the whole feature is a motion effect.
   useEffect(() => {
     if (prefersReducedMotion) return;
 
-    const handleMouseMove = (event) => {
-      setMousePosition({
-        x: event.clientX,
-        y: event.clientY,
-      });
+    const wrap = cursorWrapRef.current;
+    const ring = cursorRingRef.current;
+    const bg = cursorBgRef.current;
+    if (!wrap || !ring || !bg) return;
+
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let rafId = null;
+
+    const applyPosition = () => {
+      const transform = `translate3d(${targetX}px, ${targetY}px, 0)`;
+      wrap.style.transform = transform;
+      bg.style.transform = transform;
+      rafId = null;
     };
 
-    const handleMouseClick = () => {
-      setIsClicked(true);
-      setTimeout(() => setIsClicked(false), 300);
+    const handleMouseMove = (event) => {
+      targetX = event.clientX;
+      targetY = event.clientY;
+      // Coalesce to one DOM write per frame even if mousemove fires more
+      // often than that — keeps updates in lockstep with the compositor.
+      if (rafId === null) {
+        rafId = requestAnimationFrame(applyPosition);
+      }
+    };
+
+    let clickTimeout;
+    const handleMouseDown = () => {
+      ring.classList.add("is-clicked");
+      clearTimeout(clickTimeout);
+      // Matches the .5s ripple animation in index.css — remove only once
+      // it's had time to finish playing.
+      clickTimeout = setTimeout(() => ring.classList.remove("is-clicked"), 500);
     };
 
     const handlePointerOver = (event) => {
-      if (event.target.closest?.(INTERACTIVE_SELECTOR)) setIsHoveringInteractive(true);
+      if (event.target.closest?.(INTERACTIVE_SELECTOR)) ring.classList.add("is-active");
     };
 
     const handlePointerOut = (event) => {
-      if (event.target.closest?.(INTERACTIVE_SELECTOR)) setIsHoveringInteractive(false);
+      if (event.target.closest?.(INTERACTIVE_SELECTOR)) ring.classList.remove("is-active");
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mousedown", handleMouseClick);
+    window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("pointerover", handlePointerOver);
     window.addEventListener("pointerout", handlePointerOut);
 
     return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      clearTimeout(clickTimeout);
       window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mousedown", handleMouseClick);
+      window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("pointerover", handlePointerOver);
       window.removeEventListener("pointerout", handlePointerOut);
     };
@@ -95,26 +128,25 @@ const Home = () => {
     <>
       {!prefersReducedMotion && (
         <>
-          <div
-            className={`custom-cursor-icon ${isClicked ? "is-clicked" : ""} ${
-              isHoveringInteractive ? "is-active" : ""
-            }`}
-            style={{
-              left: `${mousePosition.x}px`,
-              top: `${mousePosition.y}px`,
-              "--cursor-accent": CURSOR_COLOR,
-              "--cursor-accent-rgb": `${cursorColorRGBA.r}, ${cursorColorRGBA.g}, ${cursorColorRGBA.b}`,
-            }}
-          />
-          <div
-            className="custom-cursor-bg"
-            style={{
-              left: `${mousePosition.x - 100}px`,
-              top: `${mousePosition.y - 100}px`,
-              "--cursor-accent": CURSOR_COLOR,
-              "--cursor-glow-accent": color,
-            }}
-          />
+          <div ref={cursorWrapRef} className="custom-cursor-icon">
+            <div
+              ref={cursorRingRef}
+              className="custom-cursor-ring"
+              style={{
+                "--cursor-accent": CURSOR_COLOR,
+                "--cursor-accent-rgb": `${cursorColorRGBA.r}, ${cursorColorRGBA.g}, ${cursorColorRGBA.b}`,
+              }}
+            />
+          </div>
+          <div ref={cursorBgRef} className="custom-cursor-bg">
+            <div
+              className="custom-cursor-bg-inner"
+              style={{
+                "--cursor-accent": CURSOR_COLOR,
+                "--cursor-glow-accent": color,
+              }}
+            />
+          </div>
         </>
       )}
 

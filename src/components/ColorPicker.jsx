@@ -6,8 +6,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { defaultColor } from "../constants";
 
 const PRESET_COLORS = [
-  "#10b981", // emerald (default)
-  "#1ce5ff", // cyan
+  "#1ce5ff", // cyan (default)
+  "#10b981", // emerald
   "#5153d6", // indigo
   "#8b5cf6", // violet
   "#ec4899", // pink
