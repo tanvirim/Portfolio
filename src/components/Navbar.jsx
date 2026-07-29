@@ -15,7 +15,7 @@ const NAV_ITEMS = [
 ];
 
 // Typed once on mount via .terminal-typewriter (index.css) — the same
-// one-shot "code is being written" reveal already used in TerminalIntro.
+// one-shot "code is being written" reveal used elsewhere in the hero.
 const NAV_STATUS = "full-stack-engineer";
 
 const Navbar = ({ color = defaultColor, colorStateForHome }) => {

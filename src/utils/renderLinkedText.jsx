@@ -2,8 +2,8 @@ const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 // Splits `text` on any of `links[].text` and wraps those matches in real
 // anchor tags — used wherever plain status/output text needs a couple of
-// words turned into live links (TerminalIntro's status.txt line, Hero's
-// "Currently building..." line) without hand-rolling the split each time.
+// words turned into live links (Hero's "Currently building..." line)
+// without hand-rolling the split each time.
 const renderLinkedText = (text, links, linkClassName) => {
   if (!links || links.length === 0) return text;
 

@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import GitContributionsBar from "../components/GitContributions";
 import Navbar from "../components/Navbar";
-import TerminalIntro from "../components/TerminalIntro";
 import Hero from "../components/Hero";
 import HeroBubbles from "../components/HeroBubbles";
 import HeroPattern from "../components/HeroPattern";
@@ -48,6 +47,10 @@ const Home = () => {
   const cursorWrapRef = useRef(null);
   const cursorRingRef = useRef(null);
   const cursorBgRef = useRef(null);
+  // Empty grid cell next to Hero (where the terminal panel used to sit) —
+  // HeroBubbles reads its bounding box each frame and gathers the floating
+  // icon cubes into a circle inside it instead of scattering them.
+  const heroIconCircleRef = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
@@ -178,7 +181,7 @@ const Home = () => {
       </div>
 
       <HeroPattern color={color} />
-      <HeroBubbles color={color} />
+      <HeroBubbles color={color} targetRef={heroIconCircleRef} />
 
       <div className="flex flex-col px-4 sm:px-6 md:px-10 lg:px-20 max-w-screen-2xl mx-auto overflow-x-hidden pt-8">
         <div className="mb-6">
@@ -186,9 +189,9 @@ const Home = () => {
         </div>
 
         <section id="about" className="relative pb-16 order-1 lg:order-none">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
             <Hero color={color} />
-            <TerminalIntro color={color} />
+            <div ref={heroIconCircleRef} className="hidden lg:block" aria-hidden="true" />
           </div>
 
           <div
