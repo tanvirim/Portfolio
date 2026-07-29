@@ -78,7 +78,7 @@ const Hero = ({ color = defaultColor }) => {
         />
         <span className="inline-flex w-fit items-center gap-2 rounded-full border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 px-3 py-1 text-xs font-medium text-gray-600 dark:text-gray-300">
           <Dot color={color} />
-          Open to new opportunities
+          Writing code that makes a difference...
         </span>
       </div>
 
@@ -104,8 +104,8 @@ const Hero = ({ color = defaultColor }) => {
 
       <p className="max-w-md text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
         I build and ship production systems end to end — Next.js/React
-        frontends, Node.js/NestJS backends, and the Docker/Nginx
-        infrastructure that runs them.
+        frontends, Node.js/NestJS backends, and the Docker/Nginx infrastructure
+        that runs them.
       </p>
 
       <p className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
@@ -118,7 +118,9 @@ const Hero = ({ color = defaultColor }) => {
 
       <p className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-500 mt-2">
         <Dot color="#4ade80" />
-        <span className="font-medium text-gray-700 dark:text-gray-300">Currently</span>{" "}
+        <span className="font-medium text-gray-700 dark:text-gray-300">
+          Currently
+        </span>{" "}
         Building Kagoj.ai, Jiggasha.ai &amp; TAS
       </p>
 
@@ -164,9 +166,9 @@ const Hero = ({ color = defaultColor }) => {
                   Full Stack Engineer with a DevOps focus — building and
                   shipping production systems end-to-end, currently leading
                   frontend architecture for large-scale AI-driven national
-                  platforms (Kagoj.ai, Jiggasha.ai, TAS) under the ICT
-                  Division at Dream71 Bangladesh Limited, while owning
-                  deployment, server hardening, and infrastructure.
+                  platforms (Kagoj.ai, Jiggasha.ai, TAS) under the ICT Division
+                  at Dream71 Bangladesh Limited, while owning deployment, server
+                  hardening, and infrastructure.
                 </p>
               </div>
             </div>
@@ -210,7 +212,9 @@ const Hero = ({ color = defaultColor }) => {
                 <h3 className="text-2xl font-semibold mb-2 about-title-text-style ">
                   Hobbies
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300">{hobbies.join(", ")}</p>
+                <p className="text-gray-600 dark:text-gray-300">
+                  {hobbies.join(", ")}
+                </p>
               </div>
             </div>
 
