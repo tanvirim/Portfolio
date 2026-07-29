@@ -29,10 +29,10 @@ const ColorPicker = ({ colorStateForHome }) => {
       <PopoverTrigger asChild>
         <button
           aria-label="Change accent color"
-          className="game-btn-circle w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border border-white/10"
+          className="game-btn-circle w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center border border-white/10"
           style={{ backgroundColor: color }}
         >
-          <Palette size={16} className="text-white drop-shadow" />
+          <Palette size={14} className="text-white drop-shadow" />
         </button>
       </PopoverTrigger>
       <PopoverContent

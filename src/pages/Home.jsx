@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import ColorPicker from "../components/ColorPicker";
-import ThemeToggle from "../components/ThemeToggle";
 import GitContributionsBar from "../components/GitContributions";
 import Navbar from "../components/Navbar";
 import TerminalIntro from "../components/TerminalIntro";
@@ -168,15 +166,9 @@ const Home = () => {
       <HeroPattern color={color} />
       <HeroBubbles color={color} />
 
-      <div className="flex flex-col px-4 sm:px-6 md:px-10 lg:px-20 max-w-screen-2xl mx-auto overflow-x-hidden">
-        <div className="flex justify-between items-start gap-4 mb-6 pt-8">
-          <div className="flex-1 min-w-0">
-            <Navbar color={color} />
-          </div>
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <ColorPicker colorStateForHome={handleColorState} />
-          </div>
+      <div className="flex flex-col px-4 sm:px-6 md:px-10 lg:px-20 max-w-screen-2xl mx-auto overflow-x-hidden pt-8">
+        <div className="sticky top-4 z-40 mb-6">
+          <Navbar color={color} colorStateForHome={handleColorState} />
         </div>
 
         <section id="about" className="relative pb-16 order-1 lg:order-none">
