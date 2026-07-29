@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import * as THREE from "three";
+import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { forceCollide, forceSimulation } from "d3-force";
 import {
   SiJavascript,
@@ -305,7 +306,10 @@ const HeroBubbles = ({ color = defaultColor, targetRef }) => {
 
     // One shared unit geometry — every cube's actual size comes from
     // mesh.scale, so we're not allocating unique geometry per node.
-    const chipGeometry = new THREE.BoxGeometry(1, 1, 1);
+    // RoundedBoxGeometry (not a plain BoxGeometry) so the edges read as a
+    // soft, rounded-corner die instead of a razor-sharp cube — it still
+    // keeps BoxGeometry's 6 face groups, so per-face materials still work.
+    const chipGeometry = new RoundedBoxGeometry(1, 1, 1, 4, 0.15);
 
     // One material per icon, tinted with that icon's own brand color —
     // reused across every face/cube that happens to land on the same icon.

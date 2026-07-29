@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-duplicate-case */
 /* eslint-disable react/prop-types */
 import { BsFillBootstrapFill } from "react-icons/bs";
 import { DiIllustrator } from "react-icons/di";
@@ -47,6 +45,55 @@ import { TbBrandNextjs } from "react-icons/tb";
 import { RiGitMergeLine } from "react-icons/ri";
 import { motion } from "framer-motion";
 import SectionTitle from "./SectionTitle";
+import IconCube from "./IconCube";
+
+// Each skill's icon paired with that technology's own real brand color —
+// not the page's accent color — so every cube is tinted like the actual
+// logo instead of a uniform swatch.
+const SKILL_ICON_META = {
+  Vercel: { icon: SiVercel, color: "#000000" },
+  Netlify: { icon: SiNetlify, color: "#00C7B7" },
+  Render: { icon: SiRender, color: "#46E3B7" },
+  JavaScript: { icon: SiJavascript, color: "#F7DF1E" },
+  TypeScript: { icon: SiTypescript, color: "#3178C6" },
+  Python: { icon: SiPython, color: "#3776AB" },
+  "React.js": { icon: SiReact, color: "#61DAFB" },
+  NodeJs: { icon: FaNodeJs, color: "#339933" },
+  MongoDB: { icon: SiMongodb, color: "#47A248" },
+  "Express.js": { icon: SiExpress, color: "#000000" },
+  NestJS: { icon: SiNestjs, color: "#E0234E" },
+  "Socket.io": { icon: SiSocketdotio, color: "#010101" },
+  "JWT / OAuth": { icon: SiJsonwebtokens, color: "#000000" },
+  "REST / Swagger": { icon: SiSwagger, color: "#85EA2D" },
+  Redux: { icon: SiRedux, color: "#764ABC" },
+  "Redux Toolkit": { icon: SiRedux, color: "#764ABC" },
+  Zustand: { icon: FaCubes, color: "#F0A202" },
+  "Shadcn/UI": { icon: FaCubes, color: "#18181B" },
+  "Next.Js": { icon: TbBrandNextjs, color: "#000000" },
+  HTML5: { icon: FaHtml5, color: "#E34F26" },
+  CSS3: { icon: FaCss3Alt, color: "#1572B6" },
+  MUI: { icon: SiMui, color: "#007FFF" },
+  Git: { icon: RiGitMergeLine, color: "#F05032" },
+  GitHub: { icon: FaGithub, color: "#181717" },
+  Figma: { icon: FaFigma, color: "#F24E1E" },
+  "Tailwind CSS": { icon: BiLogoTailwindCss, color: "#38BDF8" },
+  Bootstrap: { icon: BsFillBootstrapFill, color: "#7952B3" },
+  "Adobe Illustrator": { icon: DiIllustrator, color: "#FF9A00" },
+  "React Query": { icon: SiReactquery, color: "#FF4154" },
+  MySQL: { icon: SiMysql, color: "#4479A1" },
+  SQLite: { icon: SiSqlite, color: "#003B57" },
+  PostgreSQL: { icon: SiPostgresql, color: "#4169E1" },
+  Docker: { icon: SiDocker, color: "#2496ED" },
+  Nginx: { icon: SiNginx, color: "#009639" },
+  Linux: { icon: SiLinux, color: "#FCC624" },
+  PM2: { icon: SiPm2, color: "#2B037A" },
+  "VPS / Production Servers": { icon: FaServer, color: "#64748B" },
+  "Oracle Cloud": { icon: SiOracle, color: "#F80000" },
+  "GitHub Actions": { icon: SiGithubactions, color: "#2088FF" },
+  ESLint: { icon: SiEslint, color: "#4B32C3" },
+  Prettier: { icon: SiPrettier, color: "#F7B93E" },
+  Vitest: { icon: SiVitest, color: "#6E9F18" },
+};
 
 const Skills = ({ color }) => {
   const skills = [
@@ -96,96 +143,7 @@ const Skills = ({ color }) => {
     },
   ];
 
-  const getIcon = (item) => {
-    switch (item) {
-      case "Vercel":
-        return <SiVercel />;
-      case "Netlify":
-        return <SiNetlify />;
-      case "Render":
-        return <SiRender />;
-      case "JavaScript":
-        return <SiJavascript />;
-      case "TypeScript":
-        return <SiTypescript />;
-      case "Python":
-        return <SiPython />;
-      case "React.js":
-        return <SiReact />;
-      case "NodeJs":
-        return <FaNodeJs />;
-      case "MongoDB":
-        return <SiMongodb />;
-      case "Express.js":
-        return <SiExpress />;
-      case "NestJS":
-        return <SiNestjs />;
-      case "Socket.io":
-        return <SiSocketdotio />;
-      case "JWT / OAuth":
-        return <SiJsonwebtokens />;
-      case "REST / Swagger":
-        return <SiSwagger />;
-      case "Redux":
-        return <SiRedux />;
-      case "Redux Toolkit":
-        return <SiRedux />;
-      case "Zustand":
-        return <FaCubes />;
-      case "Shadcn/UI":
-        return <FaCubes />;
-      case "Next.Js":
-        return <TbBrandNextjs />;
-      case "HTML5":
-        return <FaHtml5 />;
-      case "CSS3":
-        return <FaCss3Alt />;
-      case "MUI":
-        return <SiMui />;
-      case "Git":
-        return <RiGitMergeLine />;
-      case "GitHub":
-        return <FaGithub />;
-      case "Figma":
-        return <FaFigma />;
-      case "Tailwind CSS":
-        return <BiLogoTailwindCss />;
-      case "Bootstrap":
-        return <BsFillBootstrapFill />;
-      case "Adobe Illustrator":
-        return <DiIllustrator />;
-      case "React Query":
-        return <SiReactquery />;
-      case "MySQL":
-        return <SiMysql />;
-      case "SQLite":
-        return <SiSqlite />;
-      case "PostgreSQL":
-        return <SiPostgresql />;
-      case "Docker":
-        return <SiDocker />;
-      case "Nginx":
-        return <SiNginx />;
-      case "Linux":
-        return <SiLinux />;
-      case "PM2":
-        return <SiPm2 />;
-      case "VPS / Production Servers":
-        return <FaServer />;
-      case "Oracle Cloud":
-        return <SiOracle />;
-      case "GitHub Actions":
-        return <SiGithubactions />;
-      case "ESLint":
-        return <SiEslint />;
-      case "Prettier":
-        return <SiPrettier />;
-      case "Vitest":
-        return <SiVitest />;
-      default:
-        return null;
-    }
-  };
+  const getSkillMeta = (item) => SKILL_ICON_META[item] || { icon: null, color };
 
   return (
     <div className="px-5">
@@ -227,20 +185,20 @@ const Skills = ({ color }) => {
 
                 {/* Skills List */}
                 <div className="flex flex-wrap justify-center">
-                  {category.items.map((item, itemIndex) => (
-                    <div
-                      key={itemIndex}
-                      className="flex flex-col items-center text-center mx-5 my-2 transition-transform duration-200 hover:scale-125 hover:-translate-y-1"
-                    >
+                  {category.items.map((item, itemIndex) => {
+                    const meta = getSkillMeta(item);
+                    return (
                       <div
-                        className="text-3xl mb-2 text-current drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
-                        style={{ color }}
+                        key={itemIndex}
+                        className="flex flex-col items-center text-center mx-5 my-2 transition-transform duration-200 hover:scale-125 hover:-translate-y-1"
                       >
-                        {getIcon(item)}
+                        <div className="mb-2">
+                          <IconCube icon={meta.icon} color={meta.color} size={36} />
+                        </div>
+                        <div className="text-lg">{item}</div>
                       </div>
-                      <div className="text-lg">{item}</div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </motion.div>
             ))}
