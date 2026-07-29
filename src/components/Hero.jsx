@@ -5,11 +5,12 @@ import { useState } from "react";
 import { MapPin, ChevronsRight, Download } from "lucide-react";
 import { Dialog, DialogContent } from "./ui/dialog";
 import profilePic from "../assets/profile.jpg";
-import { defaultColor } from "../constants";
+import { defaultColor, shippedProjects } from "../constants";
 import SocialIcons from "./Socialicon";
 import useTypewriter from "../Hooks/useTypewriter";
 import usePrefersReducedMotion from "../Hooks/usePrefersReducedMotion";
 import renderLinkedText from "../utils/renderLinkedText";
+import formatList from "../utils/formatList";
 
 const NAME_PLAIN = "Tanvir Imam ";
 const NAME_ACCENT = "Mitul";
@@ -18,12 +19,11 @@ const ROLE_LINE = "Software Engineer @ Dream71 Bangladesh Limited";
 const DESCRIPTION =
   "I build and ship production systems end to end — Next.js/React frontends, Node.js/NestJS backends, and the Docker/Nginx infrastructure that runs them.";
 const LOCATION_TEXT = "Dhaka, Bangladesh";
-const CURRENTLY_TEXT = "Building Kagoj.ai, Jiggasha.ai & TAS";
-const CURRENTLY_LINKS = [
-  { text: "Kagoj.ai", href: "https://kagoj.ai/" },
-  { text: "Jiggasha.ai", href: "https://jiggasha.ai/" },
-  { text: "TAS", href: "https://tas.bangla.gov.bd/" },
-];
+const CURRENTLY_TEXT = `Building ${formatList(shippedProjects.map((p) => p.name))}`;
+const CURRENTLY_LINKS = shippedProjects.map(({ name, url }) => ({
+  text: name,
+  href: url,
+}));
 
 const educationData = [
   {

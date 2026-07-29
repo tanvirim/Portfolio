@@ -2,13 +2,7 @@
 import { ExternalLink } from "lucide-react";
 import ContactForm from "./ContactForm";
 import SectionTitle from "./SectionTitle";
-import { defaultColor } from "../constants";
-
-const SHIPPED_PROJECTS = [
-  { name: "Kagoj.ai", url: "https://kagoj.ai/" },
-  { name: "Jiggasha.ai", url: "https://jiggasha.ai/" },
-  { name: "TAS", url: "https://tas.bangla.gov.bd/" },
-];
+import { defaultColor, shippedProjects } from "../constants";
 
 const Footer = ({ color = defaultColor }) => {
   return (
@@ -43,7 +37,7 @@ const Footer = ({ color = defaultColor }) => {
             Things I&apos;ve shipped
           </h3>
           <div className="flex flex-wrap items-center justify-center gap-2">
-            {SHIPPED_PROJECTS.map((project) => (
+            {shippedProjects.map((project) => (
               <a
                 key={project.name}
                 href={project.url}

@@ -5,6 +5,18 @@ export const defaultColor = "#1ce5ff";
 // switch to something with enough contrast/warmth against the light theme.
 export const getDefaultColorForTheme = (theme) =>
   theme === "light" ? "#ef4444" : defaultColor;
+
+// Single source of truth for the "currently building / things I've
+// shipped" project links — referenced from both Hero (the terminal-style
+// "Currently" line) and Footer (the shipped-projects chip list), so
+// adding/removing/reordering an entry here updates every place at once.
+export const shippedProjects = [
+  { name: "BanglaGov", url: "https://www.bangla.gov.bd/" },
+  { name: "Kagoj.ai", url: "https://kagoj.ai/" },
+  { name: "Jiggasha.ai", url: "https://jiggasha.ai/" },
+  { name: "TAS", url: "https://tas.bangla.gov.bd/" },
+];
+
 export const educationHistory = [
   {
     institution: "Rajshahi University of Engineering and Technology (RUET)",
