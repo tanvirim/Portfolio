@@ -45,72 +45,89 @@ const ProjectCards = ({ color = defaultColor }) => {
   return (
     <div className="px-5">
       <div className="title-text-style mb-6">Projects</div>
-      <ProjectCardsContainer color={color}>
-        {displayedProjects.map((project, index) => (
-          <ProjectCard
-            className="game-card"
-            color={color}
-            key={index}
-            onClick={() => openModal(index)}
-            initial={{ opacity: 0, y: 50, rotateX: -12 }}
-            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
-          >
-            {project.imageLink ? (
-              <img
-                className="h-[140px] object-cover rounded-t-lg"
-                src={project.imageLink}
-                alt={project.projectName}
-              />
-            ) : (
-              <div className="h-[140px] rounded-t-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400 dark:text-gray-500 text-xs">
-                Preview coming soon
-              </div>
-            )}
-            <h3>{project.projectName}</h3>
-            <ul>
-              {project.technologies.map((tech, techIndex) => (
-                <li key={techIndex}>
-                  <button className="technology-button game-btn">{tech}</button>
-                </li>
-              ))}
-            </ul>
-            <p title={project.projectDescription}>
-              {project.projectDescription.length > 150
-                ? `${project.projectDescription.slice(0, 150)}...`
-                : project.projectDescription}
-            </p>
 
-            <div className="project-links">
-              {project.githubLink && (
-                <a
-                  href={project.githubLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaGithub color={color ? color : defaultColor} size={23} />
-                </a>
-              )}
-              {project.liveLink && (
-                <a
-                  href={project.liveLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <ExternalLink color={color ? color : defaultColor} size={20} />
-                </a>
-              )}
-            </div>
-          </ProjectCard>
-        ))}
-      </ProjectCardsContainer>
-      {isRootRoute && (
-        <StyledLearnMoreButton className="game-btn" color={color} to="/projects">
-          All Projects
-          <ChevronsRight />
-        </StyledLearnMoreButton>
-      )}
+      <div
+        className="game-card-subtle rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#0d1117] shadow-[0_20px_50px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.45)] overflow-hidden"
+        style={{ "--tile-accent": color }}
+      >
+        <div className="flex items-center gap-2 px-4 py-3 border-b border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.03]">
+          <span className="w-3 h-3 rounded-full bg-red-500/80" />
+          <span className="w-3 h-3 rounded-full bg-amber-400/80" />
+          <span className="w-3 h-3 rounded-full bg-green-500/80" />
+          <span className="ml-3 text-xs text-gray-500 dark:text-gray-400 font-mono">
+            projects.sh
+          </span>
+        </div>
+
+        <div className="p-5 sm:p-8">
+          <ProjectCardsContainer color={color}>
+            {displayedProjects.map((project, index) => (
+              <ProjectCard
+                className="game-card"
+                color={color}
+                key={index}
+                onClick={() => openModal(index)}
+                initial={{ opacity: 0, y: 50, rotateX: -12 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
+              >
+                {project.imageLink ? (
+                  <img
+                    className="h-[140px] object-cover rounded-t-lg"
+                    src={project.imageLink}
+                    alt={project.projectName}
+                  />
+                ) : (
+                  <div className="h-[140px] rounded-t-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400 dark:text-gray-500 text-xs">
+                    Preview coming soon
+                  </div>
+                )}
+                <h3>{project.projectName}</h3>
+                <ul>
+                  {project.technologies.map((tech, techIndex) => (
+                    <li key={techIndex}>
+                      <button className="technology-button game-btn">{tech}</button>
+                    </li>
+                  ))}
+                </ul>
+                <p title={project.projectDescription}>
+                  {project.projectDescription.length > 150
+                    ? `${project.projectDescription.slice(0, 150)}...`
+                    : project.projectDescription}
+                </p>
+
+                <div className="project-links">
+                  {project.githubLink && (
+                    <a
+                      href={project.githubLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FaGithub color={color ? color : defaultColor} size={23} />
+                    </a>
+                  )}
+                  {project.liveLink && (
+                    <a
+                      href={project.liveLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <ExternalLink color={color ? color : defaultColor} size={20} />
+                    </a>
+                  )}
+                </div>
+              </ProjectCard>
+            ))}
+          </ProjectCardsContainer>
+          {isRootRoute && (
+            <StyledLearnMoreButton className="game-btn" color={color} to="/projects">
+              All Projects
+              <ChevronsRight />
+            </StyledLearnMoreButton>
+          )}
+        </div>
+      </div>
 
       {/* Modal for image slider */}
       <ProjectModal

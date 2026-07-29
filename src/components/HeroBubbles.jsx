@@ -1,40 +1,63 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { forceCollide, forceSimulation } from "d3-force";
+import {
+  SiJavascript,
+  SiTypescript,
+  SiPython,
+  SiReact,
+  SiMongodb,
+  SiExpress,
+  SiNestjs,
+  SiSocketdotio,
+  SiJsonwebtokens,
+  SiRedux,
+  SiMysql,
+  SiPostgresql,
+  SiDocker,
+  SiNginx,
+  SiLinux,
+  SiPm2,
+  SiGithubactions,
+  SiEslint,
+  SiVite,
+} from "react-icons/si";
+import { BiLogoTailwindCss } from "react-icons/bi";
+import { FaNodeJs, FaGithub } from "react-icons/fa";
+import { TbBrandNextjs } from "react-icons/tb";
+import { RiGitMergeLine } from "react-icons/ri";
 import parseHexColor from "../utils/parseHexColor";
 import usePrefersReducedMotion from "../Hooks/usePrefersReducedMotion";
 import { defaultColor } from "../constants";
 
-// Words related to this portfolio's actual stack (see Skills.jsx /
-// TerminalIntro.jsx) instead of decorative single letters — floats past as
-// a code-flavored ambient background rather than abstract confetti.
-const WORDS = [
-  "React",
-  "Next.js",
-  "Node.js",
-  "NestJS",
-  "TypeScript",
-  "JavaScript",
-  "MongoDB",
-  "PostgreSQL",
-  "Redux",
-  "Docker",
-  "Nginx",
-  "Git",
-  "REST API",
-  "Socket.io",
-  "Linux",
-  "JWT",
-  "Tailwind",
-  "Python",
-  "Zustand",
-  "CI/CD",
-  "Vite",
-  "PM2",
-  "Kajog.ai",
-  "jiggasha.ai",
-  "bangla.gov.bd",
-
+// Icons pulled from this portfolio's actual stack (see Skills.jsx) — these
+// float around the hero instead of decorative letters/words.
+const ICONS = [
+  SiReact,
+  TbBrandNextjs,
+  FaNodeJs,
+  SiNestjs,
+  SiTypescript,
+  SiJavascript,
+  SiMongodb,
+  SiPostgresql,
+  SiRedux,
+  SiDocker,
+  SiNginx,
+  RiGitMergeLine,
+  SiSocketdotio,
+  SiLinux,
+  SiJsonwebtokens,
+  BiLogoTailwindCss,
+  SiPython,
+  SiPm2,
+  SiMysql,
+  SiGithubactions,
+  SiEslint,
+  FaGithub,
+  SiExpress,
+  SiVite,
 ];
 
 function lighten(hex, amount, fallback) {
@@ -56,6 +79,19 @@ function buildPalette(accentColor) {
     lighten(accentColor, 0.3, accentRGBA),
     lighten(secondary, 0.3, { r: 81, g: 83, b: 214 }),
   ];
+}
+
+// Renders a react-icons component to a colored SVG image once, so the
+// animation loop can cheaply drawImage() it every frame instead of
+// re-rendering React/SVG per node per tick.
+function buildIconImage(Icon, colorCss) {
+  const markup = renderToStaticMarkup(<Icon color={colorCss} size={64} />);
+  const svg = markup.includes("xmlns")
+    ? markup
+    : markup.replace("<svg", "<svg xmlns='http://www.w3.org/2000/svg'");
+  const img = new Image();
+  img.src = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+  return img;
 }
 
 const HeroBubbles = ({ color = defaultColor }) => {
@@ -85,25 +121,36 @@ const HeroBubbles = ({ color = defaultColor }) => {
     setupCanvasScale();
 
     const palette = buildPalette(color);
-    const fontFamily =
-      'ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace';
     // Multiple sizes per node (not one fixed size) — sampled per node below.
-    const [minFontSize, maxFontSize] =
-      width >= 1280 ? [9, 18] : width >= 768 ? [8, 14] : [7, 11];
+    const [minIconSize, maxIconSize] =
+      width >= 1280 ? [16, 32] : width >= 768 ? [14, 26] : [12, 20];
 
     const numNodes = width >= 1280 ? 70 : width >= 768 ? 45 : 24;
+
+    // Cache one rendered image per (icon, color) pair so duplicates across
+    // nodes reuse the same <img>, regardless of how many nodes exist.
+    const imageCache = new Map();
+    const getIconImage = (iconIndex, colorIndex) => {
+      const key = `${iconIndex}-${colorIndex}`;
+      if (!imageCache.has(key)) {
+        imageCache.set(
+          key,
+          buildIconImage(ICONS[iconIndex], palette[colorIndex])
+        );
+      }
+      return imageCache.get(key);
+    };
+
     // Each node keeps its own home position spread across the WHOLE area
     // (not one shared cluster point) — the gentle pull force below returns
     // it there any time the mouse repulsion pushes it away.
-    const nodes = Array.from({ length: numNodes }, (_, i) => {
-      const text = WORDS[i % WORDS.length];
-      const fontSize =
-        minFontSize + Math.random() * (maxFontSize - minFontSize);
-      ctx.font = `600 ${fontSize}px ${fontFamily}`;
-      const textWidth = ctx.measureText(text).width;
-      const margin = textWidth / 2 + 12;
+    const nodes = Array.from({ length: numNodes }, () => {
+      const size = minIconSize + Math.random() * (maxIconSize - minIconSize);
+      const margin = size / 2 + 12;
       const homeX = margin + Math.random() * Math.max(width - margin * 2, 1);
       const homeY = margin + Math.random() * Math.max(height - margin * 2, 1);
+      const iconIndex = Math.floor(Math.random() * ICONS.length);
+      const colorIndex = Math.floor(Math.random() * palette.length);
       return {
         x: homeX,
         y: homeY,
@@ -111,10 +158,9 @@ const HeroBubbles = ({ color = defaultColor }) => {
         vy: 0,
         homeX,
         homeY,
-        radius: textWidth / 2,
-        text,
-        fontSize,
-        color: palette[i % palette.length],
+        radius: size / 2,
+        size,
+        image: getIconImage(iconIndex, colorIndex),
         opacity: 0.28 + Math.random() * 0.35,
       };
     });
@@ -139,7 +185,7 @@ const HeroBubbles = ({ color = defaultColor }) => {
     const animate = () => {
       for (const node of nodes) {
         // Pull back toward this node's OWN home spot, not a shared center —
-        // this is what spreads the words across the whole area instead of
+        // this is what spreads the icons across the whole area instead of
         // clumping into one circle.
         const dx = node.homeX - node.x;
         const dy = node.homeY - node.y;
@@ -170,14 +216,17 @@ const HeroBubbles = ({ color = defaultColor }) => {
       simulation.tick();
 
       ctx.clearRect(0, 0, width, height);
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
 
       for (const node of nodes) {
-        ctx.font = `600 ${node.fontSize}px ${fontFamily}`;
+        if (!node.image.complete || !node.image.naturalWidth) continue;
         ctx.globalAlpha = node.opacity;
-        ctx.fillStyle = node.color;
-        ctx.fillText(node.text, node.x, node.y);
+        ctx.drawImage(
+          node.image,
+          node.x - node.size / 2,
+          node.y - node.size / 2,
+          node.size,
+          node.size
+        );
       }
       ctx.globalAlpha = 1;
 
