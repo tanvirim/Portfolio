@@ -22,17 +22,50 @@ import {
   SiGithubactions,
   SiEslint,
   SiVite,
+  SiCplusplus,
+  SiCsharp,
+  SiGo,
+  SiRust,
+  SiPhp,
+  SiRuby,
+  SiKotlin,
+  SiSwift,
+  SiVuedotjs,
+  SiAngular,
+  SiSvelte,
+  SiGraphql,
+  SiKubernetes,
+  SiAmazonaws,
+  SiGooglecloud,
+  SiFirebase,
+  SiSass,
+  SiWebpack,
+  SiJest,
+  SiRedis,
+  SiApachekafka,
+  SiTerraform,
+  SiFlutter,
+  SiDjango,
+  SiFlask,
+  SiSpring,
+  SiLaravel,
+  SiDotnet,
+  SiElasticsearch,
+  SiJenkins,
+  SiHtml5,
+  SiCss3,
 } from "react-icons/si";
 import { BiLogoTailwindCss } from "react-icons/bi";
-import { FaNodeJs, FaGithub } from "react-icons/fa";
+import { FaNodeJs, FaGithub, FaJava } from "react-icons/fa";
 import { TbBrandNextjs } from "react-icons/tb";
 import { RiGitMergeLine } from "react-icons/ri";
 import parseHexColor from "../utils/parseHexColor";
 import usePrefersReducedMotion from "../Hooks/usePrefersReducedMotion";
 import { defaultColor } from "../constants";
 
-// Icons pulled from this portfolio's actual stack (see Skills.jsx) — these
-// float around the hero instead of decorative letters/words.
+// Icons spanning this portfolio's actual stack plus a broader spread of
+// well-known languages/frameworks/tooling — a richer "software engineering"
+// texture floating around the hero, not just decorative letters/words.
 const ICONS = [
   SiReact,
   TbBrandNextjs,
@@ -58,6 +91,39 @@ const ICONS = [
   FaGithub,
   SiExpress,
   SiVite,
+  FaJava,
+  SiCplusplus,
+  SiCsharp,
+  SiGo,
+  SiRust,
+  SiPhp,
+  SiRuby,
+  SiKotlin,
+  SiSwift,
+  SiVuedotjs,
+  SiAngular,
+  SiSvelte,
+  SiGraphql,
+  SiKubernetes,
+  SiAmazonaws,
+  SiGooglecloud,
+  SiFirebase,
+  SiSass,
+  SiWebpack,
+  SiJest,
+  SiRedis,
+  SiApachekafka,
+  SiTerraform,
+  SiFlutter,
+  SiDjango,
+  SiFlask,
+  SiSpring,
+  SiLaravel,
+  SiDotnet,
+  SiElasticsearch,
+  SiJenkins,
+  SiHtml5,
+  SiCss3,
 ];
 
 function lighten(hex, amount, fallback) {
@@ -162,6 +228,16 @@ const HeroBubbles = ({ color = defaultColor }) => {
         size,
         image: getIconImage(iconIndex, colorIndex),
         opacity: 0.28 + Math.random() * 0.35,
+        // Idle wander — each node orbits a slow, randomized ellipse around
+        // its home spot even with no mouse nearby, so the field reads as
+        // gently alive instead of a frozen still image. Randomized period
+        // (~4-9s) and phase per node keep them from drifting in lockstep.
+        wanderAmpX: 8 + Math.random() * 10,
+        wanderAmpY: 8 + Math.random() * 10,
+        wanderFreqX: (Math.PI * 2) / (4000 + Math.random() * 5000),
+        wanderFreqY: (Math.PI * 2) / (4000 + Math.random() * 5000),
+        wanderPhaseX: Math.random() * Math.PI * 2,
+        wanderPhaseY: Math.random() * Math.PI * 2,
       };
     });
 
@@ -182,14 +258,23 @@ const HeroBubbles = ({ color = defaultColor }) => {
 
     let raf = 0;
 
-    const animate = () => {
+    const animate = (timestamp) => {
       for (const node of nodes) {
-        // Pull back toward this node's OWN home spot, not a shared center —
-        // this is what spreads the icons across the whole area instead of
-        // clumping into one circle.
-        const dx = node.homeX - node.x;
-        const dy = node.homeY - node.y;
-        const pullStrength = 0.0003;
+        // Pull back toward this node's OWN home spot (not a shared center —
+        // that's what spreads the icons across the whole area instead of
+        // clumping into one circle), offset by a slow per-node wander so
+        // there's always some idle motion even without the mouse nearby.
+        const targetX =
+          node.homeX +
+          Math.sin(timestamp * node.wanderFreqX + node.wanderPhaseX) *
+            node.wanderAmpX;
+        const targetY =
+          node.homeY +
+          Math.cos(timestamp * node.wanderFreqY + node.wanderPhaseY) *
+            node.wanderAmpY;
+        const dx = targetX - node.x;
+        const dy = targetY - node.y;
+        const pullStrength = 0.0015;
         node.vx += dx * pullStrength;
         node.vy += dy * pullStrength;
 
