@@ -6,6 +6,7 @@ import GitContributionsBar from "../components/GitContributions";
 import Navbar from "../components/Navbar";
 import TerminalIntro from "../components/TerminalIntro";
 import Hero from "../components/Hero";
+import HeroBubbles from "../components/HeroBubbles";
 import ProjectCards from "../components/project/ProjectCards";
 import Skills from "../components/Skills";
 import Footer from "../components/Footer";
@@ -175,7 +176,8 @@ const Home = () => {
         </div>
 
         <section id="about" className="relative pb-16 order-1 lg:order-none">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mt-6">
+          <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mt-6">
+            <HeroBubbles color={color} />
             <Hero color={color} />
             <TerminalIntro color={color} />
           </div>
