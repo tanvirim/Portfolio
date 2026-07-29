@@ -10,6 +10,11 @@ import ProjectCards from "../components/project/ProjectCards";
 import Skills from "../components/Skills";
 import Footer from "../components/Footer";
 import { defaultColor } from "../constants";
+import parseHexColor from "../utils/parseHexColor";
+import usePrefersReducedMotion from "../Hooks/usePrefersReducedMotion";
+
+const INTERACTIVE_SELECTOR =
+  'a, button, [role="button"], input, textarea, select, summary';
 
 const revealProps = {
   initial: { opacity: 0, y: 32 },
@@ -21,9 +26,16 @@ const revealProps = {
 const Home = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isClicked, setIsClicked] = useState(false);
+  const [isHoveringInteractive, setIsHoveringInteractive] = useState(false);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
-  // Track the mouse position
+  // Track the mouse position, click pulses, and hover state over anything
+  // clickable — the custom cursor reacts to all three (see .is-clicked /
+  // .is-active in index.css). Skipped entirely when the user prefers
+  // reduced motion, since the whole feature is a motion effect.
   useEffect(() => {
+    if (prefersReducedMotion) return;
+
     const handleMouseMove = (event) => {
       setMousePosition({
         x: event.clientX,
@@ -36,16 +48,29 @@ const Home = () => {
       setTimeout(() => setIsClicked(false), 300);
     };
 
+    const handlePointerOver = (event) => {
+      if (event.target.closest?.(INTERACTIVE_SELECTOR)) setIsHoveringInteractive(true);
+    };
+
+    const handlePointerOut = (event) => {
+      if (event.target.closest?.(INTERACTIVE_SELECTOR)) setIsHoveringInteractive(false);
+    };
+
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mousedown", handleMouseClick);
+    window.addEventListener("pointerover", handlePointerOver);
+    window.addEventListener("pointerout", handlePointerOut);
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mousedown", handleMouseClick);
+      window.removeEventListener("pointerover", handlePointerOver);
+      window.removeEventListener("pointerout", handlePointerOut);
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   const [color, setColor] = useState(defaultColor);
+  const cursorColorRGBA = parseHexColor(color, { r: 16, g: 185, b: 129 });
 
   // Keeps CSS-only elements (nav links, section titles — driven by
   // var(--primary-color) in index.css) in sync with the picked accent,
@@ -60,21 +85,29 @@ const Home = () => {
 
   return (
     <>
-      <div
-        className="custom-cursor-icon"
-        style={{
-          left: `${mousePosition.x}px`,
-          top: `${mousePosition.y}px`,
-          transform: isClicked ? "scale(1.5)" : "scale(1)",
-        }}
-      />
-      <div
-        className="custom-cursor-bg"
-        style={{
-          left: `${mousePosition.x - 100}px`,
-          top: `${mousePosition.y - 100}px`,
-        }}
-      />
+      {!prefersReducedMotion && (
+        <>
+          <div
+            className={`custom-cursor-icon ${isClicked ? "is-clicked" : ""} ${
+              isHoveringInteractive ? "is-active" : ""
+            }`}
+            style={{
+              left: `${mousePosition.x}px`,
+              top: `${mousePosition.y}px`,
+              "--cursor-accent": color,
+              "--cursor-accent-rgb": `${cursorColorRGBA.r}, ${cursorColorRGBA.g}, ${cursorColorRGBA.b}`,
+            }}
+          />
+          <div
+            className="custom-cursor-bg"
+            style={{
+              left: `${mousePosition.x - 100}px`,
+              top: `${mousePosition.y - 100}px`,
+              "--cursor-accent": color,
+            }}
+          />
+        </>
+      )}
 
       {/* Ambient background wash — ties every section together instead of
           each one sitting in its own isolated box. */}
