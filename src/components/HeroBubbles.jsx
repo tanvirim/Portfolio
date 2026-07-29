@@ -282,7 +282,7 @@ const HeroBubbles = ({ color = defaultColor }) => {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 -z-10 h-full w-full overflow-hidden pointer-events-none"
+      className="fixed inset-0 -z-10 h-full w-full overflow-hidden pointer-events-none"
       aria-hidden="true"
     >
       <canvas ref={canvasRef} className="block h-full w-full" />

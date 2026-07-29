@@ -166,6 +166,7 @@ const Home = () => {
       </div>
 
       <HeroPattern color={color} />
+      <HeroBubbles color={color} />
 
       <div className="flex flex-col px-4 sm:px-6 md:px-10 lg:px-20 max-w-screen-2xl mx-auto overflow-x-hidden">
         <div className="flex justify-between items-start gap-4 mb-6 pt-8">
@@ -179,8 +180,7 @@ const Home = () => {
         </div>
 
         <section id="about" className="relative pb-16 order-1 lg:order-none">
-          <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mt-6">
-            <HeroBubbles color={color} />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mt-6">
             <Hero color={color} />
             <TerminalIntro color={color} />
           </div>
