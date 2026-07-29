@@ -200,7 +200,7 @@ const ButtonContainer = styled.div`
 const NavButton = styled.button`
   padding: 10px 16px;
   background-color: ${({ disabled, color }) => (disabled ? "#6b7280" : color)};
-  color: white;
+  color: #000;
   font-weight: bold;
   border-radius: 999px;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};

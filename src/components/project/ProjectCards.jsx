@@ -64,7 +64,7 @@ const ProjectCards = ({ color = defaultColor }) => {
                 alt={project.projectName}
               />
             ) : (
-              <div className="h-[140px] rounded-t-lg bg-gray-800 flex items-center justify-center text-gray-500 text-xs">
+              <div className="h-[140px] rounded-t-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400 dark:text-gray-500 text-xs">
                 Preview coming soon
               </div>
             )}
@@ -140,7 +140,7 @@ const StyledLearnMoreButton = styled(Link)`
   padding: 8px 16px;
   border-radius: 999px;
   background: ${({ color }) => (color ? color : defaultColor)};
-  color: white;
+  color: #000;
   text-decoration: none;
 
   & > svg {
@@ -171,9 +171,14 @@ const ProjectCard = styled(motion.div)`
   display: flex;
   flex-direction: column;
   height: fit-content;
-  background: rgba(173, 216, 230, 0.2);
-  box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.1);
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.08);
   cursor: pointer;
+
+  .dark & {
+    box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.45);
+  }
 
   h3 {
     font-size: 20px;
@@ -191,7 +196,7 @@ const ProjectCard = styled(motion.div)`
 
   .technology-button {
     background: ${({ color }) => (color ? color : defaultColor)};
-    color: white;
+    color: #000;
     font-weight: 600;
     padding: 5px 10px;
     margin: 2px;
