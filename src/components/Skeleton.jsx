@@ -1,6 +1,6 @@
 import { Skeleton } from "./ui/skeleton";
 
-const WEEKS = 30;
+const WEEKS = 53;
 const DAYS_PER_WEEK = 7;
 
 function SkeletonLoader() {
@@ -11,7 +11,7 @@ function SkeletonLoader() {
         gridTemplateColumns: `repeat(${WEEKS}, minmax(4px, 1fr))`,
         gridTemplateRows: `repeat(${DAYS_PER_WEEK}, auto)`,
         gridAutoFlow: "column",
-        gap: "clamp(2px, 0.6vw, 6px)",
+        gap: "clamp(1.5px, 0.4vw, 4px)",
       }}
     >
       {Array.from({ length: WEEKS * DAYS_PER_WEEK }, (_, index) => (

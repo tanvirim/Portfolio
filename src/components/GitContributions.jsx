@@ -3,44 +3,14 @@
 import styled from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
 import { createPortal } from "react-dom";
+import { useMemo, useState } from "react";
 
-import useGitHubRepos from "../Hooks/useRepos";
-import useCommits from "../Hooks/useCommits";
-import { useState } from "react";
+import useContributions from "../Hooks/useContributions";
 import parseHexColor from "../utils/parseHexColor";
 import SkeletonLoader from "./Skeleton";
-import { StaticDate } from "../constants";
 
-const WEEKS = 30;
 const DAYS_PER_WEEK = 7;
-
-// Builds a trailing 30-week calendar (like github.com's contribution graph):
-// one cell per real calendar day, including days with zero commits, laid
-// out column-major (each column = one week) so it reads left-to-right.
-const buildCalendar = (frequencyMap) => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const totalDays = WEEKS * DAYS_PER_WEEK;
-  const start = new Date(today);
-  start.setDate(start.getDate() - (totalDays - 1));
-  // Align the grid so the first column starts on a Sunday.
-  start.setDate(start.getDate() - start.getDay());
-
-  const days = [];
-  const cursor = new Date(start);
-  while (cursor <= today || days.length % DAYS_PER_WEEK !== 0) {
-    const key = cursor.toISOString().split("T")[0];
-    days.push({
-      date: new Date(cursor),
-      count: frequencyMap[key] || 0,
-    });
-    cursor.setDate(cursor.getDate() + 1);
-    if (cursor > today && days.length % DAYS_PER_WEEK === 0) break;
-  }
-
-  return days;
-};
+const YEARS_BACK = 2; // shows current (rolling) year plus this many past calendar years
 
 const countToClass = (count) => {
   if (count > 10) return "class1";
@@ -50,23 +20,95 @@ const countToClass = (count) => {
   return "class0";
 };
 
+// Legend order goes light -> dark ("Less" to "More").
+const LEGEND_CLASSES = ["class0", "class4", "class3", "class2", "class1"];
+
+// The current tab is GitHub's rolling "last year" window (today - 365 days);
+// past tabs are full Jan 1 - Dec 31 calendar years, matching github.com.
+const getRangeForYear = (year, currentYear, today) => {
+  if (year === currentYear) {
+    const to = new Date(today);
+    to.setHours(23, 59, 59, 999);
+    const from = new Date(today);
+    from.setFullYear(from.getFullYear() - 1);
+    from.setDate(from.getDate() + 1);
+    from.setHours(0, 0, 0, 0);
+    return { from: from.toISOString(), to: to.toISOString() };
+  }
+  const from = new Date(year, 0, 1, 0, 0, 0);
+  const to = new Date(year, 11, 31, 23, 59, 59);
+  return { from: from.toISOString(), to: to.toISOString() };
+};
+
+// GitHub returns each week as only the days that fall inside [from, to], so
+// a boundary week can start mid-week. Re-bucket every day into its real
+// weekday row (Sun=0..Sat=6) so the grid lines up column-major like GitHub's.
+const buildColumns = (weeks) =>
+  weeks.map((week) => {
+    const column = Array(DAYS_PER_WEEK).fill(null);
+    week.contributionDays.forEach((day) => {
+      const dayOfWeek = new Date(`${day.date}T00:00:00`).getDay();
+      column[dayOfWeek] = day;
+    });
+    return column;
+  });
+
+const getMonthLabels = (weeks) => {
+  let lastMonth = -1;
+  const raw = weeks.map((week) => {
+    const firstDay = week.contributionDays[0];
+    if (!firstDay) return null;
+    const date = new Date(`${firstDay.date}T00:00:00`);
+    if (date.getMonth() === lastMonth) return null;
+    lastMonth = date.getMonth();
+    return date.toLocaleDateString("en-US", { month: "short" });
+  });
+
+  // A boundary week can put a 1-column sliver of the previous month right
+  // next to the new month's label (e.g. a lone "Jul" before "Aug" at the
+  // start of a rolling last-year window) — drop labels packed in too tight
+  // to read, keeping the later one, same as github.com does.
+  const MIN_COLUMN_GAP = 2;
+  let lastKeptIndex = -Infinity;
+  return raw.map((label, index) => {
+    if (!label) return null;
+    if (index - lastKeptIndex < MIN_COLUMN_GAP) return null;
+    lastKeptIndex = index;
+    return label;
+  });
+};
+
 // Defined once at module scope (not inside the component) — a styled-component
 // redefined on every render gets a fresh identity each time, which forces
 // React to unmount/remount the whole grid on every state update. That was
 // racing with the hover events and killing the tooltip before it could show.
 const Container = styled.div`
   display: grid;
-  /* Exactly ${WEEKS} equal columns spanning the full container width — cell
-     width is however wide that makes each column, not a fixed size. Row
-     height is NOT set independently; each .column derives its height from
-     that computed width via aspect-ratio below, so cells stay square and
-     the panel's total height grows/shrinks with the container's width
-     instead of the grid stretching non-square cells to fit. */
-  grid-template-columns: repeat(${WEEKS}, minmax(4px, 1fr));
-  grid-template-rows: repeat(${DAYS_PER_WEEK}, auto);
-  grid-auto-flow: column;
-  gap: clamp(2px, 0.6vw, 6px);
+  /* Column 1 is the Mon/Wed/Fri weekday labels; the rest are one column per
+     week. Row 1 is the month labels; the rest are one row per weekday.
+     Row height is NOT set independently — each .column derives its height
+     from its own computed width via aspect-ratio below, so cells stay
+     square and the panel's height grows/shrinks with container width. */
+  grid-template-columns: 22px repeat(${({ $weeksCount }) => $weeksCount}, minmax(9px, 1fr));
+  grid-template-rows: 16px repeat(${DAYS_PER_WEEK}, auto);
+  gap: clamp(1.5px, 0.4vw, 4px);
   width: 100%;
+
+  .weekday-label {
+    grid-column: 1;
+    align-self: center;
+    font-size: clamp(8px, 1.6vw, 10px);
+    color: rgba(255, 255, 255, 0.4);
+    font-family: inherit;
+  }
+
+  .month-label {
+    grid-row: 1;
+    align-self: end;
+    white-space: nowrap;
+    font-size: clamp(8px, 1.6vw, 10px);
+    color: rgba(255, 255, 255, 0.4);
+  }
 
   /* Stable wrapper — never transformed, so getBoundingClientRect() on it
      always reflects the real grid position. The hover "pop" is applied to
@@ -75,7 +117,6 @@ const Container = styled.div`
      was throwing the tooltip's computed position off. */
   .column {
     position: relative;
-    width: 100%;
     aspect-ratio: 1;
   }
 
@@ -102,33 +143,33 @@ const Container = styled.div`
   }
   .class1 {
     background-color: rgba(
-      ${({ colorRGBA }) => colorRGBA.r || 0},
-      ${({ colorRGBA }) => colorRGBA.g || 0},
-      ${({ colorRGBA }) => colorRGBA.b || 0},
+      ${({ $colorRGBA: colorRGBA }) => colorRGBA.r || 0},
+      ${({ $colorRGBA: colorRGBA }) => colorRGBA.g || 0},
+      ${({ $colorRGBA: colorRGBA }) => colorRGBA.b || 0},
       1
     );
   }
   .class2 {
     background-color: rgba(
-      ${({ colorRGBA }) => colorRGBA.r || 0},
-      ${({ colorRGBA }) => colorRGBA.g || 0},
-      ${({ colorRGBA }) => colorRGBA.b || 0},
+      ${({ $colorRGBA: colorRGBA }) => colorRGBA.r || 0},
+      ${({ $colorRGBA: colorRGBA }) => colorRGBA.g || 0},
+      ${({ $colorRGBA: colorRGBA }) => colorRGBA.b || 0},
       0.75
     );
   }
   .class3 {
     background-color: rgba(
-      ${({ colorRGBA }) => colorRGBA.r || 0},
-      ${({ colorRGBA }) => colorRGBA.g || 0},
-      ${({ colorRGBA }) => colorRGBA.b || 0},
+      ${({ $colorRGBA: colorRGBA }) => colorRGBA.r || 0},
+      ${({ $colorRGBA: colorRGBA }) => colorRGBA.g || 0},
+      ${({ $colorRGBA: colorRGBA }) => colorRGBA.b || 0},
       0.5
     );
   }
   .class4 {
     background-color: rgba(
-      ${({ colorRGBA }) => colorRGBA.r || 0},
-      ${({ colorRGBA }) => colorRGBA.g || 0},
-      ${({ colorRGBA }) => colorRGBA.b || 0},
+      ${({ $colorRGBA: colorRGBA }) => colorRGBA.r || 0},
+      ${({ $colorRGBA: colorRGBA }) => colorRGBA.g || 0},
+      ${({ $colorRGBA: colorRGBA }) => colorRGBA.b || 0},
       0.3
     );
   }
@@ -138,14 +179,30 @@ const GitContributionsBar = ({ color }) => {
   const colorRGBA = parseHexColor(color, { r: 77, g: 27, b: 97 });
 
   const accessToken = import.meta.env.VITE_GITHUB_SECRET_KEY;
-  const owner = import.meta.env.VITE_GITHUB_USERNAME;
-  const repositories = useGitHubRepos(accessToken);
+  const login = import.meta.env.VITE_GITHUB_USERNAME;
 
-  const { dateFrequencyMap, isLoading } = useCommits(
-    owner,
-    repositories,
-    accessToken
+  const today = useMemo(() => new Date(), []);
+  const currentYear = today.getFullYear();
+  const yearTabs = useMemo(
+    () =>
+      Array.from({ length: YEARS_BACK + 1 }, (_, i) => currentYear - i),
+    [currentYear]
   );
+
+  const [selectedYear, setSelectedYear] = useState(currentYear);
+  const range = useMemo(
+    () => getRangeForYear(selectedYear, currentYear, today),
+    [selectedYear, currentYear, today]
+  );
+
+  const { weeks, totalContributions, isLoading, error } = useContributions(
+    login,
+    accessToken,
+    range
+  );
+
+  const columns = useMemo(() => buildColumns(weeks), [weeks]);
+  const monthLabels = useMemo(() => getMonthLabels(weeks), [weeks]);
 
   // A single tooltip rendered with `position: fixed`, positioned from the
   // hovered cell's real screen coordinates — this escapes the grid's
@@ -176,9 +233,9 @@ const GitContributionsBar = ({ color }) => {
       x: clampedX,
       y: showAbove ? rect.top - 8 : rect.bottom + 8,
       showAbove,
-      text: `${day.count} GitHub ${
-        day.count === 1 ? "Contribution" : "Contributions"
-      } on ${day.date.toLocaleDateString("en-US", {
+      text: `${day.contributionCount} GitHub ${
+        day.contributionCount === 1 ? "Contribution" : "Contributions"
+      } on ${new Date(`${day.date}T00:00:00`).toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",
         day: "numeric",
@@ -188,35 +245,144 @@ const GitContributionsBar = ({ color }) => {
 
   const handleMouseLeave = () => setTooltip(null);
 
-  const hasLiveData = Object.keys(dateFrequencyMap).length > 0;
-  const staticFrequencyMap = StaticDate.reduce((acc, entry) => {
-    const key = new Date(entry.date).toISOString().split("T")[0];
-    acc[key] = entry.count;
-    return acc;
-  }, {});
-
-  const calendarDays = buildCalendar(
-    hasLiveData ? dateFrequencyMap : staticFrequencyMap
-  );
-
-  if (isLoading && !hasLiveData) {
-    return <SkeletonLoader />;
-  }
-
   return (
-    <>
-      <Container colorRGBA={colorRGBA}>
-        {calendarDays.map((day, index) => (
-          <div
-            key={index}
-            className="column"
-            onMouseEnter={(event) => handleMouseEnter(event, day)}
-            onMouseLeave={handleMouseLeave}
-          >
-            <div className={`tile ${countToClass(day.count)}`} />
-          </div>
-        ))}
-      </Container>
+    <div className="w-full">
+      <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
+        <span className="text-sm text-gray-300 font-mono">
+          {isLoading && weeks.length === 0 ? (
+            <span className="text-gray-500">Loading contributions…</span>
+          ) : (
+            <>
+              <strong className="text-white font-semibold">
+                {totalContributions.toLocaleString()}
+              </strong>{" "}
+              contributions{" "}
+              {selectedYear === currentYear ? "in the last year" : `in ${selectedYear}`}
+            </>
+          )}
+        </span>
+        <span
+          className="text-xs text-gray-400 inline-flex items-center gap-1 select-none cursor-default"
+          title="Fixed for this portfolio — mirrors GitHub's layout only"
+        >
+          Contribution settings
+          <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
+      </div>
+
+      <div className="flex items-start gap-3">
+        <div className="flex-1 min-w-0 overflow-x-auto pb-1">
+          {isLoading && weeks.length === 0 ? (
+            <SkeletonLoader />
+          ) : error && weeks.length === 0 ? (
+            <p className="text-xs text-gray-500 py-6 text-center">
+              Couldn&apos;t load GitHub contributions right now.
+            </p>
+          ) : (
+            <Container $colorRGBA={colorRGBA} $weeksCount={Math.max(columns.length, 1)}>
+              <span className="weekday-label" style={{ gridRow: 3 }}>
+                Mon
+              </span>
+              <span className="weekday-label" style={{ gridRow: 5 }}>
+                Wed
+              </span>
+              <span className="weekday-label" style={{ gridRow: 7 }}>
+                Fri
+              </span>
+
+              {monthLabels.map(
+                (label, weekIndex) =>
+                  label && (
+                    <span
+                      key={`month-${weekIndex}`}
+                      className="month-label"
+                      style={{ gridColumn: weekIndex + 2 }}
+                    >
+                      {label}
+                    </span>
+                  )
+              )}
+
+              {columns.map((column, weekIndex) =>
+                column.map((day, dayIndex) => (
+                  <div
+                    key={`${weekIndex}-${dayIndex}`}
+                    className="column"
+                    style={{ gridColumn: weekIndex + 2, gridRow: dayIndex + 2 }}
+                    {...(day
+                      ? {
+                          onMouseEnter: (event) => handleMouseEnter(event, day),
+                          onMouseLeave: handleMouseLeave,
+                        }
+                      : {})}
+                  >
+                    {day && (
+                      <div className={`tile ${countToClass(day.contributionCount)}`} />
+                    )}
+                  </div>
+                ))
+              )}
+            </Container>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-1 shrink-0">
+          {yearTabs.map((year) => (
+            <button
+              key={year}
+              type="button"
+              onClick={() => setSelectedYear(year)}
+              className={`px-2.5 py-1 rounded-md text-xs font-mono transition-colors ${
+                year === selectedYear
+                  ? "text-white"
+                  : "text-gray-400 hover:text-white hover:bg-white/5"
+              }`}
+              style={year === selectedYear ? { backgroundColor: color } : undefined}
+            >
+              {year}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between gap-3 mt-4 text-xs text-gray-500 flex-wrap">
+        <a
+          href="https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/managing-contribution-graphs-on-your-profile/why-are-my-contributions-not-showing-up-on-my-profile"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline decoration-dotted underline-offset-2 hover:text-gray-300"
+        >
+          Learn how we count contributions
+        </a>
+        <div className="flex items-center gap-1">
+          <span>Less</span>
+          {LEGEND_CLASSES.map((cls) => (
+            <span
+              key={cls}
+              className={cls}
+              style={{
+                width: 10,
+                height: 10,
+                borderRadius: 3,
+                display: "inline-block",
+                ...(cls === "class0"
+                  ? { backgroundColor: "rgba(255, 255, 255, 0.08)" }
+                  : {
+                      backgroundColor: `rgba(${colorRGBA.r || 0}, ${colorRGBA.g || 0}, ${
+                        colorRGBA.b || 0
+                      }, ${
+                        { class1: 1, class2: 0.75, class3: 0.5, class4: 0.3 }[cls]
+                      })`,
+                    }),
+              }}
+            />
+          ))}
+          <span>More</span>
+        </div>
+      </div>
+
       {createPortal(
         <AnimatePresence>
           {tooltip && (
@@ -256,7 +422,7 @@ const GitContributionsBar = ({ color }) => {
         </AnimatePresence>,
         document.body
       )}
-    </>
+    </div>
   );
 };
 
