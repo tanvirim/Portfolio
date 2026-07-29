@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import AboutMePage from "./pages/AboutPage";
 import ProjectPage from "./pages/ProjectPage";
 import BackToTop from "./components/BackToTop";
+import FloatingChat from "./components/FloatingChat";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/projects" element={<ProjectPage />} />
       </Routes>
       <BackToTop />
+      <FloatingChat />
     </Router>
   );
 }
