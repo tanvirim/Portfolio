@@ -55,7 +55,7 @@ const TerminalIntro = ({ color = defaultColor }) => {
 
   return (
     <div
-      className="game-card-subtle w-full min-w-0 rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#0d1117] shadow-[0_20px_50px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.45)] overflow-hidden"
+      className="game-card-subtle w-full min-w-0 rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-[#0d1117]/70 backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.45)] overflow-hidden"
       style={{ '--term-accent': color, '--tile-accent': color }}
       role="group"
       aria-label="Terminal status panel"
