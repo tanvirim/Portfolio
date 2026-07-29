@@ -1,26 +1,27 @@
 /* eslint-disable react/prop-types */
 
-import { useState } from "react";
 import { Palette, Check } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { defaultColor } from "../constants";
 
 const PRESET_COLORS = [
-  "#1ce5ff", // cyan (default)
+  "#1ce5ff", // cyan (default, dark mode)
+  "#ef4444", // red (default, light mode)
   "#10b981", // emerald
   "#5153d6", // indigo
   "#8b5cf6", // violet
   "#ec4899", // pink
   "#f59e0b", // amber
-  "#ef4444", // red
   "#0ea5e9", // sky
 ];
 
-const ColorPicker = ({ colorStateForHome }) => {
-  const [color, setColor] = useState(defaultColor);
-
+// Fully controlled by `color`/`colorStateForHome` from Home.jsx — no local
+// echo of the color here. It used to keep its own useState(defaultColor),
+// which went stale as soon as Home's color changed for a reason other than
+// this component (e.g. the theme-based default switching when the user
+// flips light/dark before ever touching this picker).
+const ColorPicker = ({ color = defaultColor, colorStateForHome }) => {
   const handleChange = (hex) => {
-    setColor(hex);
     colorStateForHome(hex);
   };
 

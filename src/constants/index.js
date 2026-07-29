@@ -1,4 +1,10 @@
 export const defaultColor = "#1ce5ff";
+
+// The "default" accent (before the user picks one via ColorPicker) is
+// theme-dependent — cyan reads well against the dark theme, but needs to
+// switch to something with enough contrast/warmth against the light theme.
+export const getDefaultColorForTheme = (theme) =>
+  theme === "light" ? "#ef4444" : defaultColor;
 export const educationHistory = [
   {
     institution: "Rajshahi University of Engineering and Technology (RUET)",

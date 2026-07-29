@@ -9,9 +9,10 @@ import HeroPattern from "../components/HeroPattern";
 import ProjectCards from "../components/project/ProjectCards";
 import Skills from "../components/Skills";
 import Footer from "../components/Footer";
-import { defaultColor } from "../constants";
+import { getDefaultColorForTheme } from "../constants";
 import parseHexColor from "../utils/parseHexColor";
 import usePrefersReducedMotion from "../Hooks/usePrefersReducedMotion";
+import { useTheme } from "../context/ThemeContext";
 
 const INTERACTIVE_SELECTOR =
   'a, button, [role="button"], input, textarea, select, summary';
@@ -110,8 +111,20 @@ const Home = () => {
     };
   }, [prefersReducedMotion]);
 
-  const [color, setColor] = useState(defaultColor);
+  const { theme } = useTheme();
+  const [color, setColor] = useState(() => getDefaultColorForTheme(theme));
+  // Tracks whether the user has ever picked a color themselves — until they
+  // do, the accent should keep following the theme-based default (cyan in
+  // dark mode, red in light mode) whenever they flip the theme toggle. Once
+  // they pick one via ColorPicker, that choice sticks across theme changes.
+  const [hasCustomColor, setHasCustomColor] = useState(false);
   const cursorColorRGBA = parseHexColor(CURSOR_COLOR, { r: 81, g: 83, b: 214 });
+
+  useEffect(() => {
+    if (!hasCustomColor) {
+      setColor(getDefaultColorForTheme(theme));
+    }
+  }, [theme, hasCustomColor]);
 
   // Keeps CSS-only elements (nav links, section titles — driven by
   // var(--primary-color) in index.css) in sync with the picked accent,
@@ -121,6 +134,7 @@ const Home = () => {
   }, [color]);
 
   const handleColorState = (newState) => {
+    setHasCustomColor(true);
     setColor(newState);
   };
 
