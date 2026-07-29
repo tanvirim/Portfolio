@@ -6,7 +6,8 @@ import GitContributionsBar from "../components/GitContributions";
 import Navbar from "../components/Navbar";
 import TerminalIntro from "../components/TerminalIntro";
 import Hero from "../components/Hero";
-import HeroBubbles from "../components/HeroBubbles";
+// import HeroBubbles from "../components/HeroBubbles";
+import HeroPattern from "../components/HeroPattern";
 import ProjectCards from "../components/project/ProjectCards";
 import Skills from "../components/Skills";
 import Footer from "../components/Footer";
@@ -164,6 +165,8 @@ const Home = () => {
         />
       </div>
 
+      <HeroPattern color={color} />
+
       <div className="flex flex-col px-4 sm:px-6 md:px-10 lg:px-20 max-w-screen-2xl mx-auto overflow-x-hidden">
         <div className="flex justify-between items-start gap-4 mb-6 pt-8">
           <div className="flex-1 min-w-0">
@@ -177,7 +180,7 @@ const Home = () => {
 
         <section id="about" className="relative pb-16 order-1 lg:order-none">
           <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mt-6">
-            <HeroBubbles color={color} />
+            {/* <HeroBubbles color={color} /> */}
             <Hero color={color} />
             <TerminalIntro color={color} />
           </div>
