@@ -5,9 +5,7 @@ import ThemeToggle from "../components/ThemeToggle";
 import GitContributionsBar from "../components/GitContributions";
 import Navbar from "../components/Navbar";
 import TerminalIntro from "../components/TerminalIntro";
-import Welcome from "../components/Welcome";
-import SocialIcons from "../components/Socialicon";
-import AboutMe from "../components/AboutMe";
+import Hero from "../components/Hero";
 import ProjectCards from "../components/project/ProjectCards";
 import Skills from "../components/Skills";
 import Footer from "../components/Footer";
@@ -102,12 +100,9 @@ const Home = () => {
           </div>
         </div>
 
-        <section className="relative pb-16 order-3 lg:order-none">
-          <div className="hidden lg:grid lg:grid-cols-2 gap-8 items-stretch mt-6">
-            <div className="hidden lg:flex lg:flex-col lg:items-center lg:gap-4">
-              <Welcome />
-              <SocialIcons color={color} />
-            </div>
+        <section id="about" className="relative pb-16 order-1 lg:order-none">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch mt-6">
+            <Hero color={color} />
             <TerminalIntro color={color} />
           </div>
 
@@ -126,14 +121,6 @@ const Home = () => {
             <GitContributionsBar color={color} />
           </div>
         </section>
-
-        <motion.div
-          id="about"
-          className="section-flow order-2 lg:order-none"
-          {...revealProps}
-        >
-          <AboutMe color={color} />
-        </motion.div>
 
         <motion.div id="skills" className="section-flow order-4 lg:order-none" {...revealProps}>
           <Skills color={color} />

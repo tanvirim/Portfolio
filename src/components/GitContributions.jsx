@@ -66,16 +66,24 @@ const getMonthLabels = (weeks) => {
 
   // A boundary week can put a 1-column sliver of the previous month right
   // next to the new month's label (e.g. a lone "Jul" before "Aug" at the
-  // start of a rolling last-year window) — drop labels packed in too tight
-  // to read, keeping the later one, same as github.com does.
+  // start of a rolling last-year window) — when two labels land too close
+  // to read, drop the earlier sliver in favor of the later, fuller month,
+  // same as github.com does.
   const MIN_COLUMN_GAP = 2;
-  let lastKeptIndex = -Infinity;
-  return raw.map((label, index) => {
-    if (!label) return null;
-    if (index - lastKeptIndex < MIN_COLUMN_GAP) return null;
-    lastKeptIndex = index;
-    return label;
+  const kept = []; // [{ index, label }]
+  raw.forEach((label, index) => {
+    if (!label) return;
+    if (kept.length && index - kept[kept.length - 1].index < MIN_COLUMN_GAP) {
+      kept.pop();
+    }
+    kept.push({ index, label });
   });
+
+  const result = Array(raw.length).fill(null);
+  kept.forEach(({ index, label }) => {
+    result[index] = label;
+  });
+  return result;
 };
 
 // Defined once at module scope (not inside the component) — a styled-component
@@ -261,15 +269,6 @@ const GitContributionsBar = ({ color }) => {
             </>
           )}
         </span>
-        <span
-          className="text-xs text-gray-400 inline-flex items-center gap-1 select-none cursor-default"
-          title="Fixed for this portfolio — mirrors GitHub's layout only"
-        >
-          Contribution settings
-          <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-            <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </span>
       </div>
 
       <div className="flex items-start gap-3">
@@ -347,15 +346,7 @@ const GitContributionsBar = ({ color }) => {
         </div>
       </div>
 
-      <div className="flex items-center justify-between gap-3 mt-4 text-xs text-gray-500 flex-wrap">
-        <a
-          href="https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/managing-contribution-graphs-on-your-profile/why-are-my-contributions-not-showing-up-on-my-profile"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline decoration-dotted underline-offset-2 hover:text-gray-300"
-        >
-          Learn how we count contributions
-        </a>
+      <div className="flex items-center justify-end gap-3 mt-4 text-xs text-gray-500 flex-wrap">
         <div className="flex items-center gap-1">
           <span>Less</span>
           {LEGEND_CLASSES.map((cls) => (
