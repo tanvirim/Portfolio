@@ -3,14 +3,27 @@
 import styled from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
 import { createPortal } from "react-dom";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import useContributions from "../Hooks/useContributions";
 import parseHexColor from "../utils/parseHexColor";
+import usePrefersReducedMotion from "../Hooks/usePrefersReducedMotion";
 import SkeletonLoader from "./Skeleton";
 
 const DAYS_PER_WEEK = 7;
 const YEARS_BACK = 2; // shows current (rolling) year plus this many past calendar years
+
+// Same push-physics constants/feel as IconCube (src/components/IconCube.jsx)
+// — idle spin nudged by mouse movement, easing back to that idle rate.
+// Only ONE tile can ever be hovered at a time (a single pointer), so this
+// runs as one shared session started on mouseenter and torn down on
+// mouseleave — the same runtime cost as a single IconCube, not 350 of them.
+const IDLE_SPIN_SPEED = 0.35;
+const PUSH_SENSITIVITY = 0.6;
+const MAX_VELOCITY = 8;
+const YAW_RETURN = 0.02;
+const PITCH_RETURN = 0.05;
+const HOVER_SCALE_TRANSFORM = "scale(1.4) translateY(-2px)";
 
 // 2021-2023 contribution history lives under a different (older) GitHub
 // account than the current one, so those tabs authenticate with a separate
@@ -106,7 +119,8 @@ const Container = styled.div`
      square and the panel's height grows/shrinks with container width. */
   grid-template-columns: 22px repeat(${({ $weeksCount }) => $weeksCount}, minmax(9px, 1fr));
   grid-template-rows: 16px repeat(${DAYS_PER_WEEK}, auto);
-  gap: clamp(1.5px, 0.4vw, 4px);
+  column-gap: clamp(2.5px, 0.55vw, 6px);
+  row-gap: clamp(3px, 0.7vw, 7px);
   width: 100%;
 
   .weekday-label {
@@ -129,37 +143,120 @@ const Container = styled.div`
 
   /* Stable wrapper — never transformed, so getBoundingClientRect() on it
      always reflects the real grid position. The hover "pop" is applied to
-     .tile inside it instead; otherwise a scale-from-center transform on
+     .cube inside it instead; otherwise a scale-from-center transform on
      this element would grow its own rect (bottom edge moves down), which
      was throwing the tooltip's computed position off. */
   .column {
     position: relative;
     aspect-ratio: 1;
+    perspective: 140px;
   }
 
-  .tile {
+  /* A real 6-face cube, same construction IconCube uses (see
+     src/components/IconCube.jsx) — 6 absolutely-positioned faces pushed
+     out from the center by half the box's own size via container query
+     units, so it works at any responsive tile size without a JS resize
+     measurement. Same push-physics spin as IconCube too (see
+     startHoverPhysics/handlePush below), scoped to whichever single cell
+     is currently hovered — same runtime cost as one IconCube.
+
+     Critically, EVERY other tile stays a plain flat square: .face
+     children are display:none and container-type/preserve-3d only turn on
+     under .cube.is-cube (a class toggled by JS on hover, not rendered
+     conditionally by React). With 350+ tiles on screen, permanently
+     giving all of them their own 3D rendering context + container-query
+     boundary — even completely idle — was the actual cause of the
+     page-wide slowdown; a couple hundred inert 3D scenes cost real
+     paint/compositing time whether or not anything is animating.
+     transform is deliberately left out of the transition: it's rewritten
+     every animation frame while hovered, and a CSS transition would just
+     lag one step behind that instead of tracking it — it snaps instantly,
+     and only gets a transition re-added right before the mouseleave reset
+     so THAT one settles smoothly. */
+  .cube {
     position: absolute;
     inset: 0;
     border-radius: 3px;
-    transform: scale(1) translateY(0);
+    background-color: var(--cube-color);
     transition:
-      transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
       box-shadow 0.15s ease,
       outline 0.15s ease;
   }
 
-  .column:hover .tile {
-    outline: 1px solid rgba(148, 163, 184, 0.8);
-    transform: scale(1.4) translateY(-2px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+  .cube.is-cube {
+    container-type: inline-size;
+    transform-style: preserve-3d;
+    /* The cube's own box still paints var(--cube-color) as a flat, untransformed
+       plane sitting at its own origin even while its transform rotates it —
+       without turning that off, it shows through behind/around the "front"
+       face (offset forward via translateZ) as a second, unfiltered layer,
+       reading as a ghost duplicate instead of one solid cube. Only the 6
+       face children should be visible once this is a real 3D cube. */
+    background-color: transparent;
+  }
+
+  .column:hover .cube {
     z-index: 5;
     cursor: pointer;
   }
+
+  /* Outline/shadow live on the front face, not .cube itself — .cube's own
+     box sits at the cube's local center (z: 0), exactly between the front
+     and back faces. Painting them there put a second outlined "face"
+     floating mid-cube as it rotated. The front face already rotates with
+     the rest of the cube, so anchoring the glow to it instead keeps it
+     riding along on the one surface it's meant to highlight. */
+  .column:hover .face-front {
+    outline: 1px solid rgba(148, 163, 184, 0.8);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+  }
+
+  /* All 6 faces share one background color (the same --cube-color custom
+     property the classN rules below set on .cube) — a per-face brightness
+     gives them the same flat color a slightly different shade, like a die
+     lit from one side, which is what actually makes the rotation itself
+     readable. Without it, a rotating cube built from identically-colored
+     faces looks visually static even while genuinely spinning. */
+  .face {
+    display: none;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-color: var(--cube-color);
+    backface-visibility: hidden;
+  }
+  .cube.is-cube .face {
+    display: block;
+  }
+  .face-front {
+    transform: translateZ(calc(50cqw));
+    filter: brightness(1.08);
+  }
+  .face-back {
+    transform: rotateY(180deg) translateZ(calc(50cqw));
+    filter: brightness(0.6);
+  }
+  .face-right {
+    transform: rotateY(90deg) translateZ(calc(50cqw));
+    filter: brightness(0.8);
+  }
+  .face-left {
+    transform: rotateY(-90deg) translateZ(calc(50cqw));
+    filter: brightness(0.9);
+  }
+  .face-top {
+    transform: rotateX(90deg) translateZ(calc(50cqw));
+    filter: brightness(1.3);
+  }
+  .face-bottom {
+    transform: rotateX(-90deg) translateZ(calc(50cqw));
+    filter: brightness(0.5);
+  }
   .class0 {
-    background-color: var(--border-soft);
+    --cube-color: var(--border-soft);
   }
   .class1 {
-    background-color: rgba(
+    --cube-color: rgba(
       ${({ $colorRGBA: colorRGBA }) => colorRGBA.r || 0},
       ${({ $colorRGBA: colorRGBA }) => colorRGBA.g || 0},
       ${({ $colorRGBA: colorRGBA }) => colorRGBA.b || 0},
@@ -167,7 +264,7 @@ const Container = styled.div`
     );
   }
   .class2 {
-    background-color: rgba(
+    --cube-color: rgba(
       ${({ $colorRGBA: colorRGBA }) => colorRGBA.r || 0},
       ${({ $colorRGBA: colorRGBA }) => colorRGBA.g || 0},
       ${({ $colorRGBA: colorRGBA }) => colorRGBA.b || 0},
@@ -175,7 +272,7 @@ const Container = styled.div`
     );
   }
   .class3 {
-    background-color: rgba(
+    --cube-color: rgba(
       ${({ $colorRGBA: colorRGBA }) => colorRGBA.r || 0},
       ${({ $colorRGBA: colorRGBA }) => colorRGBA.g || 0},
       ${({ $colorRGBA: colorRGBA }) => colorRGBA.b || 0},
@@ -183,7 +280,7 @@ const Container = styled.div`
     );
   }
   .class4 {
-    background-color: rgba(
+    --cube-color: rgba(
       ${({ $colorRGBA: colorRGBA }) => colorRGBA.r || 0},
       ${({ $colorRGBA: colorRGBA }) => colorRGBA.g || 0},
       ${({ $colorRGBA: colorRGBA }) => colorRGBA.b || 0},
@@ -239,6 +336,65 @@ const GitContributionsBar = ({ color }) => {
   const TOOLTIP_MAX_WIDTH = 180;
   const VIEWPORT_MARGIN = 8;
 
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  // The single shared hover-physics "session" — which cube is currently
+  // spinning, its rAF handle, and its velocity/rotation state. Only one
+  // tile is ever hovered at a time, so this is deliberately not per-tile
+  // state; it's handed off from whichever cell's mouseenter last claimed
+  // it, exactly like IconCube's own ref-based (not React-state) approach.
+  const hoverCubeRef = useRef(null);
+  const hoverRafRef = useRef(null);
+  const hoverVelocityRef = useRef({ pitch: 0, yaw: IDLE_SPIN_SPEED });
+  const hoverRotationRef = useRef({ x: 0, y: 0 });
+
+  const stopHoverPhysics = () => {
+    if (hoverRafRef.current !== null) {
+      cancelAnimationFrame(hoverRafRef.current);
+      hoverRafRef.current = null;
+    }
+  };
+
+  // Unmount safety net — nothing normally outlives its own mouseleave, but
+  // this covers the grid disappearing (e.g. switching year tabs) mid-hover.
+  useEffect(() => stopHoverPhysics, []);
+
+  const startHoverPhysics = (cube) => {
+    if (!cube || prefersReducedMotion) return;
+    stopHoverPhysics();
+    hoverCubeRef.current = cube;
+    cube.classList.add("is-cube"); // only this one cell pays for real 3D geometry
+    cube.style.transition = "none"; // live physics owns transform now, not CSS
+    hoverRotationRef.current = { x: 0, y: 0 };
+    hoverVelocityRef.current = { pitch: 0, yaw: IDLE_SPIN_SPEED };
+
+    const animate = () => {
+      const v = hoverVelocityRef.current;
+      v.yaw += (IDLE_SPIN_SPEED - v.yaw) * YAW_RETURN;
+      v.pitch += (0 - v.pitch) * PITCH_RETURN;
+
+      const r = hoverRotationRef.current;
+      r.x += v.pitch;
+      r.y += v.yaw;
+
+      if (hoverCubeRef.current) {
+        hoverCubeRef.current.style.transform = `${HOVER_SCALE_TRANSFORM} rotateX(${r.x}deg) rotateY(${r.y}deg)`;
+      }
+      hoverRafRef.current = requestAnimationFrame(animate);
+    };
+    hoverRafRef.current = requestAnimationFrame(animate);
+  };
+
+  // Nudges the spin the same way IconCube's handleMouseMove does — the
+  // cursor's frame-to-frame movement pushes velocity, clamped so a fast
+  // flick can't send it spinning wild.
+  const handlePush = (event) => {
+    if (prefersReducedMotion || hoverRafRef.current === null) return;
+    const v = hoverVelocityRef.current;
+    v.yaw = Math.max(-MAX_VELOCITY, Math.min(MAX_VELOCITY, v.yaw + event.movementX * PUSH_SENSITIVITY));
+    v.pitch = Math.max(-MAX_VELOCITY, Math.min(MAX_VELOCITY, v.pitch - event.movementY * PUSH_SENSITIVITY));
+  };
+
   const handleMouseEnter = (event, day) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const halfWidth = TOOLTIP_MAX_WIDTH / 2;
@@ -267,9 +423,21 @@ const GitContributionsBar = ({ color }) => {
         day: "numeric",
       })}`,
     });
+
+    startHoverPhysics(event.currentTarget.querySelector(".cube"));
   };
 
-  const handleMouseLeave = () => setTooltip(null);
+  const handleMouseLeave = (event) => {
+    setTooltip(null);
+    stopHoverPhysics();
+    hoverCubeRef.current = null;
+    const cube = event.currentTarget.querySelector(".cube");
+    if (cube) {
+      cube.classList.remove("is-cube");
+      cube.style.transition = ""; // restore the CSS transition so this reset eases out
+      cube.style.transform = "";
+    }
+  };
 
   return (
     <div className="w-full">
@@ -331,12 +499,20 @@ const GitContributionsBar = ({ color }) => {
                     {...(day
                       ? {
                           onMouseEnter: (event) => handleMouseEnter(event, day),
+                          onMouseMove: handlePush,
                           onMouseLeave: handleMouseLeave,
                         }
                       : {})}
                   >
                     {day && (
-                      <div className={`tile ${countToClass(day.contributionCount)}`} />
+                      <div className={`cube ${countToClass(day.contributionCount)}`}>
+                        <span className="face face-front" />
+                        <span className="face face-back" />
+                        <span className="face face-right" />
+                        <span className="face face-left" />
+                        <span className="face face-top" />
+                        <span className="face face-bottom" />
+                      </div>
                     )}
                   </div>
                 ))
