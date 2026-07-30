@@ -681,6 +681,40 @@ html {
   );
 }
 
+/* ============================================================
+   TiltCard depth cues (see TiltCard.jsx) — sell the pointer-tracked
+   rotateX/rotateY as an actual object with volume, not a flat plane
+   spinning in place.
+   ============================================================ */
+.tilt-card-depth {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--foreground) 16%, var(--card));
+  transform: translateZ(-22px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.dark .tilt-card-depth {
+  background: color-mix(in srgb, black 35%, var(--card));
+}
+
+.tilt-card-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tilt-card-depth,
+  .tilt-card-glare {
+    display: none;
+  }
+}
+
 /* Neutral badge for a technology with no recognizable brand icon — used
    by both the project card tech row and the project detail modal. */
 .tech-fallback {
