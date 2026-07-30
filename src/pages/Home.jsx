@@ -9,15 +9,7 @@ import ProjectCards from "../components/project/ProjectCards";
 import Skills from "../components/Skills";
 import Footer from "../components/Footer";
 import { getDefaultColorForTheme } from "../constants";
-import usePrefersReducedMotion from "../Hooks/usePrefersReducedMotion";
 import { useTheme } from "../context/ThemeContext";
-
-// The cursor glow deliberately does NOT use the user-picked accent color
-// (`color` below) alone — that color is used everywhere on the page for
-// headings, badges, and icons (Skills, Projects), so blending in a fixed
-// base tone keeps the glow reading as an ambient effect rather than
-// disappearing into same-colored content it passes over.
-const CURSOR_COLOR = "#5153d6";
 
 const revealProps = {
   initial: { opacity: 0, y: 32 },
@@ -27,56 +19,10 @@ const revealProps = {
 };
 
 const Home = () => {
-  // Position tracking (outer wrapper) vs. visual state (inner glow) are
-  // deliberately split across separate refs/elements. The outer wrapper
-  // gets its transform written directly every animation frame — no React
-  // state, no CSS transition — so it tracks the real pointer position with
-  // zero lag, the way a native cursor does. Only the INNER element (the
-  // glow's decorative breathing) carries a CSS transition, since that's a
-  // deliberate, low-frequency state change, not a per-frame position
-  // update. Routing position through React state + a `transition: left/top`
-  // (the previous approach) made every mousemove both re-render the whole
-  // page AND ease toward a constantly-moving target — a perpetual,
-  // never-catching-up chase that read as sticky/buffering.
-  const cursorBgRef = useRef(null);
   // Empty grid cell next to Hero (where the terminal panel used to sit) —
   // HeroBubbles reads its bounding box each frame and gathers the floating
   // icon cubes into a circle inside it instead of scattering them.
   const heroIconCircleRef = useRef(null);
-  const prefersReducedMotion = usePrefersReducedMotion();
-
-  useEffect(() => {
-    if (prefersReducedMotion) return;
-
-    const bg = cursorBgRef.current;
-    if (!bg) return;
-
-    let targetX = window.innerWidth / 2;
-    let targetY = window.innerHeight / 2;
-    let rafId = null;
-
-    const applyPosition = () => {
-      bg.style.transform = `translate3d(${targetX}px, ${targetY}px, 0)`;
-      rafId = null;
-    };
-
-    const handleMouseMove = (event) => {
-      targetX = event.clientX;
-      targetY = event.clientY;
-      // Coalesce to one DOM write per frame even if mousemove fires more
-      // often than that — keeps updates in lockstep with the compositor.
-      if (rafId === null) {
-        rafId = requestAnimationFrame(applyPosition);
-      }
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      if (rafId !== null) cancelAnimationFrame(rafId);
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [prefersReducedMotion]);
 
   const { theme } = useTheme();
   const [color, setColor] = useState(() => getDefaultColorForTheme(theme));
@@ -106,18 +52,6 @@ const Home = () => {
 
   return (
     <>
-      {!prefersReducedMotion && (
-        <div ref={cursorBgRef} className="custom-cursor-bg">
-          <div
-            className="custom-cursor-bg-inner"
-            style={{
-              "--cursor-accent": CURSOR_COLOR,
-              "--cursor-glow-accent": color,
-            }}
-          />
-        </div>
-      )}
-
       {/* Ambient background wash — ties every section together instead of
           each one sitting in its own isolated box. */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
