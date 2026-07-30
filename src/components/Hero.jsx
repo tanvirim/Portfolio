@@ -75,6 +75,24 @@ const workExperience = [
   },
 ];
 
+// Reserves the FINAL fully-typed content's real layout height up front,
+// instead of guessing a min-height in em units per line — the guesses
+// (min-h-[3.75em] etc., previously here) didn't match how many lines text
+// actually wraps to at a given viewport width, so content below Hero
+// (the GitHub contributions panel) visibly shifted down each time a typed
+// line grew past its guessed height. `measure` renders the real final
+// content invisibly (in normal flow, so it sets the parent's height);
+// `children` — the actual animating output — is layered on top via
+// `position: absolute`, matching that same reserved box exactly.
+const Reveal = ({ as: As = "p", className = "", measure, children }) => (
+  <As className={`relative ${className}`}>
+    <span className="invisible" aria-hidden="true">
+      {measure}
+    </span>
+    <span className="absolute inset-0">{children}</span>
+  </As>
+);
+
 const Dot = ({ color }) => (
   <span className="relative flex h-2 w-2 shrink-0">
     <span
@@ -147,7 +165,11 @@ const Hero = ({ color = defaultColor }) => {
         </span>
       </div>
 
-      <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight text-gray-900 dark:text-white min-h-[1.2em] sm:min-h-[1.2em]">
+      <Reveal
+        as="h1"
+        className="text-4xl sm:text-5xl font-extrabold leading-tight text-gray-900 dark:text-white"
+        measure={NAME_PLAIN + NAME_ACCENT}
+      >
         {namePlainShown}
         <span style={{ color }}>{nameAccentShown}</span>
         {!nameTyping.done && (
@@ -157,9 +179,9 @@ const Hero = ({ color = defaultColor }) => {
             aria-hidden="true"
           />
         )}
-      </h1>
+      </Reveal>
 
-      <p className="text-lg text-gray-600 dark:text-gray-300 min-h-[1.75em]">
+      <Reveal className="text-lg text-gray-600 dark:text-gray-300" measure={TAGLINE}>
         {nameTyping.done && (
           <>
             {taglineTyping.output}
@@ -172,9 +194,9 @@ const Hero = ({ color = defaultColor }) => {
             )}
           </>
         )}
-      </p>
+      </Reveal>
 
-      <p className="text-sm text-gray-500 dark:text-gray-400 min-h-[1.5em]">
+      <Reveal className="text-sm text-gray-500 dark:text-gray-400" measure={ROLE_LINE}>
         {taglineTyping.done && !roleTyping.done && (
           <>
             {roleTyping.output}
@@ -198,9 +220,12 @@ const Hero = ({ color = defaultColor }) => {
             </a>
           </>
         )}
-      </p>
+      </Reveal>
 
-      <p className="max-w-md text-sm text-gray-500 dark:text-gray-400 leading-relaxed min-h-[3.75em]">
+      <Reveal
+        className="max-w-md text-sm text-gray-500 dark:text-gray-400 leading-relaxed"
+        measure={DESCRIPTION}
+      >
         {roleTyping.done && (
           <>
             {descriptionTyping.output}
@@ -213,7 +238,7 @@ const Hero = ({ color = defaultColor }) => {
             )}
           </>
         )}
-      </p>
+      </Reveal>
 
       <p className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 min-h-[1.5em]">
         {descriptionTyping.done && (
@@ -230,7 +255,7 @@ const Hero = ({ color = defaultColor }) => {
         )}
       </p>
 
-      <p className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-500 mt-2 min-h-[1.25em]">
+      <p className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-500 mt-2 min-h-[2.25em]">
         {locationTyping.done && (
           <>
             <Dot color="#4ade80" />
