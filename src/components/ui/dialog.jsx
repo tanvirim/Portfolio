@@ -38,13 +38,17 @@ const DialogOverlay = React.forwardRef(function DialogOverlay(
       ref={ref}
       data-slot="dialog-overlay"
       className={cn(
-        "fixed inset-0 isolate z-50 bg-black/50 duration-200 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
+        "fixed inset-0 isolate z-50 bg-black/60 backdrop-blur-sm duration-200 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
         className
       )}
       {...props} />
   );
 });
 
+// The site's reusable "3D modal" shell — every Dialog uses this, so a tilt
+// -in/settle entrance (see .modal-3d in index.css), glossy top sheen, and
+// layered depth shadow are automatic anywhere a Dialog is used, matching
+// the game-btn / icon-cube 3D language instead of a flat fade+zoom popup.
 const DialogContent = React.forwardRef(function DialogContent(
   { className, children, showCloseButton = true, ...props },
   ref
@@ -56,14 +60,18 @@ const DialogContent = React.forwardRef(function DialogContent(
         ref={ref}
         data-slot="dialog-content"
         className={cn(
-          "fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-popover p-4 text-sm text-popover-foreground ring-1 ring-foreground/10 duration-200 outline-none sm:max-w-sm data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+          "modal-3d fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-2xl border border-border bg-popover p-5 text-sm text-popover-foreground outline-none sm:max-w-sm",
           className
         )}
         {...props}>
         {children}
         {showCloseButton && (
           <DialogPrimitive.Close data-slot="dialog-close" asChild>
-            <Button variant="ghost" className="absolute top-2 right-2" size="icon-sm">
+            <Button
+              variant="ghost"
+              className="absolute top-3 right-3 rounded-full transition-transform hover:scale-110 active:scale-95"
+              size="icon-sm"
+            >
               <XIcon />
               <span className="sr-only">Close</span>
             </Button>

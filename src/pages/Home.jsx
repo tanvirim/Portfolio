@@ -9,19 +9,14 @@ import ProjectCards from "../components/project/ProjectCards";
 import Skills from "../components/Skills";
 import Footer from "../components/Footer";
 import { getDefaultColorForTheme } from "../constants";
-import parseHexColor from "../utils/parseHexColor";
 import usePrefersReducedMotion from "../Hooks/usePrefersReducedMotion";
 import { useTheme } from "../context/ThemeContext";
 
-const INTERACTIVE_SELECTOR =
-  'a, button, [role="button"], input, textarea, select, summary';
-
-// The cursor ring/dot deliberately do NOT use the user-picked accent color
-// (`color` below) — that color is used everywhere on the page for headings,
-// badges, and icons (Skills, Projects), so a same-colored cursor visually
-// disappears the moment it crosses any of that content. This matches
-// --secondary-color in index.css, which is reserved for backdrop/glow use
-// and never used for foreground text, so the ring stays visible everywhere.
+// The cursor glow deliberately does NOT use the user-picked accent color
+// (`color` below) alone — that color is used everywhere on the page for
+// headings, badges, and icons (Skills, Projects), so blending in a fixed
+// base tone keeps the glow reading as an ambient effect rather than
+// disappearing into same-colored content it passes over.
 const CURSOR_COLOR = "#5153d6";
 
 const revealProps = {
@@ -32,20 +27,17 @@ const revealProps = {
 };
 
 const Home = () => {
-  // Position tracking (outer wrappers) vs. visual state (inner ring/glow)
-  // are deliberately split across separate refs/elements. The outer
-  // wrappers get their transform written directly every animation frame —
-  // no React state, no CSS transition — so they track the real pointer
-  // position with zero lag, the way a native cursor does. Only the INNER
-  // elements (scale on hover/click, the glow's decorative breathing) carry
-  // a CSS transition, since those are deliberate, low-frequency state
-  // changes, not per-frame position updates. Routing position through
-  // React state + a `transition: left/top` (the previous approach) made
-  // every mousemove both re-render the whole page AND ease toward a
-  // constantly-moving target — a perpetual, never-catching-up chase that
-  // reads as sticky/buffering.
-  const cursorWrapRef = useRef(null);
-  const cursorRingRef = useRef(null);
+  // Position tracking (outer wrapper) vs. visual state (inner glow) are
+  // deliberately split across separate refs/elements. The outer wrapper
+  // gets its transform written directly every animation frame — no React
+  // state, no CSS transition — so it tracks the real pointer position with
+  // zero lag, the way a native cursor does. Only the INNER element (the
+  // glow's decorative breathing) carries a CSS transition, since that's a
+  // deliberate, low-frequency state change, not a per-frame position
+  // update. Routing position through React state + a `transition: left/top`
+  // (the previous approach) made every mousemove both re-render the whole
+  // page AND ease toward a constantly-moving target — a perpetual,
+  // never-catching-up chase that read as sticky/buffering.
   const cursorBgRef = useRef(null);
   // Empty grid cell next to Hero (where the terminal panel used to sit) —
   // HeroBubbles reads its bounding box each frame and gathers the floating
@@ -56,19 +48,15 @@ const Home = () => {
   useEffect(() => {
     if (prefersReducedMotion) return;
 
-    const wrap = cursorWrapRef.current;
-    const ring = cursorRingRef.current;
     const bg = cursorBgRef.current;
-    if (!wrap || !ring || !bg) return;
+    if (!bg) return;
 
     let targetX = window.innerWidth / 2;
     let targetY = window.innerHeight / 2;
     let rafId = null;
 
     const applyPosition = () => {
-      const transform = `translate3d(${targetX}px, ${targetY}px, 0)`;
-      wrap.style.transform = transform;
-      bg.style.transform = transform;
+      bg.style.transform = `translate3d(${targetX}px, ${targetY}px, 0)`;
       rafId = null;
     };
 
@@ -82,35 +70,11 @@ const Home = () => {
       }
     };
 
-    let clickTimeout;
-    const handleMouseDown = () => {
-      ring.classList.add("is-clicked");
-      clearTimeout(clickTimeout);
-      // Matches the .5s ripple animation in index.css — remove only once
-      // it's had time to finish playing.
-      clickTimeout = setTimeout(() => ring.classList.remove("is-clicked"), 500);
-    };
-
-    const handlePointerOver = (event) => {
-      if (event.target.closest?.(INTERACTIVE_SELECTOR)) ring.classList.add("is-active");
-    };
-
-    const handlePointerOut = (event) => {
-      if (event.target.closest?.(INTERACTIVE_SELECTOR)) ring.classList.remove("is-active");
-    };
-
     window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("pointerover", handlePointerOver);
-    window.addEventListener("pointerout", handlePointerOut);
 
     return () => {
       if (rafId !== null) cancelAnimationFrame(rafId);
-      clearTimeout(clickTimeout);
       window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mousedown", handleMouseDown);
-      window.removeEventListener("pointerover", handlePointerOver);
-      window.removeEventListener("pointerout", handlePointerOut);
     };
   }, [prefersReducedMotion]);
 
@@ -121,7 +85,6 @@ const Home = () => {
   // dark mode, red in light mode) whenever they flip the theme toggle. Once
   // they pick one via ColorPicker, that choice sticks across theme changes.
   const [hasCustomColor, setHasCustomColor] = useState(false);
-  const cursorColorRGBA = parseHexColor(CURSOR_COLOR, { r: 81, g: 83, b: 214 });
 
   useEffect(() => {
     if (!hasCustomColor) {
@@ -144,27 +107,15 @@ const Home = () => {
   return (
     <>
       {!prefersReducedMotion && (
-        <>
-          <div ref={cursorWrapRef} className="custom-cursor-icon">
-            <div
-              ref={cursorRingRef}
-              className="custom-cursor-ring"
-              style={{
-                "--cursor-accent": CURSOR_COLOR,
-                "--cursor-accent-rgb": `${cursorColorRGBA.r}, ${cursorColorRGBA.g}, ${cursorColorRGBA.b}`,
-              }}
-            />
-          </div>
-          <div ref={cursorBgRef} className="custom-cursor-bg">
-            <div
-              className="custom-cursor-bg-inner"
-              style={{
-                "--cursor-accent": CURSOR_COLOR,
-                "--cursor-glow-accent": color,
-              }}
-            />
-          </div>
-        </>
+        <div ref={cursorBgRef} className="custom-cursor-bg">
+          <div
+            className="custom-cursor-bg-inner"
+            style={{
+              "--cursor-accent": CURSOR_COLOR,
+              "--cursor-glow-accent": color,
+            }}
+          />
+        </div>
       )}
 
       {/* Ambient background wash — ties every section together instead of

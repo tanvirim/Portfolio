@@ -3,6 +3,7 @@
 import { Palette, Check } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { defaultColor } from "../constants";
+import IconCube from "./IconCube";
 
 const PRESET_COLORS = [
   "#1ce5ff", // cyan (default, dark mode)
@@ -30,10 +31,15 @@ const ColorPicker = ({ color = defaultColor, colorStateForHome }) => {
       <PopoverTrigger asChild>
         <button
           aria-label="Change accent color"
-          className="game-btn-circle w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center border border-white/10"
-          style={{ backgroundColor: color }}
+          className="transition-transform duration-200 hover:scale-110"
         >
-          <Palette size={14} className="text-white drop-shadow" />
+          <IconCube
+            icon={Palette}
+            color={color}
+            size={20}
+            label="Change accent color"
+            tooltipSide="bottom"
+          />
         </button>
       </PopoverTrigger>
       <PopoverContent

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { MessageCircle, Phone, Mail, Copy, Check, ChevronRight } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { Popover, PopoverContent, PopoverTrigger, PopoverTitle } from "./ui/popover";
+import IconCube from "./IconCube";
+import { defaultColor } from "../constants";
 
 const PHONE_DISPLAY = "01912384996";
 const PHONE_INTL = "8801912384996"; // BD country code, for wa.me / tel:
@@ -42,9 +44,14 @@ const FloatingChat = () => {
         <button
           type="button"
           aria-label="Contact options"
-          className="fixed bottom-6 right-6 z-50 w-11 h-11 flex items-center justify-center rounded-full border border-white/10 bg-black/60 backdrop-blur-md text-white shadow-[0_10px_30px_rgba(0,0,0,0.4)] transition-all duration-300 hover:scale-110 hover:bg-black/80"
+          className="fixed bottom-6 right-6 z-50 transition-transform duration-300 hover:scale-110"
         >
-          <MessageCircle size={20} />
+          <IconCube
+            icon={MessageCircle}
+            color={defaultColor}
+            size={32}
+            label="Contact options"
+          />
         </button>
       </PopoverTrigger>
 

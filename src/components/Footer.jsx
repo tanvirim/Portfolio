@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { ExternalLink } from "lucide-react";
+import { motion } from "framer-motion";
 import ContactForm from "./ContactForm";
 import SectionTitle from "./SectionTitle";
 import { defaultColor, shippedProjects } from "../constants";
@@ -36,19 +37,25 @@ const Footer = ({ color = defaultColor }) => {
           <h3 className="text-xs font-mono uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3">
             Things I&apos;ve shipped
           </h3>
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            {shippedProjects.map((project) => (
-              <a
+          <div className="flex flex-wrap items-center justify-center gap-2" style={{ perspective: "800px" }}>
+            {shippedProjects.map((project, index) => (
+              <motion.a
                 key={project.name}
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ "--hover-color": color }}
-                className="inline-flex items-center gap-1.5 rounded-full border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 px-3.5 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 hover:text-[var(--hover-color)] hover:border-[var(--hover-color)] transition-colors"
+                className="shipped-chip inline-flex items-center gap-1.5 rounded-full border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 px-3.5 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 hover:text-[var(--hover-color)] hover:border-[var(--hover-color)] transition-colors"
+                initial={{ opacity: 0, y: 14, rotateX: -25 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
+                whileHover={{ y: -4, scale: 1.06 }}
+                whileTap={{ scale: 0.96 }}
               >
                 {project.name}
                 <ExternalLink size={12} />
-              </a>
+              </motion.a>
             ))}
           </div>
         </div>

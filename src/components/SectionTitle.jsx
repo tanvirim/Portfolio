@@ -50,8 +50,16 @@ const SectionTitle = ({
         )}
       </div>
 
+      <motion.div
+        className="section-title-underline mx-auto mt-3"
+        style={{ backgroundColor: color, boxShadow: `0 6px 16px -4px ${color}` }}
+        initial={{ width: 0, opacity: 0 }}
+        animate={isInView ? { width: 56, opacity: 1 } : {}}
+        transition={{ duration: 0.5, delay: 0.2, ease: [0.34, 1.56, 0.64, 1] }}
+      />
+
       {subtitle && (
-        <p className="mt-2 text-center text-xs sm:text-sm font-mono text-gray-500 dark:text-gray-400 min-h-[1.5em]">
+        <p className="subtitle-text-style mt-3 text-center text-xs sm:text-sm font-mono text-gray-600 dark:text-gray-300 min-h-[1.5em]">
           {titleTyping.done && (
             <>
               {subtitleTyping.output}

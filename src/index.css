@@ -116,18 +116,63 @@ body {
   white-space: nowrap;
   overflow: hidden;
   color: var(--primary-color);
-  text-shadow: 0 0 3px currentColor;
   text-align: center;
   font-weight: bold;
+  /* Layered shadow builds an embossed, extruded-letterform look (a soft
+     highlight above, a tight dark contact shadow, then a wider glow in
+     the section's accent color) instead of the flat single-layer glow
+     this used to have — reads as lifted off the page, not printed on it. */
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.4),
+    0 2px 1px rgba(0, 0, 0, 0.2),
+    0 6px 14px color-mix(in srgb, currentColor 55%, transparent),
+    0 12px 28px rgba(0, 0, 0, 0.2);
   transition:
-    transform 0.3s ease,
-    color 0.3s ease;
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    color 0.3s ease,
+    text-shadow 0.3s ease;
+}
+
+.dark .title-text-style {
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.15),
+    0 2px 2px rgba(0, 0, 0, 0.45),
+    0 6px 14px color-mix(in srgb, currentColor 60%, transparent),
+    0 16px 32px rgba(0, 0, 0, 0.5);
 }
 
 .title-text-style:hover {
-  transform: scale(1.05);
+  transform: perspective(600px) rotateX(8deg) scale(1.05);
   filter: brightness(85%);
   cursor: pointer;
+}
+
+/* Accent bar drawn in under every section title — the one recurring
+   "professional touch" element tying title → underline → content
+   together, instead of the heading just floating alone above its panel. */
+.section-title-underline {
+  height: 4px;
+  border-radius: 999px;
+}
+
+/* Subtitle line — a little more weight/contrast and a soft lift so it
+   doesn't read as flat, monotone body copy under a decorated heading. */
+.subtitle-text-style {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  letter-spacing: 0.01em;
+}
+
+.dark .subtitle-text-style {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title-text-style {
+    transition: none !important;
+  }
+  .title-text-style:hover {
+    transform: none !important;
+  }
 }
 
 /* React Modal Transitions */
@@ -168,7 +213,6 @@ html {
    (the previous approach) meant every mousemove queued a new eased
    transition toward an already-stale target — a perpetual, never-catching-
    up chase that read as sticky/buffering. */
-.custom-cursor-icon,
 .custom-cursor-bg {
   position: fixed;
   top: 0;
@@ -177,17 +221,9 @@ html {
   height: 0;
   pointer-events: none;
   will-change: transform;
-}
-
-.custom-cursor-icon {
-  z-index: 99999;
-}
-
-/* z-index is a high positive value (not -1) so the glow paints on TOP of
-   opaque card backgrounds too (terminal, GitHub activity) instead of
-   disappearing behind them — it stays below the ring/dot (99999) above so
-   those stay crisp. */
-.custom-cursor-bg {
+  /* z-index is a high positive value (not -1) so the glow paints on TOP of
+     opaque card backgrounds too (terminal, GitHub activity) instead of
+     disappearing behind them. */
   z-index: 99998;
 }
 
@@ -223,108 +259,9 @@ html {
   }
 }
 
-/* The ring/dot use a FIXED color (--cursor-accent, set inline in Home.jsx)
-   that's deliberately not the user-picked accent — that color covers
-   headings/badges/icons across the page, so a same-colored cursor
-   disappears into them. The extra 0 0 0 <n>px shadow layer below is also a
-   theme-aware (dark ring on light bg / light ring on dark bg) contrast
-   edge on top of that, so the ring stays visible regardless of what's
-   underneath. The soft ambient glow (--cursor-glow-accent) still blends in
-   the picked accent since it's translucent/blurred and doesn't need the
-   same crisp contrast. Hidden entirely on touch devices below since
-   there's no real hover/pointer to react to there. */
-.custom-cursor-ring {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 36px;
-  height: 36px;
-  margin: -18px 0 0 -18px;
-  background-color: rgba(var(--cursor-accent-rgb, 81, 83, 214), 0.06);
-  border: 1.5px solid var(--cursor-accent, #5153d6);
-  box-shadow:
-    0 0 0 1.5px rgba(15, 23, 42, 0.55),
-    0 0 16px rgba(var(--cursor-accent-rgb, 81, 83, 214), 0.35);
-  border-radius: 50%;
-  transform: scale(1);
-  transition:
-    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
-    background-color 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-.dark .custom-cursor-ring {
-  box-shadow:
-    0 0 0 1.5px rgba(255, 255, 255, 0.55),
-    0 0 16px rgba(var(--cursor-accent-rgb, 81, 83, 214), 0.45);
-}
-
-.custom-cursor-ring::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 6px;
-  height: 6px;
-  background-color: var(--cursor-accent, #5153d6);
-  border-radius: 50%;
-  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.6);
-  transform: translate(-50%, -50%);
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.dark .custom-cursor-ring::after {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);
-}
-
-.custom-cursor-ring.is-clicked {
-  transform: scale(0.75);
-}
-
-.custom-cursor-ring.is-clicked::before {
-  content: "";
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 1.5px solid var(--cursor-accent, #5153d6);
-  animation: cursor-ripple 0.5s ease-out forwards;
-}
-
-@keyframes cursor-ripple {
-  from {
-    transform: scale(1);
-    opacity: 0.8;
-  }
-  to {
-    transform: scale(1.8);
-    opacity: 0;
-  }
-}
-
-.custom-cursor-ring.is-active {
-  transform: scale(2.2);
-  background-color: rgba(var(--cursor-accent-rgb, 81, 83, 214), 0.14);
-  box-shadow:
-    0 0 0 1.5px rgba(15, 23, 42, 0.55),
-    0 0 24px rgba(var(--cursor-accent-rgb, 81, 83, 214), 0.45);
-}
-
-.dark .custom-cursor-ring.is-active {
-  box-shadow:
-    0 0 0 1.5px rgba(255, 255, 255, 0.55),
-    0 0 24px rgba(var(--cursor-accent-rgb, 81, 83, 214), 0.55);
-}
-
-.custom-cursor-ring.is-active::after {
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0.4);
-}
-
+/* Hidden entirely on touch devices since there's no real hover/pointer to
+   react to there. */
 @media (hover: none), (pointer: coarse) {
-  .custom-cursor-icon,
   .custom-cursor-bg {
     display: none;
   }
@@ -432,6 +369,7 @@ html {
    ============================================================ */
 .game-btn {
   position: relative;
+  overflow: hidden;
   border: none;
   border-bottom: 4px solid rgba(0, 0, 0, 0.35);
   background-image: linear-gradient(
@@ -443,24 +381,48 @@ html {
   box-shadow:
     0 6px 14px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.25);
-  transform: translateY(0) scale(1);
+  transform: translateY(0) scale(1) rotateZ(0deg);
   transition:
-    transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.15s ease,
+    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.2s ease,
     filter 0.15s ease,
     border-bottom-width 0.12s ease;
 }
 
+/* Diagonal shine that sweeps across on hover — the "dynamic" cue that
+   sells this as a live, game-like surface rather than a static pill. */
+.game-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.55s ease;
+  pointer-events: none;
+}
+
 .game-btn:hover {
   filter: brightness(1.1) saturate(1.15);
-  transform: translateY(-3px) scale(1.03);
+  transform: translateY(-4px) scale(1.04) rotateZ(-0.6deg);
   box-shadow:
-    0 10px 22px rgba(0, 0, 0, 0.35),
+    0 12px 26px rgba(0, 0, 0, 0.38),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
+.game-btn:hover::before {
+  left: 130%;
+}
+
 .game-btn:active {
-  transform: translateY(3px) scale(0.98);
+  transform: translateY(3px) scale(0.98) rotateZ(0deg);
   border-bottom-width: 1px;
   box-shadow:
     0 2px 6px rgba(0, 0, 0, 0.3),
@@ -536,6 +498,7 @@ html {
 
 @media (prefers-reduced-motion: reduce) {
   .game-btn,
+  .game-btn::before,
   .game-btn-circle,
   .game-card,
   .game-card-subtle {
@@ -547,6 +510,188 @@ html {
   .game-card-subtle:hover {
     transform: none !important;
   }
+  .game-btn:hover::before {
+    left: -75% !important;
+  }
+}
+
+/* ============================================================
+   IconCube's hover tooltip — a bouncy, cartoon-game-style "pop"
+   label revealing what the cube does, instead of a flat browser
+   tooltip. Overshoots past full size/rotation before settling,
+   which reads as a playful spring rather than a plain fade.
+   ============================================================ */
+/* Deliberately no translateX/Y here — this animates an INNER element
+   nested inside the tooltip's outer positioning wrapper, so the bounce
+   never fights the wrapper's own translate-x/translate-y-full transform
+   (which is what actually pins the bubble above/below the cube). */
+@keyframes cube-tooltip-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) rotate(-8deg) translateY(6px);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.15) rotate(4deg) translateY(-4px);
+  }
+  75% {
+    transform: scale(0.95) rotate(-2deg) translateY(1px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icon-cube-tooltip {
+    animation: none !important;
+  }
+}
+
+/* ============================================================
+   "3D modal" — the reusable Dialog shell (see ui/dialog.jsx). Tilts
+   in from a slight perspective rotation and overshoots before
+   settling flat, instead of a flat fade+zoom, matching the game-btn
+   / icon-cube 3D language used everywhere else. The exact centering
+   transform (translate(-50%, -50%)) is baked into every keyframe
+   step — Radix's own `-translate-x-1/2 -translate-y-1/2` classes
+   stay on the element as a fallback that resolves to the identical
+   visual result, so there's no snap when the animation ends.
+   ============================================================ */
+@keyframes modal-3d-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) perspective(1000px) rotateX(14deg) scale(0.85);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(-50%, -50%) perspective(1000px) rotateX(-2deg) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) perspective(1000px) rotateX(0deg) scale(1);
+  }
+}
+
+@keyframes modal-3d-out {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) perspective(1000px) rotateX(0deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) perspective(1000px) rotateX(10deg) scale(0.9);
+  }
+}
+
+.modal-3d {
+  transform-style: preserve-3d;
+  background-image: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.07) 0%,
+    rgba(255, 255, 255, 0) 35%
+  );
+  /* --modal-accent is optional (set via inline style from whichever page
+     color the modal belongs to) — when present it adds a soft colored
+     glow behind the depth shadow, tying the "arrival" to that modal's
+     own accent instead of a generic dark drop shadow. */
+  box-shadow:
+    0 0 60px -10px var(--modal-accent, transparent),
+    0 30px 60px -12px rgba(0, 0, 0, 0.5),
+    0 10px 20px -8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.modal-3d[data-state="open"] {
+  animation: modal-3d-in 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-3d[data-state="closed"] {
+  animation: modal-3d-out 0.18s ease-in forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-3d[data-state="open"],
+  .modal-3d[data-state="closed"] {
+    animation: none !important;
+  }
+}
+
+/* ============================================================
+   Contact form — perspective container + per-field 3D depth on
+   hover/focus, matching the game-card / modal-3d tilt language
+   used everywhere else on the page.
+   ============================================================ */
+.contact-form-3d {
+  perspective: 1200px;
+}
+
+.contact-field-3d {
+  transform-style: preserve-3d;
+  border-radius: 0.75rem;
+  transition:
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease;
+}
+
+.contact-field-3d:hover {
+  transform: translateZ(6px) translateY(-2px);
+}
+
+.contact-field-3d:focus-within {
+  transform: translateZ(18px) translateY(-3px) scale(1.015);
+  box-shadow:
+    0 16px 32px -12px color-mix(in srgb, var(--field-accent, var(--primary-color)) 55%, transparent),
+    0 4px 10px -4px rgba(0, 0, 0, 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-field-3d {
+    transition: none !important;
+  }
+  .contact-field-3d:hover,
+  .contact-field-3d:focus-within {
+    transform: none !important;
+  }
+}
+
+/* "Shipped" footer chips — small 3D lift + accent-tinted glow on hover,
+   the transform/tap spring itself driven by framer-motion (whileHover/
+   whileTap) in Footer.jsx; this only carries the box-shadow transition,
+   since that's the one part motion doesn't already own. */
+.shipped-chip {
+  transform-style: preserve-3d;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.25s ease;
+}
+
+.shipped-chip:hover {
+  box-shadow: 0 14px 26px -10px var(--hover-color, rgba(0, 0, 0, 0.35));
+}
+
+/* Project card cover for projects with no screenshot yet — a plain
+   accent-tinted gradient block instead of a "preview coming soon" label,
+   since the empty state is expected (image arrives later), not an error. */
+.project-image-fallback {
+  background: linear-gradient(
+    135deg,
+    var(--fallback-accent) 0%,
+    color-mix(in srgb, var(--fallback-accent) 60%, black 30%) 100%
+  );
+}
+
+/* Neutral badge for a technology with no recognizable brand icon — used
+   by both the project card tech row and the project detail modal. */
+.tech-fallback {
+  display: inline-flex;
+  align-items: center;
+  background: var(--muted);
+  color: var(--muted-foreground);
+  font-weight: 600;
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 999px;
 }
 
 /* ============================================================

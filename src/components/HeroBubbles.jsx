@@ -43,6 +43,7 @@ import { BiLogoTailwindCss } from "react-icons/bi";
 import { FaNodeJs, FaGithub, FaJava } from "react-icons/fa";
 import { TbBrandNextjs } from "react-icons/tb";
 import parseHexColor from "../utils/parseHexColor";
+import getContrastColor from "../utils/getContrastColor";
 import usePrefersReducedMotion from "../Hooks/usePrefersReducedMotion";
 import { defaultColor } from "../constants";
 
@@ -137,24 +138,6 @@ const ICON_COLORS = [
 const CAMERA_Z = 100;
 const FOV = 45;
 
-// Picks white or near-black for the glyph, whichever contrasts more
-// against a given background (hex "#rrggbb" or "rgb(r, g, b)").
-function getContrastingIconColor(bgColorCss) {
-  let r = 255;
-  let g = 255;
-  let b = 255;
-  if (bgColorCss.startsWith("#")) {
-    ({ r, g, b } = parseHexColor(bgColorCss, { r, g, b }));
-  } else {
-    const nums = bgColorCss.match(/\d+(\.\d+)?/g);
-    if (nums && nums.length >= 3) {
-      [r, g, b] = nums.map(Number);
-    }
-  }
-  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-  return luminance > 0.6 ? "#101418" : "#ffffff";
-}
-
 // A solid, opaque app-icon-style tile — colored square background with the
 // glyph drawn on top in whichever of white/near-black contrasts best
 // against that background — used as the texture for one face of a die.
@@ -185,7 +168,7 @@ function buildFaceTexture(Icon, bgColorCss) {
 
   const iconSize = size * 0.74;
   const markup = renderToStaticMarkup(
-    <Icon color={getContrastingIconColor(bgColorCss)} size={iconSize} />
+    <Icon color={getContrastColor(bgColorCss)} size={iconSize} />
   );
   const svg = markup.includes("xmlns")
     ? markup

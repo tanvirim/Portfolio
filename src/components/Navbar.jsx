@@ -80,8 +80,8 @@ const Navbar = ({ color = defaultColor, colorStateForHome }) => {
           ))}
         </ul>
 
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-          <ThemeToggle />
+        <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+          <ThemeToggle color={color} />
           <ColorPicker color={color} colorStateForHome={colorStateForHome} />
           <button
             className="z-[99] cursor-pointer p-1 shrink-0 md:hidden"

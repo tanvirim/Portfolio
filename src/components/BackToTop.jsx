@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
+import IconCube from "./IconCube";
+import { defaultColor } from "../constants";
 
 const SHOW_AFTER_PX = 400;
 
@@ -24,9 +26,9 @@ const BackToTop = () => {
     <button
       onClick={scrollToTop}
       aria-label="Back to top"
-      className="fixed bottom-24 right-6 z-50 w-11 h-11 flex items-center justify-center rounded-full border border-white/10 bg-black/60 backdrop-blur-md text-white shadow-[0_10px_30px_rgba(0,0,0,0.4)] transition-all duration-300 hover:scale-110 hover:bg-black/80"
+      className="fixed bottom-24 right-6 z-50 transition-transform duration-300 hover:scale-110"
     >
-      <ArrowUp size={20} />
+      <IconCube icon={ArrowUp} color={defaultColor} size={32} label="Back to top" />
     </button>
   );
 };

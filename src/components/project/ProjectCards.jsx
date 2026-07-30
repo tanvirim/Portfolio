@@ -1,15 +1,62 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { defaultColor, projects } from "../../constants";
+import { TECH_ICON_META } from "../../constants/techIcons";
 import { FaGithub } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ChevronsRight, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import ProjectModal from "./ProjectModal"; // Import the new ProjectModal component
 import SectionTitle from "../SectionTitle";
+import IconCube from "../IconCube";
+import { Button } from "../ui/button";
+import { markImageLoaded } from "../../utils/loadedImageCache";
+
+// Pointer-tracked 3D tilt for a project card — rotateX/rotateY follow the
+// cursor's position within the card (a real tilt-card effect, not just a
+// fixed hover pose), smoothed through a spring so it settles instead of
+// snapping. Kept as its own component (rather than inline in the .map())
+// because each card needs its own motion values — hooks can't live inside
+// a callback passed to .map().
+const TiltProjectCard = ({ color, index, onClick, children }) => {
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
+  const springConfig = { stiffness: 150, damping: 18, mass: 0.4 };
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [9, -9]), springConfig);
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-9, 9]), springConfig);
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    mouseX.set((e.clientX - rect.left) / rect.width);
+    mouseY.set((e.clientY - rect.top) / rect.height);
+  };
+
+  const resetTilt = () => {
+    mouseX.set(0.5);
+    mouseY.set(0.5);
+  };
+
+  return (
+    <ProjectCard
+      className="game-card"
+      color={color}
+      onClick={onClick}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={resetTilt}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
+      whileHover={{ y: -10, scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      style={{ rotateX, rotateY, transformPerspective: 900 }}
+    >
+      {children}
+    </ProjectCard>
+  );
+};
 
 const ProjectCards = ({ color = defaultColor }) => {
   const location = useLocation();
@@ -68,34 +115,50 @@ const ProjectCards = ({ color = defaultColor }) => {
         <div className="p-5 sm:p-8">
           <ProjectCardsContainer color={color}>
             {displayedProjects.map((project, index) => (
-              <ProjectCard
-                className="game-card"
-                color={color}
+              <TiltProjectCard
                 key={index}
+                color={color}
+                index={index}
                 onClick={() => openModal(index)}
-                initial={{ opacity: 0, y: 50, rotateX: -12 }}
-                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
               >
                 {project.imageLink ? (
                   <img
                     className="h-[140px] object-cover rounded-t-lg"
                     src={project.imageLink}
                     alt={project.projectName}
+                    onLoad={() => markImageLoaded(project.imageLink)}
                   />
                 ) : (
-                  <div className="h-[140px] rounded-t-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400 dark:text-gray-500 text-xs">
-                    Preview coming soon
-                  </div>
+                  <div
+                    className="h-[140px] rounded-t-lg project-image-fallback"
+                    style={{ "--fallback-accent": color || defaultColor }}
+                  />
                 )}
                 <h3>{project.projectName}</h3>
                 <ul>
-                  {project.technologies.map((tech, techIndex) => (
-                    <li key={techIndex}>
-                      <button className="technology-button game-btn">{tech}</button>
-                    </li>
-                  ))}
+                  {project.technologies.map((tech, techIndex) => {
+                    const meta = TECH_ICON_META[tech];
+                    return (
+                      <li key={techIndex}>
+                        {/* Icon-only, no pill/button background — a row of
+                            text pills for every technology took up a lot of
+                            card space; the bare icon (with a hover tooltip)
+                            reads just as clearly at a glance. Any technology
+                            still missing from TECH_ICON_META falls back to
+                            a plain text badge. */}
+                        {meta ? (
+                          <IconCube
+                            icon={meta.icon}
+                            color={meta.color}
+                            size={30}
+                            label={tech}
+                          />
+                        ) : (
+                          <span className="tech-fallback">{tech}</span>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
                 <p title={project.projectDescription}>
                   {project.projectDescription.length > 150
@@ -110,7 +173,12 @@ const ProjectCards = ({ color = defaultColor }) => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <FaGithub color={color ? color : defaultColor} size={23} />
+                      <IconCube
+                        icon={FaGithub}
+                        color="#181717"
+                        size={23}
+                        label="View on GitHub"
+                      />
                     </a>
                   )}
                   {project.liveLink && (
@@ -119,18 +187,33 @@ const ProjectCards = ({ color = defaultColor }) => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <ExternalLink color={color ? color : defaultColor} size={20} />
+                      <IconCube
+                        icon={ExternalLink}
+                        color={color ? color : defaultColor}
+                        size={20}
+                        label="View live site"
+                      />
                     </a>
                   )}
                 </div>
-              </ProjectCard>
+              </TiltProjectCard>
             ))}
           </ProjectCardsContainer>
           {isRootRoute && (
-            <StyledLearnMoreButton className="game-btn" color={color} to="/projects">
-              All Projects
-              <ChevronsRight />
-            </StyledLearnMoreButton>
+            <div className="flex justify-end mt-5">
+              <Button
+                asChild
+                variant="game"
+                size="game"
+                color={color}
+                className="text-xs gap-1.5"
+              >
+                <Link to="/projects">
+                  All Projects
+                  <ChevronsRight size={14} />
+                </Link>
+              </Button>
+            </div>
           )}
         </div>
       </div>
@@ -151,25 +234,6 @@ const ProjectCards = ({ color = defaultColor }) => {
 };
 
 export default ProjectCards;
-
-const StyledLearnMoreButton = styled(Link)`
-  margin-top: 20px;
-  margin-left: 70%;
-  font-size: 12px;
-  font-weight: bold;
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  padding: 8px 16px;
-  border-radius: 999px;
-  background: ${({ color }) => (color ? color : defaultColor)};
-  color: #000;
-  text-decoration: none;
-
-  & > svg {
-    margin-left: 5px;
-  }
-`;
 
 const ProjectCardsContainer = styled.div`
   flex-wrap: wrap;
@@ -211,21 +275,15 @@ const ProjectCard = styled(motion.div)`
   ul {
     list-style: none;
     padding: 0;
+    margin: 14px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 20px;
   }
 
   li {
-    display: inline;
-  }
-
-  .technology-button {
-    background: ${({ color }) => (color ? color : defaultColor)};
-    color: #000;
-    font-weight: 600;
-    padding: 5px 10px;
-    margin: 2px;
-    border-radius: 999px;
-    border-bottom-width: 2px !important;
-    cursor: pointer;
+    display: inline-flex;
   }
 
   .project-links {

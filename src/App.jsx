@@ -4,10 +4,12 @@ import AboutMePage from "./pages/AboutPage";
 import ProjectPage from "./pages/ProjectPage";
 import BackToTop from "./components/BackToTop";
 import FloatingChat from "./components/FloatingChat";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutMePage />} />

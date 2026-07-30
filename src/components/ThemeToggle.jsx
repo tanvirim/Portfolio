@@ -1,16 +1,25 @@
+/* eslint-disable react/prop-types */
 import { Sun, Moon } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
+import IconCube from "./IconCube";
+import { defaultColor } from "../constants";
 
-const ThemeToggle = () => {
+const ThemeToggle = ({ color = defaultColor }) => {
   const { theme, toggleTheme } = useTheme();
 
   return (
     <button
       onClick={toggleTheme}
       aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-      className="game-btn-circle w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center border border-black/10 dark:border-white/10 bg-white dark:bg-[#151b28] text-gray-700 dark:text-gray-200"
+      className="transition-transform duration-200 hover:scale-110"
     >
-      {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
+      <IconCube
+        icon={theme === "dark" ? Sun : Moon}
+        color={color}
+        size={20}
+        label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+        tooltipSide="bottom"
+      />
     </button>
   );
 };

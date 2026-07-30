@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable react/no-unescaped-entities */
 
 import { useState } from "react";
 import { differenceInYears } from "date-fns";
 import { MapPin, ChevronsRight, Download } from "lucide-react";
 import { Dialog, DialogContent } from "./ui/dialog";
+import { Button } from "./ui/button";
 import profilePic from "../assets/profile.jpg";
 import { defaultColor, shippedProjects } from "../constants";
 import SocialIcons from "./Socialicon";
@@ -91,7 +91,6 @@ const Dot = ({ color }) => (
 const Hero = ({ color = defaultColor }) => {
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
   const prefersReducedMotion = usePrefersReducedMotion();
 
   // Sequenced typing — name, then tagline, then role line — each one only
@@ -257,34 +256,29 @@ const Hero = ({ color = defaultColor }) => {
           }`}
       >
         <div className="flex flex-wrap items-center gap-4 mt-1">
-          <SocialIcons color={color} />
+          <SocialIcons />
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <button
-            className="game-btn text-xs font-bold flex items-center gap-1 px-3.5 py-2 text-black rounded-full"
-            style={{ backgroundColor: color }}
+          <Button
+            type="button"
+            variant="game"
+            size="game"
+            className="text-xs gap-1 px-3.5 py-2"
+            color={color}
             onClick={openModal}
           >
             Learn More
             <ChevronsRight size={14} />
-          </button>
+          </Button>
         </div>
       </div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent
-          showCloseButton={false}
-          className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white text-base p-4 sm:p-6 rounded-lg shadow-lg w-full max-w-[calc(100%-2rem)] sm:max-w-3xl"
-          style={{ maxHeight: "90vh", overflowY: "auto" }}
+          className="text-base p-4 sm:p-6 w-full max-w-[calc(100%-2rem)] sm:max-w-3xl"
+          style={{ maxHeight: "90vh", overflowY: "auto", "--modal-accent": color }}
         >
-          <button
-            className="absolute top-2 right-3 sm:top-0 sm:right-4 text-gray-400 hover:text-gray-900 dark:hover:text-white text-4xl sm:text-6xl leading-none"
-            onClick={closeModal}
-          >
-            &times;
-          </button>
-
           <div className="overflow-y-auto max-h-[80vh]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex justify-center items-center">
@@ -357,15 +351,12 @@ const Hero = ({ color = defaultColor }) => {
             </div>
 
             <div className="mt-6 flex justify-center">
-              <a
-                href="/Tanvir_Mitul_Resume.pdf"
-                download
-                className="game-btn flex items-center px-4 py-2 text-black font-bold rounded-full"
-                style={{ backgroundColor: color }}
-              >
-                Download Resume
-                <Download className="ml-2" size={16} />
-              </a>
+              <Button asChild variant="game" size="game" color={color}>
+                <a href="/Tanvir_Mitul_Resume.pdf" download>
+                  Download Resume
+                  <Download size={16} />
+                </a>
+              </Button>
             </div>
           </div>
         </DialogContent>
