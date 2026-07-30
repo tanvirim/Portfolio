@@ -42,6 +42,13 @@ export const projects = [
     projectDescription:
       "Transcribe. Generate meeting minutes. Collaborate. Converts speech to text with AI and instantly generates structured meeting minutes — decisions, action items, and speaker attribution.",
     liveLink: "https://tas.bangla.gov.bd/",
+    imageLink: "https://i.ibb.co.com/KpWxkz2n/image.png",
+    images: [
+      "https://i.ibb.co.com/KpWxkz2n/image.png",
+      "https://i.ibb.co.com/8LFzYmFY/image.png",
+      "https://i.ibb.co.com/0pq1msMb/image.png",
+      "https://i.ibb.co.com/0VdY6c1K/image.png",
+    ],
   },
   {
     projectName: "Eblict Crowd Data Platform",
