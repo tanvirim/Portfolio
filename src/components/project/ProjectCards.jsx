@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { defaultColor, projects } from "../../constants";
 import { TECH_ICON_META } from "../../constants/techIcons";
 import { FaGithub } from "react-icons/fa";
@@ -11,52 +11,9 @@ import { useState } from "react";
 import ProjectModal from "./ProjectModal"; // Import the new ProjectModal component
 import SectionTitle from "../SectionTitle";
 import IconCube from "../IconCube";
+import TiltCard from "../TiltCard";
 import { Button } from "../ui/button";
 import { markImageLoaded } from "../../utils/loadedImageCache";
-
-// Pointer-tracked 3D tilt for a project card — rotateX/rotateY follow the
-// cursor's position within the card (a real tilt-card effect, not just a
-// fixed hover pose), smoothed through a spring so it settles instead of
-// snapping. Kept as its own component (rather than inline in the .map())
-// because each card needs its own motion values — hooks can't live inside
-// a callback passed to .map().
-const TiltProjectCard = ({ color, index, onClick, children }) => {
-  const mouseX = useMotionValue(0.5);
-  const mouseY = useMotionValue(0.5);
-  const springConfig = { stiffness: 150, damping: 18, mass: 0.4 };
-  const rotateX = useSpring(useTransform(mouseY, [0, 1], [9, -9]), springConfig);
-  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-9, 9]), springConfig);
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    mouseX.set((e.clientX - rect.left) / rect.width);
-    mouseY.set((e.clientY - rect.top) / rect.height);
-  };
-
-  const resetTilt = () => {
-    mouseX.set(0.5);
-    mouseY.set(0.5);
-  };
-
-  return (
-    <ProjectCard
-      className="game-card"
-      color={color}
-      onClick={onClick}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={resetTilt}
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
-      whileHover={{ y: -10, scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      style={{ rotateX, rotateY, transformPerspective: 900 }}
-    >
-      {children}
-    </ProjectCard>
-  );
-};
 
 const ProjectCards = ({ color = defaultColor }) => {
   const location = useLocation();
@@ -115,10 +72,12 @@ const ProjectCards = ({ color = defaultColor }) => {
         <div className="p-5 sm:p-8">
           <ProjectCardsContainer color={color}>
             {displayedProjects.map((project, index) => (
-              <TiltProjectCard
+              <TiltCard
+                as={ProjectCard}
                 key={index}
+                className="game-card"
                 color={color}
-                index={index}
+                delay={index * 0.08}
                 onClick={() => openModal(index)}
               >
                 {project.imageLink ? (
@@ -196,7 +155,7 @@ const ProjectCards = ({ color = defaultColor }) => {
                     </a>
                   )}
                 </div>
-              </TiltProjectCard>
+              </TiltCard>
             ))}
           </ProjectCardsContainer>
           {isRootRoute && (

@@ -43,9 +43,9 @@ import {
 } from "react-icons/fa";
 import { TbBrandNextjs } from "react-icons/tb";
 import { RiGitMergeLine } from "react-icons/ri";
-import { motion } from "framer-motion";
 import SectionTitle from "./SectionTitle";
 import IconCube from "./IconCube";
+import TiltCard from "./TiltCard";
 
 // Each skill's icon paired with that technology's own real brand color —
 // not the page's accent color — so every cube is tinted like the actual
@@ -170,12 +170,10 @@ const Skills = ({ color }) => {
         <div className="p-5 sm:p-8">
           <div className="flex flex-wrap justify-center gap-8" style={{ perspective: "1000px" }}>
             {skills.map((category, index) => (
-              <motion.div
+              <TiltCard
                 key={index}
-                initial={{ opacity: 0, y: 40, rotateX: -10 }}
-                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                delay={index * 0.08}
                 viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
                 className="game-card flex flex-col items-center rounded-2xl border border-border bg-card/60 px-6 py-5"
               >
                 {/* Category Title */}
@@ -200,7 +198,7 @@ const Skills = ({ color }) => {
                     );
                   })}
                 </div>
-              </motion.div>
+              </TiltCard>
             ))}
           </div>
         </div>
