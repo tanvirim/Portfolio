@@ -103,7 +103,13 @@ const Skills = ({ color }) => {
     },
     {
       category: "Frontend",
-      items: ["Next.Js", "React.js", "Tailwind CSS", "Redux Toolkit", "Shadcn/UI"],
+      items: [
+        "Next.Js",
+        "React.js",
+        "Tailwind CSS",
+        "Redux Toolkit",
+        "Shadcn/UI",
+      ],
     },
     {
       category: "Backend",
@@ -116,7 +122,10 @@ const Skills = ({ color }) => {
         "REST / Swagger",
       ],
     },
-    { category: "Database", items: ["MongoDB", "MySQL", "SQLite", "PostgreSQL"] },
+    {
+      category: "Database",
+      items: ["MongoDB", "MySQL", "SQLite", "PostgreSQL"],
+    },
     {
       category: "State Management",
       items: ["Redux", "React Query", "Zustand"],
@@ -139,7 +148,14 @@ const Skills = ({ color }) => {
     },
     {
       category: "Software Ecosystem",
-      items: ["Render", "Vercel", "Netlify", "MUI", "Bootstrap", "Adobe Illustrator"],
+      items: [
+        "Render",
+        "Vercel",
+        "Netlify",
+        "MUI",
+        "Bootstrap",
+        "Adobe Illustrator",
+      ],
     },
   ];
 
@@ -155,53 +171,41 @@ const Skills = ({ color }) => {
       />
 
       <div
-        className="game-card-subtle terminal-card"
-        style={{ "--tile-accent": color }}
+        className="flex flex-wrap justify-center gap-8"
+        style={{ perspective: "1000px" }}
       >
-        <div className="terminal-card-header">
-          <span className="w-3 h-3 rounded-full bg-red-500/80" />
-          <span className="w-3 h-3 rounded-full bg-amber-400/80" />
-          <span className="w-3 h-3 rounded-full bg-green-500/80" />
-          <span className="ml-3 text-xs text-gray-500 dark:text-gray-400 font-mono">
-            skills.sh
-          </span>
-        </div>
+        {skills.map((category, index) => (
+          <TiltCard
+            key={index}
+            delay={index * 0.08}
+            viewport={{ once: true, amount: 0.3 }}
+            className="game-card flex flex-col items-center rounded-2xl border border-border px-6 py-5"
+            style={{ backgroundColor: "color-mix(in srgb, var(--card) 95%, transparent)" }}
+          >
+            {/* Category Title */}
+            <h3 className="text-2xl text-center font-bold border-b-2 pb-2 mb-4">
+              {category.category}
+            </h3>
 
-        <div className="p-5 sm:p-8">
-          <div className="flex flex-wrap justify-center gap-8" style={{ perspective: "1000px" }}>
-            {skills.map((category, index) => (
-              <TiltCard
-                key={index}
-                delay={index * 0.08}
-                viewport={{ once: true, amount: 0.3 }}
-                className="game-card flex flex-col items-center rounded-2xl border border-border bg-card/60 px-6 py-5"
-              >
-                {/* Category Title */}
-                <h3 className="text-2xl text-center font-bold border-b-2 pb-2 mb-4">
-                  {category.category}
-                </h3>
-
-                {/* Skills List */}
-                <div className="flex flex-wrap justify-center">
-                  {category.items.map((item, itemIndex) => {
-                    const meta = getSkillMeta(item);
-                    return (
-                      <div
-                        key={itemIndex}
-                        className="flex flex-col items-center text-center mx-5 my-2 transition-transform duration-200 hover:scale-125 hover:-translate-y-1"
-                      >
-                        <div className="mb-2">
-                          <IconCube icon={meta.icon} color={meta.color} size={36} />
-                        </div>
-                        <div className="text-lg">{item}</div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </TiltCard>
-            ))}
-          </div>
-        </div>
+            {/* Skills List */}
+            <div className="flex flex-wrap justify-center">
+              {category.items.map((item, itemIndex) => {
+                const meta = getSkillMeta(item);
+                return (
+                  <div
+                    key={itemIndex}
+                    className="flex flex-col items-center text-center mx-5 my-2 transition-transform duration-200 hover:scale-125 hover:-translate-y-1"
+                  >
+                    <div className="mb-2">
+                      <IconCube icon={meta.icon} color={meta.color} size={36} />
+                    </div>
+                    <div className="text-lg">{item}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </TiltCard>
+        ))}
       </div>
     </div>
   );
