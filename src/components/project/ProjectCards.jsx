@@ -7,7 +7,7 @@ import { TECH_ICON_META } from "../../constants/techIcons";
 import { FaGithub } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ChevronsRight, ExternalLink } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProjectModal from "./ProjectModal"; // Import the new ProjectModal component
 import SectionTitle from "../SectionTitle";
 import IconCube from "../IconCube";
@@ -19,6 +19,24 @@ const ProjectCards = ({ color = defaultColor }) => {
   const location = useLocation();
   const isRootRoute = location.pathname === "/";
   const displayedProjects = isRootRoute ? projects.slice(0, 6) : projects;
+
+  // Warm the browser cache for every gallery image up front, so flipping
+  // through a project's images inside the modal is instant instead of
+  // triggering a fresh network fetch (and the modal's loading spinner) per
+  // image the first time it's shown.
+  useEffect(() => {
+    const urls = new Set();
+    projects.forEach((project) => {
+      if (project.imageLink) urls.add(project.imageLink);
+      project.images?.forEach((url) => urls.add(url));
+    });
+
+    urls.forEach((url) => {
+      const img = new Image();
+      img.onload = () => markImageLoaded(url);
+      img.src = url;
+    });
+  }, []);
 
   // State for modal visibility and current project index
   const [isModalOpen, setIsModalOpen] = useState(false);

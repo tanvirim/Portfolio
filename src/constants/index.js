@@ -37,6 +37,57 @@ export const educationHistory = [
 
 export const projects = [
   {
+    projectName: "BanglaGovBD — EBLICT Information Portal",
+    technologies: ["Next.js", "TypeScript", "Tailwind", "MUI"],
+    projectDescription:
+      "Multi-level category → subcategory → detail navigation, with a full CRUD Next.js Admin CMS for content, media, and auth.",
+    liveLink: "https://www.bangla.gov.bd/",
+    imageLink: "https://i.ibb.co.com/gZ04Nm71/image.png",
+    images: ["https://i.ibb.co.com/gZ04Nm71/image.png"],
+  },
+  {
+    projectName: "Kagoj.ai",
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "AI/ML",
+      "Django",
+      "PostgreSQL",
+      "shadcn/ui",
+      "Auth",
+    ],
+    projectDescription:
+      "Bangla's first all-in-one AI platform — spell & grammar check (including complex rules like ণ-ত্ব and ষ-ত্ব), OCR that turns printed Bangla documents into editable, searchable text, text-to-speech and audio transcription, and machine translation. Built under the EBLICT project by the Bangladesh Computer Council and ICT Division; launched December 15, 2025 alongside the new 'July' Bangla font.",
+    liveLink: "https://kagoj.ai/",
+    imageLink: "https://i.ibb.co.com/Hp7stDwg/image.png",
+    images: [
+      "https://i.ibb.co.com/Hp7stDwg/image.png",
+      "https://i.ibb.co.com/1fvg2Zty/image.png",
+      "https://i.ibb.co.com/whbTXXhd/image.png",
+    ],
+  },
+  {
+    projectName: "Jiggasha.ai",
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "AI/ML",
+      "Django",
+      "PostgreSQL",
+      "shadcn/ui",
+      "Auth",
+    ],
+    projectDescription:
+      "An AI-powered conversational chatbot and voice assistant that helps citizens find verified information about Bangladeshi government services, offices, and administrative procedures in natural Bangla. Built as an LLM-based conversational agent using RAG (Retrieval-Augmented Generation), with both voice and text chat, under public-sector ICT language-technology research efforts like Brain Lab.",
+    liveLink: "https://jiggasha.ai/",
+    imageLink: "https://i.ibb.co.com/gbWDtpym/image.png",
+    images: [
+      "https://i.ibb.co.com/gbWDtpym/image.png",
+      "https://i.ibb.co.com/8LFB6Tsn/image.png",
+      "https://i.ibb.co.com/8nDk5k2S/image.png",
+    ],
+  },
+  {
     projectName: "TAS — AI Meeting Minutes",
     technologies: ["Next.js", "TypeScript", "AI/ML"],
     projectDescription:
@@ -64,19 +115,26 @@ export const projects = [
     projectDescription:
       "A collaborative platform for managing crowd-sourced data annotation projects. Built a real-time collaboration system with Socket.io group chat and WebRTC video calling, JWT-based auth with RBAC, a multi-format data pipeline for passages/dialogues/translations/Q&A, a RESTful API with Swagger docs and rate limiting, RTK Query for server state, a 'Relax & Refresh' module with procedural Web Audio API sound synthesis, and a responsive analytics dashboard with Chart.js and Recharts.",
     liveLink: "http://114.130.116.78/",
+    imageLink: "https://i.ibb.co.com/7xkX5Y9f/image.png",
+    images: [
+      "https://i.ibb.co.com/7xkX5Y9f/image.png",
+      "https://i.ibb.co.com/pskmTfz/image.png",
+      "https://i.ibb.co.com/ym4rGB7f/image.png",
+    ],
   },
   {
     projectName: "Clustar — Focused Workspace",
-    technologies: [],
+    technologies: ["Next.js", "PostgreSQL", "shadcn/ui"],
     projectDescription:
       "Tools built for focused work. Annotate documents, chat with AI, and manage your workflow — all from a single dashboard built for focus.",
     liveLink: "https://clustar.duckdns.org/",
-  },
-  {
-    projectName: "BanglaGovBD — EBLICT Information Portal",
-    technologies: ["Next.js", "TypeScript", "Tailwind", "MUI"],
-    projectDescription:
-      "Multi-level category → subcategory → detail navigation, with a full CRUD Next.js Admin CMS for content, media, and auth.",
+    imageLink: "https://i.ibb.co.com/1JjC6fdf/image.png",
+    images: [
+      "https://i.ibb.co.com/1JjC6fdf/image.png",
+      "https://i.ibb.co.com/DPDV2Gjk/image.png",
+      "https://i.ibb.co.com/YFk4Y59j/image.png",
+      "https://i.ibb.co.com/jPRC34Tq/image.png",
+    ],
   },
   {
     projectName: "Chalk Board App",

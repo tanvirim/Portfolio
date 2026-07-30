@@ -1,5 +1,5 @@
 import { FaCubes } from "react-icons/fa";
-import { Gamepad2 } from "lucide-react";
+import { Gamepad2, Component, KeyRound } from "lucide-react";
 import {
   SiNextdotjs,
   SiTypescript,
@@ -16,6 +16,8 @@ import {
   SiAntdesign,
   SiGooglebard,
   SiHtml5,
+  SiDjango,
+  SiPostgresql,
 } from "react-icons/si";
 
 // Each technology's own real brand color — not the page's accent — so a
@@ -54,4 +56,11 @@ export const TECH_ICON_META = {
   "ANT Design": { icon: SiAntdesign, color: "#1890FF" },
   Canvas: { icon: SiHtml5, color: "#E34F26" },
   "RAWG API": { icon: Gamepad2, color: "#7C5CFC" },
+  Django: { icon: SiDjango, color: "#092E20" },
+  PostgreSQL: { icon: SiPostgresql, color: "#4169E1" },
+  // Neither shadcn/ui nor "Auth" (a generic capability, not a product) has
+  // a real brand mark in this icon set — same reasoning as Canvas/RAWG API
+  // above, generic glyphs instead of borrowing an unrelated logo.
+  "shadcn/ui": { icon: Component, color: "#000000" },
+  Auth: { icon: KeyRound, color: "#F59E0B" },
 };
