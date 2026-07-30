@@ -4,8 +4,8 @@ import emailjs from "@emailjs/browser";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
+import RichTextEditor from "./RichTextEditor";
 import { defaultColor } from "../constants";
 
 // Staggered 3D pop-in for each field — tilts up out of the page instead of
@@ -20,15 +20,17 @@ const fieldVariants = {
   }),
 };
 
+const fieldLabelClass =
+  "mb-1.5 block text-xs font-medium text-gray-500 dark:text-gray-400";
+
 const ContactForm = ({ color = defaultColor }) => {
   const formRef = useRef(null);
+  const editorRef = useRef(null);
   const isInView = useInView(formRef, { once: true, amount: 0.3 });
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState({ name: "", email: "", subject: "" });
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const [messageError, setMessageError] = useState(false);
+  const [messageHtml, setMessageHtml] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,15 +39,25 @@ const ContactForm = ({ color = defaultColor }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (editorRef.current?.isEmpty()) {
+      setMessageError(true);
+      return;
+    }
+    setMessageError(false);
     setStatus("sending");
 
     // sendForm's third argument must be the form element itself (it reads
     // input values off it by their `name` attributes) — not a plain object.
+    // The Tiptap editor isn't a native form control, so its HTML is synced
+    // into the hidden `message` textarea below on every edit instead.
     emailjs
       .sendForm("service_omm1e0n", "template_qmj1gvo", e.target)
       .then(() => {
         setStatus("sent");
-        setFormData({ name: "", email: "", message: "" });
+        setFormData({ name: "", email: "", subject: "" });
+        editorRef.current?.clear();
+        setMessageHtml("");
         setTimeout(() => setStatus("idle"), 3000);
       })
       .catch((error) => {
@@ -58,7 +70,7 @@ const ContactForm = ({ color = defaultColor }) => {
     <form
       ref={formRef}
       onSubmit={handleSubmit}
-      className="contact-form-3d flex flex-col gap-4"
+      className="contact-form-3d flex flex-col gap-5"
       style={{ "--field-accent": color }}
     >
       <motion.div
@@ -66,17 +78,33 @@ const ContactForm = ({ color = defaultColor }) => {
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
         variants={fieldVariants}
-        className="contact-field-3d"
+        className="grid grid-cols-1 sm:grid-cols-2 gap-4"
       >
-        <Input
-          type="text"
-          name="name"
-          placeholder="Your Name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          className="h-auto py-2.5 px-3 rounded-lg"
-        />
+        <div className="contact-field-3d">
+          <label className={fieldLabelClass}>Name</label>
+          <Input
+            type="text"
+            name="name"
+            placeholder="Your name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="h-auto py-2.5 px-3 rounded-lg"
+          />
+        </div>
+
+        <div className="contact-field-3d">
+          <label className={fieldLabelClass}>Email</label>
+          <Input
+            type="email"
+            name="email"
+            placeholder="you@example.com"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="h-auto py-2.5 px-3 rounded-lg"
+          />
+        </div>
       </motion.div>
 
       <motion.div
@@ -86,11 +114,12 @@ const ContactForm = ({ color = defaultColor }) => {
         variants={fieldVariants}
         className="contact-field-3d"
       >
+        <label className={fieldLabelClass}>Subject</label>
         <Input
-          type="email"
-          name="email"
-          placeholder="Your Email"
-          value={formData.email}
+          type="text"
+          name="subject"
+          placeholder="What's this about?"
+          value={formData.subject}
           onChange={handleChange}
           required
           className="h-auto py-2.5 px-3 rounded-lg"
@@ -104,15 +133,24 @@ const ContactForm = ({ color = defaultColor }) => {
         variants={fieldVariants}
         className="contact-field-3d"
       >
-        <Textarea
-          name="message"
-          placeholder="Message"
-          value={formData.message}
-          onChange={handleChange}
-          required
-          rows={4}
-          className="py-2.5 px-3 rounded-lg"
+        <label className={fieldLabelClass}>Message</label>
+        <RichTextEditor
+          ref={editorRef}
+          placeholder="Tell me about your project…"
+          onChange={(editor) => {
+            setMessageHtml(editor.getHTML());
+            if (messageError) setMessageError(false);
+          }}
         />
+        {/* sendForm reads plain named form controls off the DOM — the
+            Tiptap editor above isn't one, so its HTML is mirrored here on
+            every edit purely so the existing submit path can pick it up. */}
+        <textarea name="message" value={messageHtml} readOnly hidden />
+        {messageError && (
+          <p className="mt-1.5 flex items-center gap-1 text-xs text-red-500">
+            <AlertCircle size={12} /> Please write a message.
+          </p>
+        )}
       </motion.div>
 
       <motion.div

@@ -1,8 +1,11 @@
 /* eslint-disable react/prop-types */
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import ContactForm from "./ContactForm";
+import ContactOptions from "./ContactOptions";
 import SectionTitle from "./SectionTitle";
+import IconCube from "./IconCube";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { defaultColor, shippedProjects } from "../constants";
 
 const Footer = ({ color = defaultColor }) => {
@@ -15,7 +18,7 @@ const Footer = ({ color = defaultColor }) => {
         className="mb-6"
       />
 
-      <div className="max-w-md mx-auto w-full">
+      <div className="max-w-2xl mx-auto w-full">
         <div
           className="game-card-subtle terminal-card"
           style={{ "--tile-accent": color }}
@@ -27,8 +30,29 @@ const Footer = ({ color = defaultColor }) => {
             <span className="ml-3 text-xs text-gray-500 dark:text-gray-400 font-mono">
               send_message.sh
             </span>
+
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  aria-label="Contact options"
+                  className="ml-auto shrink-0 transition-transform duration-300 hover:scale-110"
+                >
+                  <IconCube icon={MessageCircle} color={color} size={28} label="Contact options" />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent
+                side="bottom"
+                align="end"
+                sideOffset={12}
+                collisionPadding={16}
+                className="w-64 bg-popover text-popover-foreground border border-border"
+              >
+                <ContactOptions />
+              </PopoverContent>
+            </Popover>
           </div>
-          <div className="p-5">
+          <div className="p-5 sm:p-8">
             <ContactForm color={color} />
           </div>
         </div>
